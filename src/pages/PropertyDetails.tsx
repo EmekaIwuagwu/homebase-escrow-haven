@@ -317,7 +317,7 @@ const PropertyDetails = () => {
                 </Button>
                 
                 <p className="text-xs text-center text-gray-500">
-                  Secured with blockchain technology and smart contract verification
+                  Secure Transaction with Blockchain Verification
                 </p>
               </div>
             </div>
