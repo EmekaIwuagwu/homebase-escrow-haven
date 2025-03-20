@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Navbar from "@/components/Navbar";
@@ -9,7 +8,6 @@ import { MapPin, Bed, Bath, Square, Calendar, User, Building, ArrowLeft, Image }
 import { toast } from "sonner";
 import { formatPrice } from "@/utils/formatters";
 
-// Fallback images by property type
 const fallbackImages = {
   sale: "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&q=80&w=1200",
   rent: "https://images.unsplash.com/photo-1560185007-5f0bb1866cab?auto=format&q=80&w=1200",
@@ -24,12 +22,9 @@ const PropertyDetails = () => {
   const [imageError, setImageError] = useState(false);
 
   useEffect(() => {
-    // In a real app, this would be an API call to fetch property details by ID
-    // For now, we'll simulate this by getting the property from our mock data
     const fetchProperty = () => {
       setLoading(true);
       
-      // Import all properties from our mocked data in the utility file
       import("@/utils/propertyData").then(({ getAllProperties }) => {
         const allProperties = getAllProperties();
         const foundProperty = allProperties.find(p => p.id === id);
@@ -72,7 +67,6 @@ const PropertyDetails = () => {
     lodge: "Lodging",
   };
 
-  // Get fallback image based on property type
   const getFallbackImage = () => {
     return property ? fallbackImages[property.type as keyof typeof fallbackImages] : fallbackImages.sale;
   };
@@ -323,7 +317,7 @@ const PropertyDetails = () => {
                 </Button>
                 
                 <p className="text-xs text-center text-gray-500">
-                  Secure transaction with Han Wallet and blockchain escrow
+                  Secured with blockchain technology and smart contract verification
                 </p>
               </div>
             </div>
