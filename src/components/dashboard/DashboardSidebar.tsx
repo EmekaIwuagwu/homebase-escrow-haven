@@ -17,7 +17,7 @@ const DashboardSidebar = () => {
     // Find the tab element and dispatch a click event on it
     const tabElement = document.getElementById(`dashboard-tab-${tabId}`);
     if (tabElement) {
-      (tabElement as HTMLElement).click();
+      tabElement.click();
     }
   };
 

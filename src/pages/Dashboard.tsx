@@ -53,15 +53,15 @@ const Dashboard = () => {
                   <TabsTrigger id="dashboard-tab-settings" value="settings">Settings</TabsTrigger>
                 </TabsList>
                 
-                <TabsContent value="bookings">
+                <TabsContent value="bookings" className="mt-0">
                   <Bookings />
                 </TabsContent>
                 
-                <TabsContent value="transactions">
+                <TabsContent value="transactions" className="mt-0">
                   <TransactionHistory />
                 </TabsContent>
                 
-                <TabsContent value="settings">
+                <TabsContent value="settings" className="mt-0">
                   <AccountSettings />
                 </TabsContent>
               </Tabs>
