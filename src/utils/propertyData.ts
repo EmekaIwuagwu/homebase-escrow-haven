@@ -58,7 +58,7 @@ export const getAllProperties = (): Property[] => {
       location: "101 Sunshine Blvd, Los Angeles, CA",
       price: 1950000,
       type: "sale",
-      image: "https://images.unsplash.com/photo-1629236815610-52dce72800ef?auto=format&q=80&w=2053",
+      image: "https://images.unsplash.com/photo-1502005229762-cf1b2da7c5d6?auto=format&q=80&w=2037",
       beds: 4,
       baths: 3,
       sqft: 3200,

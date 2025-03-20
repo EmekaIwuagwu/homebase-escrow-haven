@@ -5,15 +5,23 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { MapPin, Bed, Bath, Square, Calendar, User, Building, ArrowLeft } from "lucide-react";
+import { MapPin, Bed, Bath, Square, Calendar, User, Building, ArrowLeft, Image } from "lucide-react";
 import { toast } from "sonner";
 import { formatPrice } from "@/utils/formatters";
+
+// Fallback images by property type
+const fallbackImages = {
+  sale: "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&q=80&w=1200",
+  rent: "https://images.unsplash.com/photo-1560185007-5f0bb1866cab?auto=format&q=80&w=1200",
+  lodge: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&q=80&w=1200"
+};
 
 const PropertyDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [property, setProperty] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const [imageError, setImageError] = useState(false);
 
   useEffect(() => {
     // In a real app, this would be an API call to fetch property details by ID
@@ -62,6 +70,11 @@ const PropertyDetails = () => {
     sale: "For Sale",
     rent: "For Rent",
     lodge: "Lodging",
+  };
+
+  // Get fallback image based on property type
+  const getFallbackImage = () => {
+    return property ? fallbackImages[property.type as keyof typeof fallbackImages] : fallbackImages.sale;
   };
 
   if (loading) {
@@ -145,12 +158,26 @@ const PropertyDetails = () => {
                 </div>
               </div>
               
-              <div className="rounded-xl overflow-hidden mb-8 h-96 bg-gray-100">
-                <img 
-                  src={property.image} 
-                  alt={property.title} 
-                  className="w-full h-full object-cover"
-                />
+              <div className="rounded-xl overflow-hidden mb-8 h-96 bg-gray-100 relative">
+                {imageError ? (
+                  <img 
+                    src={getFallbackImage()} 
+                    alt={property.title}
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <img 
+                    src={property.image} 
+                    alt={property.title} 
+                    className="w-full h-full object-cover"
+                    onError={() => setImageError(true)}
+                  />
+                )}
+                {imageError && (
+                  <div className="absolute top-4 right-4 bg-black/60 text-white px-3 py-1 rounded-full text-xs">
+                    Fallback image shown
+                  </div>
+                )}
               </div>
               
               <div className="grid grid-cols-3 gap-6 mb-8">
