@@ -23,9 +23,9 @@ interface PropertyCardProps {
 
 // Fallback images by property type
 const fallbackImages = {
-  sale: "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&q=80&w=2074",
-  rent: "https://images.unsplash.com/photo-1560185007-5f0bb1866cab?auto=format&q=80&w=2070",
-  lodge: "https://images.unsplash.com/photo-1518780664697-55e3ad937233?auto=format&q=80&w=1965"
+  sale: "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&q=80&w=1200",
+  rent: "https://images.unsplash.com/photo-1560185007-5f0bb1866cab?auto=format&q=80&w=1200",
+  lodge: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&q=80&w=1200"
 };
 
 const PropertyCard = ({
@@ -96,7 +96,7 @@ const PropertyCard = ({
             src={image}
             alt={title}
             className={cn(
-              "w-full h-full object-cover transition-all duration-700",
+              "w-full h-full object-cover transition-all duration-500",
               isImageLoading ? "opacity-0" : "opacity-100"
             )}
             onLoad={() => setIsImageLoading(false)}

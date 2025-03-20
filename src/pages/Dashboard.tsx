@@ -1,6 +1,6 @@
 
 import React, { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Routes, Route } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -8,8 +8,9 @@ import { useWallet } from "@/contexts/WalletContext";
 import Bookings from "@/components/dashboard/Bookings";
 import AccountSettings from "@/components/dashboard/AccountSettings";
 import DashboardSidebar from "@/components/dashboard/DashboardSidebar";
+import ManageBooking from "@/components/dashboard/ManageBooking";
 
-const Dashboard = () => {
+const DashboardLayout = () => {
   const { isConnected, walletAddress } = useWallet();
   const navigate = useNavigate();
   
@@ -66,6 +67,15 @@ const Dashboard = () => {
       
       <Footer />
     </div>
+  );
+};
+
+const Dashboard = () => {
+  return (
+    <Routes>
+      <Route path="/" element={<DashboardLayout />} />
+      <Route path="/booking/:id" element={<ManageBooking />} />
+    </Routes>
   );
 };
 
