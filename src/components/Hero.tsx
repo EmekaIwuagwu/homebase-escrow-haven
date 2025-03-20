@@ -1,19 +1,33 @@
 
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Search } from "lucide-react";
+import { Search, Calendar as CalendarIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import { format } from "date-fns";
+import { Calendar } from "@/components/ui/calendar";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { DateRange } from "react-day-picker";
 
 const Hero = () => {
   const navigate = useNavigate();
   const [searchLocation, setSearchLocation] = useState("");
   const [searchType, setSearchType] = useState("buy");
+  const [dateRange, setDateRange] = useState<DateRange | undefined>({
+    from: undefined,
+    to: undefined,
+  });
 
   const handleSearch = () => {
     if (!searchLocation.trim()) {
       toast.error("Please enter a location to search");
+      return;
+    }
+    
+    // For rental properties, verify date range is set
+    if (searchType === "rent" && (!dateRange?.from || !dateRange?.to)) {
+      toast.error("Please select check-in and check-out dates for rentals");
       return;
     }
     
@@ -32,8 +46,15 @@ const Hero = () => {
         path = "/buy";
     }
     
-    // Navigate to the appropriate page with the search location as a query parameter
-    navigate(`${path}?location=${encodeURIComponent(searchLocation)}`);
+    // Navigate with the appropriate query parameters
+    let queryParams = `location=${encodeURIComponent(searchLocation)}`;
+    
+    // Add date range for rentals
+    if (searchType === "rent" && dateRange?.from && dateRange?.to) {
+      queryParams += `&from=${dateRange.from.toISOString()}&to=${dateRange.to.toISOString()}`;
+    }
+    
+    navigate(`${path}?${queryParams}`);
   };
 
   return (
@@ -61,7 +82,7 @@ const Hero = () => {
         {/* Search Bar */}
         <div className="w-full max-w-2xl animate-slideUp">
           <div className="bg-white/10 backdrop-blur-xl p-2 rounded-xl border border-white/20">
-            <div className="flex flex-wrap md:flex-nowrap items-center gap-2">
+            <div className="flex flex-wrap md:flex-nowrap items-start gap-2">
               <div className="w-full md:flex-1 bg-white/20 rounded-lg px-4 py-3">
                 <label className="block text-white/60 text-xs mb-1">Location</label>
                 <input
@@ -84,6 +105,45 @@ const Hero = () => {
                   <option value="lodge" className="text-gray-900">Lodge</option>
                 </select>
               </div>
+              
+              {searchType === "rent" && (
+                <div className="w-full bg-white/20 rounded-lg px-4 py-3">
+                  <label className="block text-white/60 text-xs mb-1">Dates</label>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button 
+                        variant="ghost" 
+                        className="w-full justify-start text-left font-normal border-none p-0 h-auto text-white hover:bg-transparent hover:text-white"
+                      >
+                        <CalendarIcon className="mr-2 h-4 w-4" />
+                        {dateRange?.from ? (
+                          dateRange.to ? (
+                            <span>
+                              {format(dateRange.from, "MMM d")} - {format(dateRange.to, "MMM d, yyyy")}
+                            </span>
+                          ) : (
+                            format(dateRange.from, "MMM d, yyyy")
+                          )
+                        ) : (
+                          <span>Select dates</span>
+                        )}
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0 bg-white" align="start">
+                      <Calendar
+                        initialFocus
+                        mode="range"
+                        defaultMonth={new Date()}
+                        selected={dateRange}
+                        onSelect={setDateRange}
+                        numberOfMonths={2}
+                        className="p-3 pointer-events-auto"
+                      />
+                    </PopoverContent>
+                  </Popover>
+                </div>
+              )}
+              
               <Button 
                 className="w-full md:w-auto whitespace-nowrap px-6"
                 onClick={handleSearch}

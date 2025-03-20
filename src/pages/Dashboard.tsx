@@ -48,9 +48,9 @@ const Dashboard = () => {
             <div className="lg:col-span-3 space-y-6">
               <Tabs defaultValue="bookings" className="w-full">
                 <TabsList className="w-full justify-start mb-6 bg-white dark:bg-gray-800 p-1 rounded-lg">
-                  <TabsTrigger value="bookings">Bookings</TabsTrigger>
-                  <TabsTrigger value="transactions">Transaction History</TabsTrigger>
-                  <TabsTrigger value="settings">Settings</TabsTrigger>
+                  <TabsTrigger id="dashboard-tab-bookings" value="bookings">Bookings</TabsTrigger>
+                  <TabsTrigger id="dashboard-tab-transactions" value="transactions">Transaction History</TabsTrigger>
+                  <TabsTrigger id="dashboard-tab-settings" value="settings">Settings</TabsTrigger>
                 </TabsList>
                 
                 <TabsContent value="bookings">

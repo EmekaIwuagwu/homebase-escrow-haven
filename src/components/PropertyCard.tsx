@@ -21,6 +21,13 @@ interface PropertyCardProps {
   featured?: boolean;
 }
 
+// Fallback images by property type
+const fallbackImages = {
+  sale: "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&q=80&w=2074",
+  rent: "https://images.unsplash.com/photo-1560185007-5f0bb1866cab?auto=format&q=80&w=2070",
+  lodge: "https://images.unsplash.com/photo-1518780664697-55e3ad937233?auto=format&q=80&w=1965"
+};
+
 const PropertyCard = ({
   id,
   title,
@@ -54,6 +61,11 @@ const PropertyCard = ({
     navigate(`/property/${id}`);
   };
 
+  // Get fallback image based on property type
+  const getFallbackImage = () => {
+    return fallbackImages[type] || fallbackImages.sale;
+  };
+
   return (
     <Card 
       className={cn(
@@ -72,8 +84,12 @@ const PropertyCard = ({
         )}
 
         {isImageError ? (
-          <div className="absolute inset-0 flex items-center justify-center bg-gray-100">
-            <Home className="h-12 w-12 text-gray-300" />
+          <div className="absolute inset-0 bg-cover bg-center">
+            <img
+              src={getFallbackImage()}
+              alt={title}
+              className="w-full h-full object-cover"
+            />
           </div>
         ) : (
           <img

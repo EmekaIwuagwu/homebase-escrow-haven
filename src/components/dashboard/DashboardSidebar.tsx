@@ -15,9 +15,8 @@ const DashboardSidebar = () => {
 
   const handleTabChange = (tabId: string) => {
     // Find the tab element and dispatch a click event on it
-    const tabElement = document.querySelector(`[data-state="inactive"][value="${tabId}"]`);
+    const tabElement = document.getElementById(`dashboard-tab-${tabId}`);
     if (tabElement) {
-      // Use HTMLElement.click() instead of Element.click()
       (tabElement as HTMLElement).click();
     }
   };
