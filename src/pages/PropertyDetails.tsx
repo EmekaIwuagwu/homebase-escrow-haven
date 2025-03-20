@@ -2,9 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import PropertyGallery from "@/components/PropertyGallery";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { MapPin, Bed, Bath, Square, Calendar, User, Building, ArrowLeft, Image } from "lucide-react";
+import { MapPin, Bed, Bath, Square, Calendar, User, Building, ArrowLeft } from "lucide-react";
 import { toast } from "sonner";
 import { formatPrice } from "@/utils/formatters";
 
@@ -14,12 +15,51 @@ const fallbackImages = {
   lodge: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&q=80&w=1200"
 };
 
+const generatePropertyImages = (mainImage: string, type: string) => {
+  const fallback = fallbackImages[type as keyof typeof fallbackImages];
+  
+  const additionalImages = {
+    sale: [
+      "https://images.unsplash.com/photo-1513584684374-8bab748fbf90?auto=format&q=80&w=1200",
+      "https://images.unsplash.com/photo-1560184897-ae75f418493e?auto=format&q=80&w=1200",
+      "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&q=80&w=1200",
+      "https://images.unsplash.com/photo-1560449752-71aadc8c57e8?auto=format&q=80&w=1200",
+      "https://images.unsplash.com/photo-1560448082-4d9fe4f6b516?auto=format&q=80&w=1200",
+      "https://images.unsplash.com/photo-1560438718-eb61ede255eb?auto=format&q=80&w=1200",
+      "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&q=80&w=1200",
+      "https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&q=80&w=1200",
+    ],
+    rent: [
+      "https://images.unsplash.com/photo-1560185007-cde436f6a4d0?auto=format&q=80&w=1200",
+      "https://images.unsplash.com/photo-1560185127-6ed189bf02f4?auto=format&q=80&w=1200",
+      "https://images.unsplash.com/photo-1484154218962-a197022b5858?auto=format&q=80&w=1200",
+      "https://images.unsplash.com/photo-1560448205-4d9b3e6bb6db?auto=format&q=80&w=1200",
+      "https://images.unsplash.com/photo-1560448204-61dc36dc98c8?auto=format&q=80&w=1200",
+      "https://images.unsplash.com/photo-1560185893-a55cbc8c57e8?auto=format&q=80&w=1200",
+      "https://images.unsplash.com/photo-1502005229762-cf1b2da7c5d6?auto=format&q=80&w=1200",
+    ],
+    lodge: [
+      "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&q=80&w=1200",
+      "https://images.unsplash.com/photo-1551927411-95e412943b58?auto=format&q=80&w=1200",
+      "https://images.unsplash.com/photo-1570737209810-87a8e7245f88?auto=format&q=80&w=1200",
+      "https://images.unsplash.com/photo-1611892440504-42a792e24d32?auto=format&q=80&w=1200",
+      "https://images.unsplash.com/photo-1540518614846-7925a6acd771?auto=format&q=80&w=1200",
+      "https://images.unsplash.com/photo-1584132967334-10e028bd69f7?auto=format&q=80&w=1200",
+      "https://images.unsplash.com/photo-1618773928121-c32242e63f39?auto=format&q=80&w=1200",
+    ]
+  };
+  
+  const typeImages = additionalImages[type as keyof typeof additionalImages] || [];
+  
+  return [mainImage, ...typeImages].slice(0, 10);
+};
+
 const PropertyDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [property, setProperty] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-  const [imageError, setImageError] = useState(false);
+  const [propertyImages, setPropertyImages] = useState<string[]>([]);
 
   useEffect(() => {
     const fetchProperty = () => {
@@ -31,6 +71,7 @@ const PropertyDetails = () => {
         
         if (foundProperty) {
           setProperty(foundProperty);
+          setPropertyImages(generatePropertyImages(foundProperty.image, foundProperty.type));
         } else {
           toast.error("Property not found");
           navigate("/");
@@ -152,27 +193,7 @@ const PropertyDetails = () => {
                 </div>
               </div>
               
-              <div className="rounded-xl overflow-hidden mb-8 h-96 bg-gray-100 relative">
-                {imageError ? (
-                  <img 
-                    src={getFallbackImage()} 
-                    alt={property.title}
-                    className="w-full h-full object-cover"
-                  />
-                ) : (
-                  <img 
-                    src={property.image} 
-                    alt={property.title} 
-                    className="w-full h-full object-cover"
-                    onError={() => setImageError(true)}
-                  />
-                )}
-                {imageError && (
-                  <div className="absolute top-4 right-4 bg-black/60 text-white px-3 py-1 rounded-full text-xs">
-                    Fallback image shown
-                  </div>
-                )}
-              </div>
+              <PropertyGallery images={propertyImages} title={property.title} />
               
               <div className="grid grid-cols-3 gap-6 mb-8">
                 <div className="bg-gray-50 p-4 rounded-lg flex flex-col items-center justify-center">

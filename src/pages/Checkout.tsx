@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Navbar from "@/components/Navbar";
@@ -26,6 +27,141 @@ import {
   RadioGroupItem
 } from "@/components/ui/radio-group";
 
+// EscrowInfoModal component
+const EscrowInfoModal: React.FC<{
+  isOpen: boolean;
+  onClose: () => void;
+  onConfirm: () => void;
+  property: any;
+  totalAmount: number;
+}> = ({ isOpen, onClose, onConfirm, property, totalAmount }) => {
+  return (
+    <Dialog open={isOpen} onOpenChange={onClose}>
+      <DialogContent className="sm:max-w-lg">
+        <DialogHeader>
+          <DialogTitle>Secure Escrow Information</DialogTitle>
+        </DialogHeader>
+        <div className="p-6">
+          <div className="bg-gray-50 rounded-lg p-4 mb-6">
+            <p className="text-center font-semibold mb-2">Total Amount</p>
+            <p className="text-center text-xl font-bold text-homebase-600">
+              {formatPrice(totalAmount)} HNXZ
+            </p>
+            <p className="text-center text-sm text-gray-500 mt-1">
+              Via Secure Escrow
+            </p>
+          </div>
+          
+          <div className="space-y-4 mb-6">
+            <div className="flex items-start">
+              <ShieldCheck className="w-5 h-5 text-green-500 mt-0.5 mr-3 flex-shrink-0" />
+              <div>
+                <p className="font-medium">How Escrow Works</p>
+                <p className="text-sm text-gray-600">
+                  Your funds will be held in a secure smart contract until all conditions of the 
+                  {property.type === "sale" ? " property transfer are met" : " transaction are completed"}. 
+                  This protects both you and the property owner.
+                </p>
+              </div>
+            </div>
+            
+            <div className="flex items-start">
+              <CheckCircle className="w-5 h-5 text-homebase-500 mt-0.5 mr-3 flex-shrink-0" />
+              <div>
+                <p className="font-medium">Transaction Flow</p>
+                <p className="text-sm text-gray-600">
+                  1. Your funds are locked in the smart contract<br />
+                  2. The transaction terms are verified by the system<br />
+                  3. Once all conditions are met, funds are released to the seller
+                </p>
+              </div>
+            </div>
+            
+            <div className="flex items-start">
+              <AlertTriangle className="w-5 h-5 text-amber-500 mt-0.5 mr-3 flex-shrink-0" />
+              <div>
+                <p className="font-medium">Escrow Fees</p>
+                <p className="text-sm text-gray-600">
+                  There is a {property.type === "sale" ? "1%" : "5%"} escrow fee that covers transaction verification, 
+                  smart contract deployment, and secure fund management throughout the process.
+                </p>
+              </div>
+            </div>
+          </div>
+          
+          <div className="bg-blue-50 rounded-lg p-4 mb-6">
+            <div className="flex items-start">
+              <CheckCircle className="w-5 h-5 text-blue-500 mt-0.5 mr-3 flex-shrink-0" />
+              <div>
+                <p className="font-medium">Enhanced Security</p>
+                <p className="text-sm text-gray-700">
+                  Escrow provides an additional layer of security for high-value real estate transactions. 
+                  The smart contract cannot be tampered with and executes exactly as coded.
+                </p>
+              </div>
+            </div>
+          </div>
+          
+          <div className="grid grid-cols-2 gap-4">
+            <Button variant="outline" onClick={onClose}>
+              Cancel
+            </Button>
+            <Button onClick={onConfirm}>
+              Proceed with Escrow
+            </Button>
+          </div>
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+};
+
+// WalletConfirmModal component
+const WalletConfirmModal: React.FC<{
+  isOpen: boolean;
+  onClose: () => void;
+  onConfirm: () => void;
+  property: any;
+  totalAmount: number;
+  walletType: string | null;
+}> = ({ isOpen, onClose, onConfirm, property, totalAmount, walletType }) => {
+  return (
+    <Dialog open={isOpen} onOpenChange={onClose}>
+      <DialogContent className="sm:max-w-md">
+        <DialogHeader>
+          <DialogTitle>Confirm Payment</DialogTitle>
+        </DialogHeader>
+        <div className="p-6">
+          <div className="bg-gray-50 rounded-lg p-4 mb-6">
+            <p className="text-center font-semibold mb-2">Total Amount</p>
+            <p className="text-center text-xl font-bold text-homebase-600">
+              {formatPrice(totalAmount)} HNXZ
+            </p>
+            <p className="text-center text-sm text-gray-500 mt-1">
+              Via HanCoin Direct
+            </p>
+          </div>
+          
+          <div className="text-center mb-6">
+            <p className="text-sm text-gray-600">
+              You're authorizing a payment of {formatPrice(totalAmount)} HNXZ for {property.title}.
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-2 gap-4">
+            <Button variant="outline" onClick={onClose}>
+              Cancel
+            </Button>
+            <Button onClick={onConfirm}>
+              Approve Payment
+            </Button>
+          </div>
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+};
+
 const Checkout = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -33,6 +169,7 @@ const Checkout = () => {
   const [property, setProperty] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [processingPayment, setProcessingPayment] = useState(false);
+  const [showEscrowDialog, setShowEscrowDialog] = useState(false);
   const [showWalletDialog, setShowWalletDialog] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState<'escrow' | 'hancoin'>('hancoin');
   
@@ -70,14 +207,25 @@ const Checkout = () => {
     
     setProcessingPayment(true);
     
-    setShowWalletDialog(true);
-    
-    toast.info(`Opening ${selectedWalletType} for payment confirmation...`, {
-      duration: 3000,
-    });
+    if (paymentMethod === 'escrow') {
+      setShowEscrowDialog(true);
+      toast.info("Opening escrow information...", { duration: 3000 });
+    } else {
+      setShowWalletDialog(true);
+      toast.info(`Opening ${selectedWalletType} for payment confirmation...`, { duration: 3000 });
+    }
   };
 
-  const handleConfirmPayment = () => {
+  const handleConfirmEscrow = () => {
+    setShowEscrowDialog(false);
+    
+    setTimeout(() => {
+      const orderReference = `ORD-${Date.now().toString().substring(7)}`;
+      navigate(`/order-success/${id}?ref=${orderReference}&method=${paymentMethod}`);
+    }, 1500);
+  };
+
+  const handleConfirmWalletPayment = () => {
     setShowWalletDialog(false);
     
     setTimeout(() => {
@@ -332,46 +480,31 @@ const Checkout = () => {
               </Button>
               
               <p className="text-xs text-center text-gray-500 mt-4">
-                By clicking the button above, you'll be prompted to confirm the payment with your {selectedWalletType || "wallet"}
+                By clicking the button above, you'll be prompted to {paymentMethod === "escrow" ? "review escrow details" : `confirm the payment with your ${selectedWalletType || "wallet"}`}
               </p>
             </div>
           </div>
         </div>
       </main>
       
-      <Dialog open={showWalletDialog} onOpenChange={setShowWalletDialog}>
-        <DialogContent className="sm:max-w-md">
-          <DialogHeader>
-            <DialogTitle>Confirm Payment</DialogTitle>
-          </DialogHeader>
-          <div className="p-6">
-            <div className="bg-gray-50 rounded-lg p-4 mb-6">
-              <p className="text-center font-semibold mb-2">Total Amount</p>
-              <p className="text-center text-xl font-bold text-homebase-600">
-                {formatPrice(calculateTotal())} HNXZ
-              </p>
-              <p className="text-center text-sm text-gray-500 mt-1">
-                Via {paymentMethod === "escrow" ? "Secure Escrow" : "HanCoin Direct"}
-              </p>
-            </div>
-            
-            <div className="text-center mb-6">
-              <p className="text-sm text-gray-600">
-                You're authorizing a payment of {formatPrice(calculateTotal())} HNXZ for {property.title}.
-              </p>
-            </div>
-            
-            <div className="grid grid-cols-2 gap-4">
-              <Button variant="outline" onClick={() => setShowWalletDialog(false)}>
-                Cancel
-              </Button>
-              <Button onClick={handleConfirmPayment}>
-                Approve Payment
-              </Button>
-            </div>
-          </div>
-        </DialogContent>
-      </Dialog>
+      {/* Escrow Information Modal */}
+      <EscrowInfoModal 
+        isOpen={showEscrowDialog}
+        onClose={() => setShowEscrowDialog(false)}
+        onConfirm={handleConfirmEscrow}
+        property={property || {}}
+        totalAmount={property ? calculateTotal() : 0}
+      />
+      
+      {/* Wallet Confirmation Modal */}
+      <WalletConfirmModal 
+        isOpen={showWalletDialog}
+        onClose={() => setShowWalletDialog(false)}
+        onConfirm={handleConfirmWalletPayment}
+        property={property || {}}
+        totalAmount={property ? calculateTotal() : 0}
+        walletType={selectedWalletType}
+      />
       
       <Footer />
     </div>
