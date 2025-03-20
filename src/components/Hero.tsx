@@ -82,8 +82,9 @@ const Hero = () => {
         {/* Search Bar */}
         <div className="w-full max-w-2xl animate-slideUp">
           <div className="bg-white/10 backdrop-blur-xl p-2 rounded-xl border border-white/20">
-            <div className="flex flex-wrap md:flex-nowrap items-start gap-2">
-              <div className="w-full md:flex-1 bg-white/20 rounded-lg px-4 py-3">
+            <div className="flex flex-col md:flex-row items-stretch gap-2">
+              {/* Location Input */}
+              <div className="w-full bg-white/20 rounded-lg px-4 py-3">
                 <label className="block text-white/60 text-xs mb-1">Location</label>
                 <input
                   type="text"
@@ -93,6 +94,8 @@ const Hero = () => {
                   onChange={(e) => setSearchLocation(e.target.value)}
                 />
               </div>
+              
+              {/* Type Selector */}
               <div className="w-full md:w-40 bg-white/20 rounded-lg px-4 py-3">
                 <label className="block text-white/60 text-xs mb-1">Type</label>
                 <select 
@@ -106,6 +109,7 @@ const Hero = () => {
                 </select>
               </div>
               
+              {/* Date Range Picker for Lodging */}
               {searchType === "lodge" && (
                 <div className="w-full bg-white/20 rounded-lg px-4 py-3">
                   <label className="block text-white/60 text-xs mb-1">Dates</label>
@@ -129,7 +133,7 @@ const Hero = () => {
                         )}
                       </Button>
                     </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0 bg-white" align="start">
+                    <PopoverContent className="w-auto p-0 bg-white pointer-events-auto" align="start">
                       <Calendar
                         initialFocus
                         mode="range"
@@ -144,8 +148,9 @@ const Hero = () => {
                 </div>
               )}
               
+              {/* Search Button */}
               <Button 
-                className="w-full md:w-auto whitespace-nowrap px-6"
+                className="w-full md:w-auto whitespace-nowrap px-6 h-full md:self-end md:mb-0"
                 onClick={handleSearch}
               >
                 <Search className="w-4 h-4 mr-2" />
