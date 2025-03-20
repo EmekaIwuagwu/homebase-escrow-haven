@@ -6,7 +6,6 @@ import Footer from "@/components/Footer";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useWallet } from "@/contexts/WalletContext";
 import Bookings from "@/components/dashboard/Bookings";
-import TransactionHistory from "@/components/dashboard/TransactionHistory";
 import AccountSettings from "@/components/dashboard/AccountSettings";
 import DashboardSidebar from "@/components/dashboard/DashboardSidebar";
 
@@ -34,7 +33,7 @@ const Dashboard = () => {
           <div className="mb-8">
             <h1 className="text-3xl font-bold mb-2">My Dashboard</h1>
             <p className="text-gray-600 dark:text-gray-400">
-              Manage your bookings, transactions, and account settings
+              Manage your bookings and account settings
             </p>
           </div>
           
@@ -49,16 +48,11 @@ const Dashboard = () => {
               <Tabs defaultValue="bookings" className="w-full">
                 <TabsList className="w-full justify-start mb-6 bg-white dark:bg-gray-800 p-1 rounded-lg">
                   <TabsTrigger id="dashboard-tab-bookings" value="bookings">Bookings</TabsTrigger>
-                  <TabsTrigger id="dashboard-tab-transactions" value="transactions">Transaction History</TabsTrigger>
                   <TabsTrigger id="dashboard-tab-settings" value="settings">Settings</TabsTrigger>
                 </TabsList>
                 
                 <TabsContent value="bookings" className="mt-0">
                   <Bookings />
-                </TabsContent>
-                
-                <TabsContent value="transactions" className="mt-0">
-                  <TransactionHistory />
                 </TabsContent>
                 
                 <TabsContent value="settings" className="mt-0">
