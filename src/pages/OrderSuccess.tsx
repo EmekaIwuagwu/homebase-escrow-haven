@@ -110,7 +110,7 @@ const OrderSuccess = () => {
               </div>
               <div>
                 <p className="text-sm text-gray-500 mb-1">Property ID</p>
-                <p className="font-medium">HNBXZ-{property.id}</p>
+                <p className="font-medium">HNXZ-{property.id}</p>
               </div>
               <div>
                 <p className="text-sm text-gray-500 mb-1">Transaction Type</p>

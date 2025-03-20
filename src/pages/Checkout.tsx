@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Navbar from "@/components/Navbar";
@@ -38,7 +37,6 @@ const Checkout = () => {
   const [paymentMethod, setPaymentMethod] = useState<'escrow' | 'hancoin'>('hancoin');
   
   useEffect(() => {
-    // In a real app, this would be an API call to fetch property details by ID
     const fetchProperty = () => {
       setLoading(true);
       
@@ -72,10 +70,8 @@ const Checkout = () => {
     
     setProcessingPayment(true);
     
-    // Simulate showing Wallet modal
     setShowWalletDialog(true);
     
-    // Simulate payment confirmation dialog
     toast.info(`Opening ${selectedWalletType} for payment confirmation...`, {
       duration: 3000,
     });
@@ -84,9 +80,7 @@ const Checkout = () => {
   const handleConfirmPayment = () => {
     setShowWalletDialog(false);
     
-    // Simulate payment processing
     setTimeout(() => {
-      // Redirect to success page with order details
       const orderReference = `ORD-${Date.now().toString().substring(7)}`;
       navigate(`/order-success/${id}?ref=${orderReference}&method=${paymentMethod}`);
     }, 1500);

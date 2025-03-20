@@ -278,7 +278,7 @@ const PropertyDetails = () => {
                     <Building className="w-5 h-5 text-gray-600 mr-2" />
                     <div>
                       <div className="text-sm text-gray-500">Property ID</div>
-                      <div className="font-medium">HNBXZ-{property.id}</div>
+                      <div className="font-medium">HNXZ-{property.id}</div>
                     </div>
                   </div>
                 </div>

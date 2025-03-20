@@ -22,7 +22,7 @@ const TransactionHistory = () => {
       id: 1, 
       type: "Rental Payment", 
       property: "Luxury Apartment", 
-      amount: "-2,500 HNBXZ", 
+      amount: "-2,500 HNXZ", 
       date: "2023-06-15",
       status: "Completed" 
     },
@@ -30,7 +30,7 @@ const TransactionHistory = () => {
       id: 2, 
       type: "Property Purchase", 
       property: "Downtown Condo", 
-      amount: "-125,000 HNBXZ", 
+      amount: "-125,000 HNXZ", 
       date: "2023-05-22",
       status: "Completed" 
     },
@@ -38,7 +38,7 @@ const TransactionHistory = () => {
       id: 3, 
       type: "Lodging Stay", 
       property: "Beachfront Villa", 
-      amount: "-950 HNBXZ", 
+      amount: "-950 HNXZ", 
       date: "2023-04-18",
       status: "Completed" 
     },
@@ -46,7 +46,7 @@ const TransactionHistory = () => {
       id: 4, 
       type: "Rental Income", 
       property: "Mountain Retreat", 
-      amount: "+2,500 HNBXZ", 
+      amount: "+2,500 HNXZ", 
       date: "2023-03-01",
       status: "Completed" 
     },
@@ -54,7 +54,7 @@ const TransactionHistory = () => {
       id: 5, 
       type: "Property Sale", 
       property: "Suburban House", 
-      amount: "+175,000 HNBXZ", 
+      amount: "+175,000 HNXZ", 
       date: "2023-02-15",
       status: "Completed" 
     },

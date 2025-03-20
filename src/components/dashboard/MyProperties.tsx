@@ -12,7 +12,7 @@ const MyProperties = () => {
       type: "Owned", 
       image: "https://images.unsplash.com/photo-1460317442991-0ec209397118?auto=format&q=80&w=2070",
       address: "123 Main St, Downtown",
-      price: "125,000 HNBXZ",
+      price: "125,000 HNXZ",
       status: "Listed for Sale"
     },
     { 
@@ -21,7 +21,7 @@ const MyProperties = () => {
       type: "Owned", 
       image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&q=80&w=2070",
       address: "456 Ocean Ave, Beachside",
-      price: "350,000 HNBXZ",
+      price: "350,000 HNXZ",
       status: "Not Listed" 
     },
     { 
@@ -30,7 +30,7 @@ const MyProperties = () => {
       type: "Rented Out", 
       image: "https://images.unsplash.com/photo-1542718610-a1d656d1884c?auto=format&q=80&w=1974",
       address: "789 Mountain View Rd",
-      price: "2,500 HNBXZ/month",
+      price: "2,500 HNXZ/month",
       status: "Tenant occupied until 12/2023"
     },
   ];
