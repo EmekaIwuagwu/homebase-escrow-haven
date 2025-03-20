@@ -25,9 +25,9 @@ const Hero = () => {
       return;
     }
     
-    // For rental properties, verify date range is set
-    if (searchType === "rent" && (!dateRange?.from || !dateRange?.to)) {
-      toast.error("Please select check-in and check-out dates for rentals");
+    // For lodging properties, verify date range is set
+    if (searchType === "lodge" && (!dateRange?.from || !dateRange?.to)) {
+      toast.error("Please select check-in and check-out dates for lodging");
       return;
     }
     
@@ -49,8 +49,8 @@ const Hero = () => {
     // Navigate with the appropriate query parameters
     let queryParams = `location=${encodeURIComponent(searchLocation)}`;
     
-    // Add date range for rentals
-    if (searchType === "rent" && dateRange?.from && dateRange?.to) {
+    // Add date range for lodging
+    if (searchType === "lodge" && dateRange?.from && dateRange?.to) {
       queryParams += `&from=${dateRange.from.toISOString()}&to=${dateRange.to.toISOString()}`;
     }
     
@@ -106,7 +106,7 @@ const Hero = () => {
                 </select>
               </div>
               
-              {searchType === "rent" && (
+              {searchType === "lodge" && (
                 <div className="w-full bg-white/20 rounded-lg px-4 py-3">
                   <label className="block text-white/60 text-xs mb-1">Dates</label>
                   <Popover>
