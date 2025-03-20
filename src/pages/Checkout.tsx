@@ -103,7 +103,7 @@ const EscrowInfoModal: React.FC<{
           </div>
           
           <div className="grid grid-cols-2 gap-4">
-            <Button variant="outline" onClick={onClose}>
+            <Button variant="outline" onClick={onClose} type="button">
               Cancel
             </Button>
             <Button onClick={onConfirm}>
@@ -149,7 +149,7 @@ const WalletConfirmModal: React.FC<{
           </div>
           
           <div className="grid grid-cols-2 gap-4">
-            <Button variant="outline" onClick={onClose}>
+            <Button variant="outline" onClick={onClose} type="button">
               Cancel
             </Button>
             <Button onClick={onConfirm}>
@@ -232,6 +232,13 @@ const Checkout = () => {
       const orderReference = `ORD-${Date.now().toString().substring(7)}`;
       navigate(`/order-success/${id}?ref=${orderReference}&method=${paymentMethod}`);
     }, 1500);
+  };
+  
+  const handleCancelPayment = () => {
+    setProcessingPayment(false);
+    setShowEscrowDialog(false);
+    setShowWalletDialog(false);
+    toast.info("Payment cancelled", { duration: 3000 });
   };
 
   const handleBackToDetails = () => {
@@ -490,7 +497,7 @@ const Checkout = () => {
       {/* Escrow Information Modal */}
       <EscrowInfoModal 
         isOpen={showEscrowDialog}
-        onClose={() => setShowEscrowDialog(false)}
+        onClose={handleCancelPayment}
         onConfirm={handleConfirmEscrow}
         property={property || {}}
         totalAmount={property ? calculateTotal() : 0}
@@ -499,7 +506,7 @@ const Checkout = () => {
       {/* Wallet Confirmation Modal */}
       <WalletConfirmModal 
         isOpen={showWalletDialog}
-        onClose={() => setShowWalletDialog(false)}
+        onClose={handleCancelPayment}
         onConfirm={handleConfirmWalletPayment}
         property={property || {}}
         totalAmount={property ? calculateTotal() : 0}
