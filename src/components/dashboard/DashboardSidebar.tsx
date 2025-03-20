@@ -13,11 +13,12 @@ const DashboardSidebar = () => {
     navigate('/');
   };
 
-  const handleTabChange = (tabId) => {
-    // Find the tab element and click it
+  const handleTabChange = (tabId: string) => {
+    // Find the tab element and dispatch a click event on it
     const tabElement = document.querySelector(`[data-state="inactive"][value="${tabId}"]`);
     if (tabElement) {
-      tabElement.click();
+      // Use HTMLElement.click() instead of Element.click()
+      (tabElement as HTMLElement).click();
     }
   };
 
