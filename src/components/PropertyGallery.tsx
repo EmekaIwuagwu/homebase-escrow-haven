@@ -5,7 +5,8 @@ import {
   CarouselContent,
   CarouselItem,
   CarouselNext,
-  CarouselPrevious
+  CarouselPrevious,
+  type CarouselApi
 } from "@/components/ui/carousel";
 import { ChevronLeft, ChevronRight, Image as ImageIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -20,6 +21,17 @@ interface PropertyGalleryProps {
 const PropertyGallery: React.FC<PropertyGalleryProps> = ({ images, title }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [imageErrors, setImageErrors] = useState<Record<number, boolean>>({});
+  const [api, setApi] = useState<CarouselApi | null>(null);
+
+  React.useEffect(() => {
+    if (!api) {
+      return;
+    }
+
+    api.on("select", () => {
+      setCurrentIndex(api.selectedScrollSnap());
+    });
+  }, [api]);
 
   const handleImageError = (index: number) => {
     setImageErrors(prev => ({ ...prev, [index]: true }));
@@ -36,12 +48,7 @@ const PropertyGallery: React.FC<PropertyGalleryProps> = ({ images, title }) => {
     <div className="relative rounded-xl overflow-hidden mb-8">
       <Carousel 
         className="w-full"
-        onSelect={(api) => {
-          const selected = api?.selectedScrollSnap();
-          if (selected !== undefined) {
-            setCurrentIndex(selected);
-          }
-        }}
+        setApi={setApi}
       >
         <CarouselContent>
           {images.map((image, index) => (

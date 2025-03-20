@@ -8,22 +8,29 @@ import {
   CarouselContent,
   CarouselItem,
   CarouselNext,
-  CarouselPrevious
+  CarouselPrevious,
+  type CarouselApi
 } from "@/components/ui/carousel";
 
 const PropertyCardGallery = ({ images, title }: { images: string[], title: string }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [api, setApi] = useState<CarouselApi | null>(null);
+
+  React.useEffect(() => {
+    if (!api) {
+      return;
+    }
+
+    api.on("select", () => {
+      setCurrentIndex(api.selectedScrollSnap());
+    });
+  }, [api]);
 
   return (
     <div className="relative h-48 overflow-hidden">
       <Carousel 
         className="w-full h-full"
-        onSelect={(api) => {
-          const selected = api?.selectedScrollSnap();
-          if (selected !== undefined) {
-            setCurrentIndex(selected);
-          }
-        }}
+        setApi={setApi}
       >
         <CarouselContent className="h-full">
           {images.map((image, index) => (
