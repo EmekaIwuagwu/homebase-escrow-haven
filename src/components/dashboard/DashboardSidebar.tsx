@@ -1,7 +1,7 @@
 
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { Home, Building, CalendarDays, SquareUser, History, Settings, LogOut } from "lucide-react";
+import { Home, CalendarDays, SquareUser, History, Settings, LogOut } from "lucide-react";
 import { useWallet } from "@/contexts/WalletContext";
 
 const DashboardSidebar = () => {
@@ -11,6 +11,14 @@ const DashboardSidebar = () => {
   const handleDisconnect = () => {
     disconnectWallet();
     navigate('/');
+  };
+
+  const handleTabChange = (tabId) => {
+    // Find the tab element and click it
+    const tabElement = document.querySelector(`[data-state="inactive"][value="${tabId}"]`);
+    if (tabElement) {
+      tabElement.click();
+    }
   };
 
   return (
@@ -33,34 +41,40 @@ const DashboardSidebar = () => {
       <nav>
         <ul className="space-y-2">
           <li>
-            <a href="#" className="flex items-center text-homebase-600 p-2 rounded-md bg-homebase-50">
+            <a 
+              href="/dashboard" 
+              className="flex items-center text-homebase-600 p-2 rounded-md bg-homebase-50"
+            >
               <Home className="w-5 h-5 mr-3" />
               Dashboard
             </a>
           </li>
           <li>
-            <a href="#" className="flex items-center p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700">
-              <Building className="w-5 h-5 mr-3" />
-              My Properties
-            </a>
-          </li>
-          <li>
-            <a href="#" className="flex items-center p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700">
+            <button 
+              onClick={() => handleTabChange("bookings")} 
+              className="flex w-full items-center p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700"
+            >
               <CalendarDays className="w-5 h-5 mr-3" />
               Bookings
-            </a>
+            </button>
           </li>
           <li>
-            <a href="#" className="flex items-center p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700">
+            <button 
+              onClick={() => handleTabChange("transactions")} 
+              className="flex w-full items-center p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700"
+            >
               <History className="w-5 h-5 mr-3" />
               Transaction History
-            </a>
+            </button>
           </li>
           <li>
-            <a href="#" className="flex items-center p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700">
+            <button 
+              onClick={() => handleTabChange("settings")} 
+              className="flex w-full items-center p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700"
+            >
               <Settings className="w-5 h-5 mr-3" />
               Settings
-            </a>
+            </button>
           </li>
           <li>
             <button 

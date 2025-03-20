@@ -3,11 +3,8 @@ import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Separator } from "@/components/ui/separator";
 import { useWallet } from "@/contexts/WalletContext";
-import MyProperties from "@/components/dashboard/MyProperties";
 import Bookings from "@/components/dashboard/Bookings";
 import TransactionHistory from "@/components/dashboard/TransactionHistory";
 import AccountSettings from "@/components/dashboard/AccountSettings";
@@ -37,7 +34,7 @@ const Dashboard = () => {
           <div className="mb-8">
             <h1 className="text-3xl font-bold mb-2">My Dashboard</h1>
             <p className="text-gray-600 dark:text-gray-400">
-              Manage your properties, bookings, and transactions
+              Manage your bookings, transactions, and account settings
             </p>
           </div>
           
@@ -49,17 +46,12 @@ const Dashboard = () => {
             
             {/* Main Content */}
             <div className="lg:col-span-3 space-y-6">
-              <Tabs defaultValue="properties" className="w-full">
+              <Tabs defaultValue="bookings" className="w-full">
                 <TabsList className="w-full justify-start mb-6 bg-white dark:bg-gray-800 p-1 rounded-lg">
-                  <TabsTrigger value="properties">My Properties</TabsTrigger>
                   <TabsTrigger value="bookings">Bookings</TabsTrigger>
                   <TabsTrigger value="transactions">Transaction History</TabsTrigger>
                   <TabsTrigger value="settings">Settings</TabsTrigger>
                 </TabsList>
-                
-                <TabsContent value="properties">
-                  <MyProperties />
-                </TabsContent>
                 
                 <TabsContent value="bookings">
                   <Bookings />
