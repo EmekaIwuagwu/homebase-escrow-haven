@@ -6,6 +6,8 @@ import FeaturedProperties from "@/components/FeaturedProperties";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { BadgeCheck, Building, Wallet, ShieldCheck, Users } from "lucide-react";
+import { Link } from "react-router-dom";
+import WalletConnect from "@/components/WalletConnect";
 
 const Index = () => {
   return (
@@ -86,12 +88,14 @@ const Index = () => {
                 using our Web3-powered platform. The future of real estate is here.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
-                <Button size="lg" className="bg-white text-homebase-600 hover:bg-white/90">
-                  Connect Wallet
-                </Button>
-                <Button size="lg" variant="outline" className="text-white border-white hover:bg-white/10">
-                  Explore Properties
-                </Button>
+                <div className="max-w-fit">
+                  <WalletConnect />
+                </div>
+                <Link to="/buy">
+                  <Button size="lg" variant="outline" className="text-white border-white hover:bg-white/10">
+                    Explore Properties
+                  </Button>
+                </Link>
               </div>
             </div>
           </div>

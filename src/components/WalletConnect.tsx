@@ -12,11 +12,13 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { toast } from "sonner";
+import { useNavigate } from "react-router-dom";
 
 const WalletConnect = () => {
   const [isConnected, setIsConnected] = useState(false);
   const [isConnecting, setIsConnecting] = useState(false);
   const walletAddress = "0x1234...5678";
+  const navigate = useNavigate();
 
   const handleConnect = async () => {
     setIsConnecting(true);
@@ -32,6 +34,10 @@ const WalletConnect = () => {
   const handleDisconnect = () => {
     setIsConnected(false);
     toast.info("Wallet disconnected");
+  };
+
+  const navigateToDashboard = () => {
+    navigate("/dashboard");
   };
 
   if (isConnected) {
@@ -51,11 +57,17 @@ const WalletConnect = () => {
             <Check className="mr-2 h-4 w-4" />
             <span>Connected</span>
           </DropdownMenuItem>
-          <DropdownMenuItem>
-            Profile
+          <DropdownMenuItem onClick={navigateToDashboard}>
+            Dashboard
           </DropdownMenuItem>
-          <DropdownMenuItem>
-            My Properties
+          <DropdownMenuItem onClick={() => navigate("/buy")}>
+            Buy Properties
+          </DropdownMenuItem>
+          <DropdownMenuItem onClick={() => navigate("/rent")}>
+            Rent Properties
+          </DropdownMenuItem>
+          <DropdownMenuItem onClick={() => navigate("/lodging")}>
+            Find Lodging
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem className="text-red-500" onClick={handleDisconnect}>

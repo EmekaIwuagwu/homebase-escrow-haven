@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 import { Menu, X, Search, Bell, Home } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import WalletConnect from "./WalletConnect";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -30,30 +31,34 @@ const Navbar = () => {
     >
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <Home className="w-6 h-6 text-homebase-600" />
-          <span className="text-xl font-medium">HomeBase</span>
+          <Link to="/">
+            <div className="flex items-center gap-2">
+              <Home className="w-6 h-6 text-homebase-600" />
+              <span className="text-xl font-medium">HomeBase</span>
+            </div>
+          </Link>
         </div>
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center space-x-8">
-          <a
-            href="#"
+          <Link
+            to="/buy"
             className="text-sm font-medium hover:text-homebase-600 transition-colors"
           >
             Buy
-          </a>
-          <a
-            href="#"
+          </Link>
+          <Link
+            to="/rent"
             className="text-sm font-medium hover:text-homebase-600 transition-colors"
           >
             Rent
-          </a>
-          <a
-            href="#"
+          </Link>
+          <Link
+            to="/lodging"
             className="text-sm font-medium hover:text-homebase-600 transition-colors"
           >
             Lodging
-          </a>
+          </Link>
           <a
             href="#"
             className="text-sm font-medium hover:text-homebase-600 transition-colors"
@@ -95,24 +100,26 @@ const Navbar = () => {
         >
           <div className="flex flex-col h-full">
             <div className="flex items-center justify-between px-6 py-4 border-b">
-              <div className="flex items-center gap-2">
-                <Home className="w-6 h-6 text-homebase-600" />
-                <span className="text-xl font-medium">HomeBase</span>
-              </div>
+              <Link to="/" onClick={() => setIsMobileMenuOpen(false)}>
+                <div className="flex items-center gap-2">
+                  <Home className="w-6 h-6 text-homebase-600" />
+                  <span className="text-xl font-medium">HomeBase</span>
+                </div>
+              </Link>
               <button onClick={() => setIsMobileMenuOpen(false)}>
                 <X className="w-6 h-6" />
               </button>
             </div>
             <nav className="flex flex-col p-6 space-y-6">
-              <a href="#" className="text-base font-medium py-2 border-b border-gray-100 dark:border-gray-800">
+              <Link to="/buy" className="text-base font-medium py-2 border-b border-gray-100 dark:border-gray-800" onClick={() => setIsMobileMenuOpen(false)}>
                 Buy
-              </a>
-              <a href="#" className="text-base font-medium py-2 border-b border-gray-100 dark:border-gray-800">
+              </Link>
+              <Link to="/rent" className="text-base font-medium py-2 border-b border-gray-100 dark:border-gray-800" onClick={() => setIsMobileMenuOpen(false)}>
                 Rent
-              </a>
-              <a href="#" className="text-base font-medium py-2 border-b border-gray-100 dark:border-gray-800">
+              </Link>
+              <Link to="/lodging" className="text-base font-medium py-2 border-b border-gray-100 dark:border-gray-800" onClick={() => setIsMobileMenuOpen(false)}>
                 Lodging
-              </a>
+              </Link>
               <a href="#" className="text-base font-medium py-2 border-b border-gray-100 dark:border-gray-800">
                 About
               </a>
