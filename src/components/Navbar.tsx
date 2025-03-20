@@ -33,8 +33,18 @@ const Navbar = () => {
         <div className="flex items-center gap-2">
           <Link to="/">
             <div className="flex items-center gap-2">
-              <Home className="w-6 h-6 text-homebase-600" />
-              <span className="text-xl font-medium">HomeBase</span>
+              <Home className={cn(
+                "w-6 h-6 text-homebase-600",
+                !isScrolled && "text-gray-900 dark:text-white"
+              )} />
+              <span className={cn(
+                "text-xl font-medium",
+                isScrolled 
+                  ? "text-gray-900 dark:text-white" 
+                  : "text-gray-900 dark:text-white"
+              )}>
+                HomeBase
+              </span>
             </div>
           </Link>
         </div>
@@ -43,25 +53,45 @@ const Navbar = () => {
         <nav className="hidden md:flex items-center space-x-8">
           <Link
             to="/buy"
-            className="text-sm font-medium hover:text-homebase-600 transition-colors"
+            className={cn(
+              "text-sm font-medium transition-colors",
+              isScrolled
+                ? "text-gray-900 hover:text-homebase-600 dark:text-white dark:hover:text-homebase-400"
+                : "text-gray-900 hover:text-homebase-600 dark:text-white dark:hover:text-homebase-400"
+            )}
           >
             Buy
           </Link>
           <Link
             to="/rent"
-            className="text-sm font-medium hover:text-homebase-600 transition-colors"
+            className={cn(
+              "text-sm font-medium transition-colors",
+              isScrolled
+                ? "text-gray-900 hover:text-homebase-600 dark:text-white dark:hover:text-homebase-400"
+                : "text-gray-900 hover:text-homebase-600 dark:text-white dark:hover:text-homebase-400"
+            )}
           >
             Rent
           </Link>
           <Link
             to="/lodging"
-            className="text-sm font-medium hover:text-homebase-600 transition-colors"
+            className={cn(
+              "text-sm font-medium transition-colors",
+              isScrolled
+                ? "text-gray-900 hover:text-homebase-600 dark:text-white dark:hover:text-homebase-400"
+                : "text-gray-900 hover:text-homebase-600 dark:text-white dark:hover:text-homebase-400"
+            )}
           >
             Lodging
           </Link>
           <a
             href="#"
-            className="text-sm font-medium hover:text-homebase-600 transition-colors"
+            className={cn(
+              "text-sm font-medium transition-colors",
+              isScrolled
+                ? "text-gray-900 hover:text-homebase-600 dark:text-white dark:hover:text-homebase-400"
+                : "text-gray-900 hover:text-homebase-600 dark:text-white dark:hover:text-homebase-400"
+            )}
           >
             About
           </a>
@@ -69,13 +99,23 @@ const Navbar = () => {
 
         <div className="hidden md:flex items-center space-x-4">
           <button
-            className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-colors"
+            className={cn(
+              "transition-colors", 
+              isScrolled
+                ? "text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
+                : "text-gray-800 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
+            )}
             aria-label="Search"
           >
             <Search className="w-5 h-5" />
           </button>
           <button
-            className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white transition-colors"
+            className={cn(
+              "transition-colors", 
+              isScrolled
+                ? "text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
+                : "text-gray-800 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
+            )}
             aria-label="Notifications"
           >
             <Bell className="w-5 h-5" />
@@ -85,7 +125,12 @@ const Navbar = () => {
 
         {/* Mobile Menu Button */}
         <button
-          className="md:hidden text-gray-800 dark:text-gray-200"
+          className={cn(
+            "md:hidden",
+            isScrolled
+              ? "text-gray-800 dark:text-gray-200"
+              : "text-gray-800 dark:text-white"
+          )}
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
         >
           {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -103,24 +148,42 @@ const Navbar = () => {
               <Link to="/" onClick={() => setIsMobileMenuOpen(false)}>
                 <div className="flex items-center gap-2">
                   <Home className="w-6 h-6 text-homebase-600" />
-                  <span className="text-xl font-medium">HomeBase</span>
+                  <span className="text-xl font-medium text-gray-900 dark:text-white">HomeBase</span>
                 </div>
               </Link>
-              <button onClick={() => setIsMobileMenuOpen(false)}>
+              <button 
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="text-gray-900 dark:text-white"
+              >
                 <X className="w-6 h-6" />
               </button>
             </div>
             <nav className="flex flex-col p-6 space-y-6">
-              <Link to="/buy" className="text-base font-medium py-2 border-b border-gray-100 dark:border-gray-800" onClick={() => setIsMobileMenuOpen(false)}>
+              <Link 
+                to="/buy" 
+                className="text-base font-medium py-2 border-b border-gray-100 dark:border-gray-800 text-gray-900 dark:text-white" 
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
                 Buy
               </Link>
-              <Link to="/rent" className="text-base font-medium py-2 border-b border-gray-100 dark:border-gray-800" onClick={() => setIsMobileMenuOpen(false)}>
+              <Link 
+                to="/rent" 
+                className="text-base font-medium py-2 border-b border-gray-100 dark:border-gray-800 text-gray-900 dark:text-white" 
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
                 Rent
               </Link>
-              <Link to="/lodging" className="text-base font-medium py-2 border-b border-gray-100 dark:border-gray-800" onClick={() => setIsMobileMenuOpen(false)}>
+              <Link 
+                to="/lodging" 
+                className="text-base font-medium py-2 border-b border-gray-100 dark:border-gray-800 text-gray-900 dark:text-white" 
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
                 Lodging
               </Link>
-              <a href="#" className="text-base font-medium py-2 border-b border-gray-100 dark:border-gray-800">
+              <a 
+                href="#" 
+                className="text-base font-medium py-2 border-b border-gray-100 dark:border-gray-800 text-gray-900 dark:text-white"
+              >
                 About
               </a>
               <div className="flex flex-col space-y-4 pt-4">

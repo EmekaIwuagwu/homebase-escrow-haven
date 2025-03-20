@@ -3,6 +3,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Home, CalendarDays, SquareUser, Settings, LogOut } from "lucide-react";
 import { useWallet } from "@/contexts/WalletContext";
+import { cn } from "@/lib/utils";
 
 const DashboardSidebar = () => {
   const { walletAddress, selectedWalletType, disconnectWallet } = useWallet();
@@ -24,18 +25,18 @@ const DashboardSidebar = () => {
   return (
     <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 mb-6">
       <div className="flex items-center mb-6">
-        <div className="w-12 h-12 bg-homebase-100 rounded-full flex items-center justify-center mr-4">
-          <SquareUser className="w-6 h-6 text-homebase-600" />
+        <div className="w-12 h-12 bg-homebase-100 dark:bg-homebase-900/50 rounded-full flex items-center justify-center mr-4">
+          <SquareUser className="w-6 h-6 text-homebase-600 dark:text-homebase-400" />
         </div>
         <div>
-          <h3 className="font-medium">Wallet Connected</h3>
+          <h3 className="font-medium text-gray-900 dark:text-white">Wallet Connected</h3>
           <p className="text-sm text-gray-500 dark:text-gray-400">{walletAddress}</p>
         </div>
       </div>
       
       <div className="mb-6">
         <p className="text-sm text-gray-500 dark:text-gray-400 mb-1">Wallet Type</p>
-        <p className="text-xl font-bold">{selectedWalletType}</p>
+        <p className="text-xl font-bold text-gray-900 dark:text-white">{selectedWalletType}</p>
       </div>
       
       <nav>
@@ -43,7 +44,10 @@ const DashboardSidebar = () => {
           <li>
             <a 
               href="/dashboard" 
-              className="flex items-center text-homebase-600 p-2 rounded-md bg-homebase-50"
+              className={cn(
+                "flex items-center p-2 rounded-md",
+                "text-homebase-600 dark:text-homebase-400 bg-homebase-50 dark:bg-homebase-900/20"
+              )}
             >
               <Home className="w-5 h-5 mr-3" />
               Dashboard
@@ -52,7 +56,10 @@ const DashboardSidebar = () => {
           <li>
             <button 
               onClick={() => handleTabChange("bookings")} 
-              className="flex w-full items-center p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700"
+              className={cn(
+                "flex w-full items-center p-2 rounded-md",
+                "text-gray-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
+              )}
             >
               <CalendarDays className="w-5 h-5 mr-3" />
               Bookings
@@ -61,7 +68,10 @@ const DashboardSidebar = () => {
           <li>
             <button 
               onClick={() => handleTabChange("settings")} 
-              className="flex w-full items-center p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700"
+              className={cn(
+                "flex w-full items-center p-2 rounded-md",
+                "text-gray-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
+              )}
             >
               <Settings className="w-5 h-5 mr-3" />
               Settings
