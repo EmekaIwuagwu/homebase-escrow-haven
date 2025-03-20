@@ -14,30 +14,33 @@ import PropertyDetails from "./pages/PropertyDetails";
 import Checkout from "./pages/Checkout";
 import OrderSuccess from "./pages/OrderSuccess";
 import NotFound from "./pages/NotFound";
+import { WalletProvider } from "./contexts/WalletContext";
 
 const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <ScrollToTop />
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/buy" element={<Buy />} />
-          <Route path="/rent" element={<Rent />} />
-          <Route path="/lodging" element={<Lodging />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/property/:id" element={<PropertyDetails />} />
-          <Route path="/checkout/:id" element={<Checkout />} />
-          <Route path="/order-success/:id" element={<OrderSuccess />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
-    </TooltipProvider>
+    <WalletProvider>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <ScrollToTop />
+          <Routes>
+            <Route path="/" element={<Index />} />
+            <Route path="/buy" element={<Buy />} />
+            <Route path="/rent" element={<Rent />} />
+            <Route path="/lodging" element={<Lodging />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/property/:id" element={<PropertyDetails />} />
+            <Route path="/checkout/:id" element={<Checkout />} />
+            <Route path="/order-success/:id" element={<OrderSuccess />} />
+            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </TooltipProvider>
+    </WalletProvider>
   </QueryClientProvider>
 );
 

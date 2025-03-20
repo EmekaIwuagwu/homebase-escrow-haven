@@ -10,17 +10,32 @@ import {
   CreditCard,
   ShieldCheck,
   AlertTriangle,
-  Home
+  Home,
+  Wallet
 } from "lucide-react";
 import { toast } from "sonner";
 import { formatPrice } from "@/utils/formatters";
+import { useWallet } from "@/contexts/WalletContext";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import {
+  RadioGroup,
+  RadioGroupItem
+} from "@/components/ui/radio-group";
 
 const Checkout = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { isConnected, selectedWalletType } = useWallet();
   const [property, setProperty] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [processingPayment, setProcessingPayment] = useState(false);
+  const [showWalletDialog, setShowWalletDialog] = useState(false);
+  const [paymentMethod, setPaymentMethod] = useState<'escrow' | 'hancoin'>('hancoin');
   
   useEffect(() => {
     // In a real app, this would be an API call to fetch property details by ID
@@ -50,19 +65,31 @@ const Checkout = () => {
   }, [id, navigate]);
 
   const handlePlaceOrder = () => {
+    if (!isConnected) {
+      toast.error("Please connect your wallet to complete this transaction");
+      return;
+    }
+    
     setProcessingPayment(true);
     
-    // Simulate showing Han Wallet modal
-    toast.info("Opening Han Wallet for payment confirmation...", {
+    // Simulate showing Wallet modal
+    setShowWalletDialog(true);
+    
+    // Simulate payment confirmation dialog
+    toast.info(`Opening ${selectedWalletType} for payment confirmation...`, {
       duration: 3000,
     });
+  };
+
+  const handleConfirmPayment = () => {
+    setShowWalletDialog(false);
     
     // Simulate payment processing
     setTimeout(() => {
       // Redirect to success page with order details
       const orderReference = `ORD-${Date.now().toString().substring(7)}`;
-      navigate(`/order-success/${id}?ref=${orderReference}`);
-    }, 3000);
+      navigate(`/order-success/${id}?ref=${orderReference}&method=${paymentMethod}`);
+    }, 1500);
   };
 
   const handleBackToDetails = () => {
@@ -108,6 +135,18 @@ const Checkout = () => {
     sale: "Purchase",
     rent: "Rental",
     lodge: "Booking",
+  };
+
+  const calculateTotal = () => {
+    if (property.type === "sale") {
+      return paymentMethod === "escrow" 
+        ? property.price * 1.01  // 1% escrow fee
+        : property.price * 1.005; // 0.5% HanCoin fee
+    } else {
+      return paymentMethod === "escrow"
+        ? property.price * 1.05  // 5% service fee
+        : property.price * 1.025; // 2.5% HanCoin fee
+    }
   };
 
   return (
@@ -165,26 +204,30 @@ const Checkout = () => {
                   
                   {property.type === "sale" && (
                     <div className="flex justify-between mb-2">
-                      <span className="text-gray-600">Escrow Fee (1%)</span>
-                      <span>{formatPrice(property.price * 0.01)} HNXZ</span>
+                      <span className="text-gray-600">
+                        {paymentMethod === "escrow" ? "Escrow Fee (1%)" : "HanCoin Fee (0.5%)"}
+                      </span>
+                      <span>
+                        {formatPrice(property.price * (paymentMethod === "escrow" ? 0.01 : 0.005))} HNXZ
+                      </span>
                     </div>
                   )}
                   
                   {property.type !== "sale" && (
                     <div className="flex justify-between mb-2">
-                      <span className="text-gray-600">Service Fee</span>
-                      <span>{formatPrice(property.price * 0.05)} HNXZ</span>
+                      <span className="text-gray-600">
+                        {paymentMethod === "escrow" ? "Service Fee (5%)" : "HanCoin Fee (2.5%)"}
+                      </span>
+                      <span>
+                        {formatPrice(property.price * (paymentMethod === "escrow" ? 0.05 : 0.025))} HNXZ
+                      </span>
                     </div>
                   )}
                   
                   <div className="border-t border-gray-100 pt-2 mt-2">
                     <div className="flex justify-between font-bold">
                       <span>Total</span>
-                      <span>
-                        {property.type === "sale" 
-                          ? formatPrice(property.price * 1.01)
-                          : formatPrice(property.price * 1.05)} HNXZ
-                      </span>
+                      <span>{formatPrice(calculateTotal())} HNXZ</span>
                     </div>
                   </div>
                 </div>
@@ -192,13 +235,34 @@ const Checkout = () => {
               
               <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
                 <h2 className="text-lg font-bold mb-4">Payment Method</h2>
-                <div className="flex items-center p-4 bg-gray-50 rounded-lg border border-gray-200">
-                  <CreditCard className="w-5 h-5 text-homebase-500 mr-3" />
-                  <div>
-                    <p className="font-medium">Han Wallet</p>
-                    <p className="text-sm text-gray-500">Pay using HanCoin (HNXZ)</p>
-                  </div>
-                </div>
+                
+                <RadioGroup 
+                  value={paymentMethod} 
+                  onValueChange={(value) => setPaymentMethod(value as 'escrow' | 'hancoin')}
+                  className="gap-4"
+                >
+                  <label className="flex items-center p-4 bg-gray-50 rounded-lg border border-gray-200 cursor-pointer">
+                    <RadioGroupItem value="hancoin" id="hancoin" className="mr-3" />
+                    <div className="flex items-center">
+                      <Wallet className="w-5 h-5 text-homebase-500 mr-3" />
+                      <div>
+                        <p className="font-medium">HanCoin Direct</p>
+                        <p className="text-sm text-gray-500">Lower fees, faster processing</p>
+                      </div>
+                    </div>
+                  </label>
+                  
+                  <label className="flex items-center p-4 bg-gray-50 rounded-lg border border-gray-200 cursor-pointer">
+                    <RadioGroupItem value="escrow" id="escrow" className="mr-3" />
+                    <div className="flex items-center">
+                      <ShieldCheck className="w-5 h-5 text-green-500 mr-3" />
+                      <div>
+                        <p className="font-medium">Secure Escrow</p>
+                        <p className="text-sm text-gray-500">Additional protection, higher fees</p>
+                      </div>
+                    </div>
+                  </label>
+                </RadioGroup>
               </div>
             </div>
             
@@ -210,11 +274,13 @@ const Checkout = () => {
                   <div className="flex items-start mb-3">
                     <ShieldCheck className="w-5 h-5 text-green-500 mt-0.5 mr-3" />
                     <div>
-                      <p className="font-medium">Secure Escrow</p>
+                      <p className="font-medium">Secure {paymentMethod === "escrow" ? "Escrow" : "Transaction"}</p>
                       <p className="text-sm text-gray-500">
-                        {property.type === "sale" 
-                          ? "Your funds will be held in a secure smart contract escrow until property ownership is transferred."
-                          : "Your payment is protected by our secure payment system."}
+                        {paymentMethod === "escrow" 
+                          ? `Your funds will be held in a secure smart contract escrow until ${property.type === "sale" 
+                              ? "property ownership is transferred"
+                              : "your transaction is completed"}.`
+                          : "Your payment is processed directly through the HanCoin network for faster settlement."}
                       </p>
                     </div>
                   </div>
@@ -272,12 +338,46 @@ const Checkout = () => {
               </Button>
               
               <p className="text-xs text-center text-gray-500 mt-4">
-                By clicking the button above, you'll be prompted to confirm the payment with your Han Wallet
+                By clicking the button above, you'll be prompted to confirm the payment with your {selectedWalletType || "wallet"}
               </p>
             </div>
           </div>
         </div>
       </main>
+      
+      <Dialog open={showWalletDialog} onOpenChange={setShowWalletDialog}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Confirm Payment</DialogTitle>
+          </DialogHeader>
+          <div className="p-6">
+            <div className="bg-gray-50 rounded-lg p-4 mb-6">
+              <p className="text-center font-semibold mb-2">Total Amount</p>
+              <p className="text-center text-xl font-bold text-homebase-600">
+                {formatPrice(calculateTotal())} HNXZ
+              </p>
+              <p className="text-center text-sm text-gray-500 mt-1">
+                Via {paymentMethod === "escrow" ? "Secure Escrow" : "HanCoin Direct"}
+              </p>
+            </div>
+            
+            <div className="text-center mb-6">
+              <p className="text-sm text-gray-600">
+                You're authorizing a payment of {formatPrice(calculateTotal())} HNXZ for {property.title}.
+              </p>
+            </div>
+            
+            <div className="grid grid-cols-2 gap-4">
+              <Button variant="outline" onClick={() => setShowWalletDialog(false)}>
+                Cancel
+              </Button>
+              <Button onClick={handleConfirmPayment}>
+                Approve Payment
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
       
       <Footer />
     </div>

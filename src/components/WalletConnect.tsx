@@ -2,7 +2,14 @@
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { Wallet, ChevronDown, Check, LogOut } from "lucide-react";
+import { Wallet, ChevronDown, Check, LogOut, CreditCard } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,29 +18,27 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
+import { useWallet } from "@/contexts/WalletContext";
 
 const WalletConnect = () => {
-  const [isConnected, setIsConnected] = useState(false);
-  const [isConnecting, setIsConnecting] = useState(false);
-  const walletAddress = "0x1234...5678";
+  const [showWalletSelect, setShowWalletSelect] = useState(false);
+  const { isConnected, isConnecting, walletAddress, selectedWalletType, connectWallet, disconnectWallet } = useWallet();
   const navigate = useNavigate();
 
-  const handleConnect = async () => {
-    setIsConnecting(true);
-    
-    // Simulate wallet connection
-    setTimeout(() => {
-      setIsConnected(true);
-      setIsConnecting(false);
-      toast.success("Wallet connected successfully");
-    }, 1000);
+  const handleOpenWalletSelect = () => {
+    if (!isConnected) {
+      setShowWalletSelect(true);
+    }
+  };
+
+  const handleConnectWallet = async (walletType: string) => {
+    setShowWalletSelect(false);
+    await connectWallet(walletType);
   };
 
   const handleDisconnect = () => {
-    setIsConnected(false);
-    toast.info("Wallet disconnected");
+    disconnectWallet();
   };
 
   const navigateToDashboard = () => {
@@ -55,7 +60,7 @@ const WalletConnect = () => {
           <DropdownMenuSeparator />
           <DropdownMenuItem>
             <Check className="mr-2 h-4 w-4" />
-            <span>Connected</span>
+            <span>Connected with {selectedWalletType}</span>
           </DropdownMenuItem>
           <DropdownMenuItem onClick={navigateToDashboard}>
             Dashboard
@@ -80,25 +85,56 @@ const WalletConnect = () => {
   }
 
   return (
-    <Button
-      onClick={handleConnect}
-      disabled={isConnecting}
-      className={cn(
-        "relative overflow-hidden transition-all flex items-center",
-        isConnecting && "opacity-80"
-      )}
-    >
-      {isConnecting ? (
-        <>
-          <span className="animate-pulse">Connecting...</span>
-        </>
-      ) : (
-        <>
-          <Wallet className="mr-2 h-4 w-4" />
-          <span>Connect Wallet</span>
-        </>
-      )}
-    </Button>
+    <>
+      <Button
+        onClick={handleOpenWalletSelect}
+        disabled={isConnecting}
+        className={cn(
+          "relative overflow-hidden transition-all flex items-center",
+          isConnecting && "opacity-80"
+        )}
+      >
+        {isConnecting ? (
+          <>
+            <span className="animate-pulse">Connecting...</span>
+          </>
+        ) : (
+          <>
+            <Wallet className="mr-2 h-4 w-4" />
+            <span>Connect Wallet</span>
+          </>
+        )}
+      </Button>
+
+      <Dialog open={showWalletSelect} onOpenChange={setShowWalletSelect}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Connect your wallet</DialogTitle>
+            <DialogDescription>
+              Select a wallet provider to continue
+            </DialogDescription>
+          </DialogHeader>
+          <div className="grid gap-4 py-4">
+            <Button 
+              variant="outline" 
+              className="w-full justify-start gap-2 py-6"
+              onClick={() => handleConnectWallet("Han Wallet")}
+            >
+              <Wallet className="h-5 w-5" />
+              Han Wallet
+            </Button>
+            <Button 
+              variant="outline" 
+              className="w-full justify-start gap-2 py-6"
+              onClick={() => handleConnectWallet("MetaWallet")}
+            >
+              <CreditCard className="h-5 w-5" />
+              MetaWallet
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+    </>
   );
 };
 
