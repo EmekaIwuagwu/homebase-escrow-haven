@@ -13,9 +13,9 @@ export const formatPrice = (price: number): string => {
  * Format a date to a readable string
  */
 export const formatDate = (date: Date): string => {
-  return new Intl.NumberFormat('en-US', { 
+  return new Intl.DateTimeFormat('en-US', { 
     year: 'numeric', 
     month: 'long', 
     day: 'numeric' 
-  }).format(new Date(date));
+  }).format(date);
 };
