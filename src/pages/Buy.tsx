@@ -1,89 +1,46 @@
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { Building, MapPin, Bed, Bath, ArrowRight, SquareIcon } from "lucide-react";
+import { Building, MapPin, Bed, Bath, ArrowRight, Square } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import PropertyCard from "@/components/PropertyCard";
+import { getAllProperties, getPropertiesByLocation, getPropertiesByType } from "@/utils/propertyData";
+import { toast } from "sonner";
 
 const Buy = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const queryParams = new URLSearchParams(location.search);
+  const searchLocation = queryParams.get('location') || '';
+
   const [filters, setFilters] = useState({
     minPrice: "",
     maxPrice: "",
     bedrooms: "",
-    location: "",
+    location: searchLocation,
   });
+  
+  const [properties, setProperties] = useState(getPropertiesByType("sale"));
+  const [filteredProperties, setFilteredProperties] = useState(properties);
 
-  const properties = [
-    {
-      id: "1",
-      title: "Modern Apartment with Ocean View",
-      location: "123 Coastal Drive, Malibu, CA",
-      price: 2500000,
-      type: "sale" as const,
-      image: "https://images.unsplash.com/photo-1592595896551-12b371d546d5?auto=format&q=80&w=2070",
-      beds: 3,
-      baths: 2,
-      sqft: 2100,
-      featured: true,
-    },
-    {
-      id: "2",
-      title: "Luxury Estate with Mountain Views",
-      location: "456 Mountain Ridge, Aspen, CO",
-      price: 4800000,
-      type: "sale" as const,
-      image: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&q=80&w=2070",
-      beds: 5,
-      baths: 4,
-      sqft: 4500,
-      featured: true,
-    },
-    {
-      id: "3",
-      title: "Downtown Penthouse Suite",
-      location: "789 Urban Center, New York, NY",
-      price: 3750000,
-      type: "sale" as const,
-      image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&q=80&w=2053",
-      beds: 3,
-      baths: 3,
-      sqft: 2800,
-    },
-    {
-      id: "4",
-      title: "Contemporary House with Pool",
-      location: "101 Sunshine Blvd, Los Angeles, CA",
-      price: 1950000,
-      type: "sale" as const,
-      image: "https://images.unsplash.com/photo-1629236815610-52dce72800ef?auto=format&q=80&w=2053",
-      beds: 4,
-      baths: 3,
-      sqft: 3200,
-    },
-    {
-      id: "5",
-      title: "Waterfront Villa with Private Dock",
-      location: "202 Harbor View, Miami, FL",
-      price: 5200000,
-      type: "sale" as const,
-      image: "https://images.unsplash.com/photo-1613553507747-5f8d62ad5904?auto=format&q=80&w=2070",
-      beds: 6,
-      baths: 5,
-      sqft: 5100,
-    },
-    {
-      id: "6",
-      title: "Historic Brownstone with Garden",
-      location: "303 Heritage Row, Boston, MA",
-      price: 2850000,
-      type: "sale" as const,
-      image: "https://images.unsplash.com/photo-1574362848149-11496d93a7c7?auto=format&q=80&w=2084",
-      beds: 4,
-      baths: 3,
-      sqft: 3600,
-    },
-  ];
+  useEffect(() => {
+    // If a location was specified in the URL, filter properties
+    if (searchLocation) {
+      const locationResults = getPropertiesByLocation(searchLocation).filter(p => p.type === "sale");
+      
+      if (locationResults.length > 0) {
+        setFilteredProperties(locationResults);
+        toast.success(`Found ${locationResults.length} properties in ${searchLocation}`);
+      } else {
+        setFilteredProperties([]);
+        toast.info(`No properties found in ${searchLocation}. Showing all available properties.`);
+      }
+    } else {
+      setFilteredProperties(properties);
+    }
+  }, [searchLocation, properties]);
 
   const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -91,6 +48,47 @@ const Buy = () => {
       ...prev,
       [name]: value
     }));
+  };
+
+  const applyFilters = () => {
+    let results = [...properties];
+    
+    // Filter by location if specified
+    if (filters.location) {
+      results = results.filter(property => 
+        property.location.toLowerCase().includes(filters.location.toLowerCase())
+      );
+    }
+    
+    // Filter by min price if specified
+    if (filters.minPrice) {
+      results = results.filter(property => 
+        property.price >= Number(filters.minPrice)
+      );
+    }
+    
+    // Filter by max price if specified
+    if (filters.maxPrice) {
+      results = results.filter(property => 
+        property.price <= Number(filters.maxPrice)
+      );
+    }
+    
+    // Filter by number of bedrooms if specified
+    if (filters.bedrooms) {
+      results = results.filter(property => 
+        property.beds >= Number(filters.bedrooms)
+      );
+    }
+    
+    setFilteredProperties(results);
+    
+    // Show toast with results
+    if (results.length === 0) {
+      toast.info("No properties match your filters. Try adjusting your criteria.");
+    } else {
+      toast.success(`Found ${results.length} properties matching your criteria`);
+    }
   };
 
   return (
@@ -103,7 +101,7 @@ const Buy = () => {
           <div className="max-w-7xl mx-auto">
             <h1 className="text-4xl md:text-5xl font-bold mb-4">Find Your Dream Home</h1>
             <p className="text-lg text-gray-700 mb-8 max-w-2xl">
-              Browse our exclusive collection of properties for sale, powered by Web3 technology for secure transactions using HanCoin (HNBXZ).
+              Browse our exclusive collection of properties for sale, powered by Web3 technology for secure transactions using HanCoin (HNXZ).
             </p>
             
             {/* Filters */}
@@ -160,7 +158,7 @@ const Buy = () => {
                 </div>
               </div>
               <div className="mt-4 flex justify-end">
-                <Button className="gap-2">
+                <Button className="gap-2" onClick={applyFilters}>
                   Search Properties
                   <ArrowRight className="h-4 w-4" />
                 </Button>
@@ -172,15 +170,44 @@ const Buy = () => {
         {/* Properties Grid */}
         <section className="py-12 px-6 md:px-10">
           <div className="max-w-7xl mx-auto">
-            <h2 className="text-2xl font-bold mb-8">Available Properties</h2>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {properties.map((property) => (
-                <div key={property.id} className="animate-slideUp" style={{ animationDelay: `${parseInt(property.id) * 50}ms` }}>
-                  <PropertyCard {...property} />
-                </div>
-              ))}
+            <div className="flex justify-between items-center mb-8">
+              <h2 className="text-2xl font-bold">Available Properties</h2>
+              <div className="text-gray-600">
+                {filteredProperties.length} properties found
+              </div>
             </div>
+            
+            {filteredProperties.length > 0 ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {filteredProperties.map((property) => (
+                  <div key={property.id} className="animate-slideUp" style={{ animationDelay: `${parseInt(property.id) * 50}ms` }}>
+                    <PropertyCard {...property} />
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-12">
+                <div className="text-gray-400 mb-4">
+                  <Building className="w-16 h-16 mx-auto" />
+                </div>
+                <h3 className="text-xl font-medium mb-2">No properties found</h3>
+                <p className="text-gray-500 mb-6">Try adjusting your search filters or exploring another location.</p>
+                <Button 
+                  variant="outline" 
+                  onClick={() => {
+                    setFilters({
+                      minPrice: "",
+                      maxPrice: "",
+                      bedrooms: "",
+                      location: "",
+                    });
+                    setFilteredProperties(properties);
+                  }}
+                >
+                  Clear All Filters
+                </Button>
+              </div>
+            )}
           </div>
         </section>
       </main>

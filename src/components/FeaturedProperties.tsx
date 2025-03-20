@@ -3,8 +3,11 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import PropertyCard from "./PropertyCard";
 import { ChevronRight, Filter } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const FeaturedProperties = () => {
+  const navigate = useNavigate();
+  
   const properties = [
     {
       id: "1",
@@ -54,6 +57,10 @@ const FeaturedProperties = () => {
     },
   ];
 
+  const handleViewAll = () => {
+    navigate("/buy");
+  };
+
   return (
     <section className="py-20 px-6 md:px-10">
       <div className="max-w-7xl mx-auto">
@@ -70,7 +77,7 @@ const FeaturedProperties = () => {
               <Filter className="mr-2 h-4 w-4" />
               Filters
             </Button>
-            <Button className="gap-1">
+            <Button className="gap-1" onClick={handleViewAll}>
               View All
               <ChevronRight className="h-4 w-4" />
             </Button>

@@ -5,6 +5,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Heart, MapPin, Bed, Bath, Square, Home, Image } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useNavigate } from "react-router-dom";
+import { formatPrice } from "@/utils/formatters";
 
 interface PropertyCardProps {
   id: string;
@@ -31,16 +33,10 @@ const PropertyCard = ({
   sqft,
   featured = false,
 }: PropertyCardProps) => {
+  const navigate = useNavigate();
   const [isImageLoading, setIsImageLoading] = useState(true);
   const [isFavorited, setIsFavorited] = useState(false);
   const [isImageError, setIsImageError] = useState(false);
-
-  const formatPrice = (price: number) => {
-    return new Intl.NumberFormat("en-US", {
-      style: "decimal",
-      maximumFractionDigits: 0,
-    }).format(price);
-  };
 
   const typeColors = {
     sale: "bg-blue-100 text-blue-700",
@@ -54,6 +50,10 @@ const PropertyCard = ({
     lodge: "Lodging",
   };
 
+  const handleViewDetails = () => {
+    navigate(`/property/${id}`);
+  };
+
   return (
     <Card 
       className={cn(
@@ -61,7 +61,10 @@ const PropertyCard = ({
         featured ? "ring-2 ring-homebase-500 ring-offset-2" : ""
       )}
     >
-      <div className="relative w-full h-52 overflow-hidden bg-gray-100">
+      <div 
+        className="relative w-full h-52 overflow-hidden bg-gray-100 cursor-pointer"
+        onClick={handleViewDetails}
+      >
         {isImageLoading && !isImageError && (
           <div className="absolute inset-0 flex items-center justify-center bg-gray-100 animate-pulse">
             <Image className="h-12 w-12 text-gray-300" />
@@ -95,7 +98,10 @@ const PropertyCard = ({
               ? "bg-white text-red-500"
               : "bg-black/30 text-white hover:bg-black/50"
           )}
-          onClick={() => setIsFavorited(!isFavorited)}
+          onClick={(e) => {
+            e.stopPropagation();
+            setIsFavorited(!isFavorited);
+          }}
         >
           <Heart
             className={cn("w-4 h-4", isFavorited ? "fill-current" : "")}
@@ -118,11 +124,14 @@ const PropertyCard = ({
         </div>
       </div>
 
-      <CardContent className="pt-4 pb-2">
+      <CardContent 
+        className="pt-4 pb-2 cursor-pointer"
+        onClick={handleViewDetails}
+      >
         <div className="flex items-start justify-between gap-2 mb-1">
           <h3 className="font-medium text-lg line-clamp-1">{title}</h3>
           <div className="font-semibold text-lg whitespace-nowrap">
-            {type !== "sale" ? `${formatPrice(price)} HBC/mo` : `${formatPrice(price)} HBC`}
+            {type !== "sale" ? `${formatPrice(price)} HNXZ/mo` : `${formatPrice(price)} HNXZ`}
           </div>
         </div>
         <div className="flex items-center text-gray-500 text-sm mb-3">
@@ -147,7 +156,11 @@ const PropertyCard = ({
       </CardContent>
 
       <CardFooter className="pt-0 pb-4">
-        <Button className="w-full text-sm" variant="outline">
+        <Button 
+          className="w-full text-sm" 
+          variant="outline"
+          onClick={handleViewDetails}
+        >
           View Details
         </Button>
       </CardFooter>

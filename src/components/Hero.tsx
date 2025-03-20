@@ -1,10 +1,41 @@
 
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Search } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 const Hero = () => {
+  const navigate = useNavigate();
+  const [searchLocation, setSearchLocation] = useState("");
+  const [searchType, setSearchType] = useState("buy");
+
+  const handleSearch = () => {
+    if (!searchLocation.trim()) {
+      toast.error("Please enter a location to search");
+      return;
+    }
+    
+    let path = "";
+    switch (searchType) {
+      case "buy":
+        path = "/buy";
+        break;
+      case "rent":
+        path = "/rent";
+        break;
+      case "lodge":
+        path = "/lodging";
+        break;
+      default:
+        path = "/buy";
+    }
+    
+    // Navigate to the appropriate page with the search location as a query parameter
+    navigate(`${path}?location=${encodeURIComponent(searchLocation)}`);
+  };
+
   return (
     <section className="relative w-full h-[90vh] overflow-hidden">
       {/* Background Image with Overlay */}
@@ -23,7 +54,7 @@ const Hero = () => {
             Find Your Dream Home in the Digital Era
           </h1>
           <p className="text-lg text-white/80 max-w-xl mb-8">
-            Buy, sell, rent, and lodge properties using HanCoin (HNBXZ) with our secure blockchain-based platform.
+            Buy, sell, rent, and lodge properties using HanCoin (HNXZ) with our secure blockchain-based platform.
           </p>
         </div>
 
@@ -37,17 +68,26 @@ const Hero = () => {
                   type="text"
                   placeholder="City, neighborhood, or address"
                   className="w-full bg-transparent text-white border-none outline-none text-sm"
+                  value={searchLocation}
+                  onChange={(e) => setSearchLocation(e.target.value)}
                 />
               </div>
               <div className="w-full md:w-40 bg-white/20 rounded-lg px-4 py-3">
                 <label className="block text-white/60 text-xs mb-1">Type</label>
-                <select className="w-full bg-transparent text-white border-none outline-none text-sm appearance-none">
+                <select 
+                  className="w-full bg-transparent text-white border-none outline-none text-sm appearance-none"
+                  value={searchType}
+                  onChange={(e) => setSearchType(e.target.value)}
+                >
                   <option value="buy" className="text-gray-900">Buy</option>
                   <option value="rent" className="text-gray-900">Rent</option>
                   <option value="lodge" className="text-gray-900">Lodge</option>
                 </select>
               </div>
-              <Button className="w-full md:w-auto whitespace-nowrap px-6">
+              <Button 
+                className="w-full md:w-auto whitespace-nowrap px-6"
+                onClick={handleSearch}
+              >
                 <Search className="w-4 h-4 mr-2" />
                 Search
               </Button>
