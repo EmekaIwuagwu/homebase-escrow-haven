@@ -1,0 +1,158 @@
+
+import React, { useState } from "react";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import { Heart, MapPin, Bed, Bath, Square, Home, Image } from "lucide-react";
+import { cn } from "@/lib/utils";
+
+interface PropertyCardProps {
+  id: string;
+  title: string;
+  location: string;
+  price: number;
+  type: "sale" | "rent" | "lodge";
+  image: string;
+  beds: number;
+  baths: number;
+  sqft: number;
+  featured?: boolean;
+}
+
+const PropertyCard = ({
+  id,
+  title,
+  location,
+  price,
+  type,
+  image,
+  beds,
+  baths,
+  sqft,
+  featured = false,
+}: PropertyCardProps) => {
+  const [isImageLoading, setIsImageLoading] = useState(true);
+  const [isFavorited, setIsFavorited] = useState(false);
+  const [isImageError, setIsImageError] = useState(false);
+
+  const formatPrice = (price: number) => {
+    return new Intl.NumberFormat("en-US", {
+      style: "decimal",
+      maximumFractionDigits: 0,
+    }).format(price);
+  };
+
+  const typeColors = {
+    sale: "bg-blue-100 text-blue-700",
+    rent: "bg-green-100 text-green-700",
+    lodge: "bg-purple-100 text-purple-700",
+  };
+
+  const typeLabel = {
+    sale: "For Sale",
+    rent: "For Rent",
+    lodge: "Lodging",
+  };
+
+  return (
+    <Card 
+      className={cn(
+        "overflow-hidden property-card border-0 shadow-lg rounded-xl bg-white dark:bg-gray-800 h-full transition-all",
+        featured ? "ring-2 ring-homebase-500 ring-offset-2" : ""
+      )}
+    >
+      <div className="relative w-full h-52 overflow-hidden bg-gray-100">
+        {isImageLoading && !isImageError && (
+          <div className="absolute inset-0 flex items-center justify-center bg-gray-100 animate-pulse">
+            <Image className="h-12 w-12 text-gray-300" />
+          </div>
+        )}
+
+        {isImageError ? (
+          <div className="absolute inset-0 flex items-center justify-center bg-gray-100">
+            <Home className="h-12 w-12 text-gray-300" />
+          </div>
+        ) : (
+          <img
+            src={image}
+            alt={title}
+            className={cn(
+              "w-full h-full object-cover transition-all duration-700",
+              isImageLoading ? "opacity-0" : "opacity-100"
+            )}
+            onLoad={() => setIsImageLoading(false)}
+            onError={() => {
+              setIsImageError(true);
+              setIsImageLoading(false);
+            }}
+          />
+        )}
+
+        <button
+          className={cn(
+            "absolute top-3 right-3 w-8 h-8 rounded-full flex items-center justify-center transition-all",
+            isFavorited
+              ? "bg-white text-red-500"
+              : "bg-black/30 text-white hover:bg-black/50"
+          )}
+          onClick={() => setIsFavorited(!isFavorited)}
+        >
+          <Heart
+            className={cn("w-4 h-4", isFavorited ? "fill-current" : "")}
+          />
+        </button>
+
+        <div className="absolute bottom-3 left-3">
+          <Badge
+            className={cn("text-xs px-2 py-0.5", typeColors[type])}
+          >
+            {typeLabel[type]}
+          </Badge>
+          {featured && (
+            <Badge
+              className="ml-2 bg-amber-100 text-amber-700 text-xs px-2 py-0.5"
+            >
+              Featured
+            </Badge>
+          )}
+        </div>
+      </div>
+
+      <CardContent className="pt-4 pb-2">
+        <div className="flex items-start justify-between gap-2 mb-1">
+          <h3 className="font-medium text-lg line-clamp-1">{title}</h3>
+          <div className="font-semibold text-lg whitespace-nowrap">
+            {type !== "sale" ? `${formatPrice(price)} HBC/mo` : `${formatPrice(price)} HBC`}
+          </div>
+        </div>
+        <div className="flex items-center text-gray-500 text-sm mb-3">
+          <MapPin className="w-3.5 h-3.5 mr-1" />
+          <span className="line-clamp-1">{location}</span>
+        </div>
+        
+        <div className="flex items-center justify-between pt-2 border-t border-gray-100 dark:border-gray-700">
+          <div className="flex items-center text-gray-600 dark:text-gray-400">
+            <Bed className="w-4 h-4 mr-1" />
+            <span className="text-xs">{beds} beds</span>
+          </div>
+          <div className="flex items-center text-gray-600 dark:text-gray-400">
+            <Bath className="w-4 h-4 mr-1" />
+            <span className="text-xs">{baths} baths</span>
+          </div>
+          <div className="flex items-center text-gray-600 dark:text-gray-400">
+            <Square className="w-4 h-4 mr-1" />
+            <span className="text-xs">{formatPrice(sqft)} sqft</span>
+          </div>
+        </div>
+      </CardContent>
+
+      <CardFooter className="pt-0 pb-4">
+        <Button className="w-full text-sm" variant="outline">
+          View Details
+        </Button>
+      </CardFooter>
+    </Card>
+  );
+};
+
+export default PropertyCard;
