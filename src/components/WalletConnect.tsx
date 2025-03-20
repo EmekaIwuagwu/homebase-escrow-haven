@@ -39,6 +39,7 @@ const WalletConnect = () => {
 
   const handleDisconnect = () => {
     disconnectWallet();
+    navigate('/'); // Redirect to homepage on disconnect
   };
 
   const navigateToDashboard = () => {
