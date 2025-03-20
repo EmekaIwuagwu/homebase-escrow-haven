@@ -6,14 +6,15 @@ import {
   Table, TableBody, TableCell, TableHead, 
   TableHeader, TableRow 
 } from "@/components/ui/table";
-import { Calendar, Download, Filter, Search } from "lucide-react";
+import { Calendar as CalendarIcon, Download, Filter, Search } from "lucide-react";
 import { 
   Select, SelectContent, SelectItem, 
   SelectTrigger, SelectValue 
 } from "@/components/ui/select";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { format } from "date-fns";
-import { Calendar as CalendarComponent } from "@/components/ui/calendar";
+import { Calendar } from "@/components/ui/calendar";
+import { DateRange } from "react-day-picker";
 
 const TransactionHistory = () => {
   const [transactions, setTransactions] = useState([
@@ -59,7 +60,7 @@ const TransactionHistory = () => {
     },
   ]);
 
-  const [dateRange, setDateRange] = useState({ from: undefined, to: undefined });
+  const [dateRange, setDateRange] = useState<DateRange | undefined>();
   const [searchQuery, setSearchQuery] = useState("");
   const [typeFilter, setTypeFilter] = useState("");
 
@@ -72,8 +73,8 @@ const TransactionHistory = () => {
     
     // Date range filter
     const transactionDate = new Date(transaction.date);
-    const matchesDateFrom = !dateRange.from || transactionDate >= dateRange.from;
-    const matchesDateTo = !dateRange.to || transactionDate <= dateRange.to;
+    const matchesDateFrom = !dateRange?.from || transactionDate >= dateRange.from;
+    const matchesDateTo = !dateRange?.to || transactionDate <= dateRange.to;
     
     // Type filter
     const matchesType = typeFilter === "" || transaction.type === typeFilter;
@@ -106,8 +107,8 @@ const TransactionHistory = () => {
         <Popover>
           <PopoverTrigger asChild>
             <Button variant="outline" className="w-full justify-start text-left font-normal">
-              <Calendar className="mr-2 h-4 w-4" />
-              {dateRange.from ? (
+              <CalendarIcon className="mr-2 h-4 w-4" />
+              {dateRange?.from ? (
                 dateRange.to ? (
                   <>
                     {format(dateRange.from, "LLL dd, y")} - {format(dateRange.to, "LLL dd, y")}
@@ -121,10 +122,10 @@ const TransactionHistory = () => {
             </Button>
           </PopoverTrigger>
           <PopoverContent className="w-auto p-0" align="start">
-            <CalendarComponent
+            <Calendar
               initialFocus
               mode="range"
-              defaultMonth={dateRange.from}
+              defaultMonth={dateRange?.from}
               selected={dateRange}
               onSelect={setDateRange}
               numberOfMonths={2}
