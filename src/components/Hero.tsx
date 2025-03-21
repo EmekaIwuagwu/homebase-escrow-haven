@@ -148,13 +148,13 @@ const Hero = () => {
                 </div>
               )}
               
-              {/* Search Button - Refined Design */}
+              {/* Search Button - Better Proportions */}
               <Button 
-                className="w-full md:w-auto whitespace-nowrap px-6 h-full md:self-end md:mb-0 bg-homebase-600 hover:bg-homebase-700 text-white rounded-lg transition-all duration-300 border-none shadow-md hover:shadow-lg"
+                className="w-full md:w-auto md:h-[46px] whitespace-nowrap px-5 md:self-end md:mb-0 bg-homebase-600/95 hover:bg-homebase-700 text-white rounded-lg transition-colors duration-200 border-none shadow-sm hover:shadow-md flex items-center justify-center gap-2"
                 onClick={handleSearch}
               >
-                <Search className="w-4 h-4 mr-2" />
-                Search
+                <Search className="w-4 h-4" />
+                <span>Search</span>
               </Button>
             </div>
           </div>
