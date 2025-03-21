@@ -77,13 +77,14 @@ const DashboardLayout = () => {
   );
 };
 
-// Fixed the Dashboard component to correctly handle the nested routes
+// Dashboard component to handle the nested routes
 const Dashboard = () => {
   return (
     <Routes>
       <Route path="/" element={<DashboardLayout />} />
       <Route path="/booking/:id" element={<ManageBooking />} />
       <Route path="/messages" element={<Messages />} />
+      <Route path="/transactions" element={<TransactionHistory />} />
     </Routes>
   );
 };

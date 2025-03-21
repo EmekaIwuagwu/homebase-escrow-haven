@@ -66,16 +66,16 @@ const DashboardSidebar = () => {
             </button>
           </li>
           <li>
-            <button 
-              onClick={() => handleTabChange("transactions")} 
+            <Link 
+              to="/dashboard/transactions" 
               className={cn(
-                "flex w-full items-center p-2 rounded-md",
+                "flex items-center p-2 rounded-md",
                 "text-gray-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
               )}
             >
               <Receipt className="w-5 h-5 mr-3" />
               Transactions
-            </button>
+            </Link>
           </li>
           <li>
             <Link 

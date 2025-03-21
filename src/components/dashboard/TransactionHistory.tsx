@@ -65,7 +65,7 @@ const TransactionHistory = () => {
     to: undefined,
   });
   const [searchQuery, setSearchQuery] = useState("");
-  const [typeFilter, setTypeFilter] = useState("");
+  const [typeFilter, setTypeFilter] = useState("all");
 
   // Filter transactions based on search, date range, and type
   const filteredTransactions = transactions.filter(transaction => {
@@ -80,7 +80,7 @@ const TransactionHistory = () => {
     const matchesDateTo = !dateRange?.to || transactionDate <= dateRange.to;
     
     // Type filter
-    const matchesType = typeFilter === "" || transaction.type === typeFilter;
+    const matchesType = typeFilter === "all" || transaction.type === typeFilter;
     
     return matchesSearch && matchesDateFrom && matchesDateTo && matchesType;
   });
@@ -141,7 +141,7 @@ const TransactionHistory = () => {
             <SelectValue placeholder="Filter by type" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="">All Types</SelectItem>
+            <SelectItem value="all">All Types</SelectItem>
             {transactionTypes.map(type => (
               <SelectItem key={type} value={type}>{type}</SelectItem>
             ))}
