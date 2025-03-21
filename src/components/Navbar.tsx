@@ -4,11 +4,15 @@ import { cn } from "@/lib/utils";
 import { Menu, X, Search, Bell, Home } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import WalletConnect from "./WalletConnect";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const location = useLocation();
+  
+  // Check if we're on the index page
+  const isIndexPage = location.pathname === "/";
 
   useEffect(() => {
     const handleScroll = () => {
@@ -20,21 +24,31 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Determine text color based on page and scroll position
+  const getTextColor = () => {
+    if (isIndexPage && !isScrolled) {
+      return "text-white"; // White text on index page when not scrolled
+    }
+    return "text-black"; // Black text on other pages or when scrolled
+  };
+
   return (
     <header
       className={cn(
         "fixed top-0 left-0 right-0 z-50 transition-all duration-300 px-6 md:px-10 py-4",
         isScrolled
           ? "bg-white/80 dark:bg-gray-900/80 backdrop-blur-md shadow-sm"
-          : "bg-transparent"
+          : isIndexPage 
+            ? "bg-transparent" 
+            : "bg-white dark:bg-gray-900"
       )}
     >
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Link to="/">
             <div className="flex items-center gap-2">
-              <Home className="w-6 h-6 text-black" />
-              <span className="text-xl font-medium text-black">
+              <Home className={cn("w-6 h-6", getTextColor())} />
+              <span className={cn("text-xl font-medium", getTextColor())}>
                 HomeBase
               </span>
             </div>
@@ -45,25 +59,25 @@ const Navbar = () => {
         <nav className="hidden md:flex items-center space-x-8">
           <Link
             to="/buy"
-            className="text-sm font-medium transition-colors text-black hover:text-homebase-600"
+            className={cn("text-sm font-medium transition-colors hover:text-homebase-600", getTextColor())}
           >
             Buy
           </Link>
           <Link
             to="/rent"
-            className="text-sm font-medium transition-colors text-black hover:text-homebase-600"
+            className={cn("text-sm font-medium transition-colors hover:text-homebase-600", getTextColor())}
           >
             Rent
           </Link>
           <Link
             to="/lodging"
-            className="text-sm font-medium transition-colors text-black hover:text-homebase-600"
+            className={cn("text-sm font-medium transition-colors hover:text-homebase-600", getTextColor())}
           >
             Lodging
           </Link>
           <a
             href="#"
-            className="text-sm font-medium transition-colors text-black hover:text-homebase-600"
+            className={cn("text-sm font-medium transition-colors hover:text-homebase-600", getTextColor())}
           >
             About
           </a>
@@ -71,13 +85,13 @@ const Navbar = () => {
 
         <div className="hidden md:flex items-center space-x-4">
           <button
-            className="text-black hover:text-gray-900"
+            className={cn("hover:text-gray-900", getTextColor())}
             aria-label="Search"
           >
             <Search className="w-5 h-5" />
           </button>
           <button
-            className="text-black hover:text-gray-900"
+            className={cn("hover:text-gray-900", getTextColor())}
             aria-label="Notifications"
           >
             <Bell className="w-5 h-5" />
@@ -87,7 +101,7 @@ const Navbar = () => {
 
         {/* Mobile Menu Button */}
         <button
-          className="text-black md:hidden"
+          className={getTextColor()}
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
         >
           {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
