@@ -1,6 +1,6 @@
 
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { Home, CalendarDays, SquareUser, Settings, LogOut, MessageCircle, Receipt } from "lucide-react";
 import { useWallet } from "@/contexts/WalletContext";
 import { cn } from "@/lib/utils";
@@ -42,8 +42,8 @@ const DashboardSidebar = () => {
       <nav>
         <ul className="space-y-2">
           <li>
-            <a 
-              href="/dashboard" 
+            <Link 
+              to="/dashboard" 
               className={cn(
                 "flex items-center p-2 rounded-md",
                 "text-homebase-600 dark:text-homebase-400 bg-homebase-50 dark:bg-homebase-900/20"
@@ -51,7 +51,7 @@ const DashboardSidebar = () => {
             >
               <Home className="w-5 h-5 mr-3" />
               Dashboard
-            </a>
+            </Link>
           </li>
           <li>
             <button 
@@ -78,8 +78,8 @@ const DashboardSidebar = () => {
             </button>
           </li>
           <li>
-            <a 
-              href="/dashboard/messages" 
+            <Link 
+              to="/dashboard/messages" 
               className={cn(
                 "flex items-center p-2 rounded-md",
                 "text-gray-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
@@ -87,7 +87,7 @@ const DashboardSidebar = () => {
             >
               <MessageCircle className="w-5 h-5 mr-3" />
               Messages
-            </a>
+            </Link>
           </li>
           <li>
             <button 

@@ -77,6 +77,7 @@ const DashboardLayout = () => {
   );
 };
 
+// Fixed the Dashboard component to correctly handle the nested routes
 const Dashboard = () => {
   return (
     <Routes>
