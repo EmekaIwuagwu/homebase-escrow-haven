@@ -35,13 +35,13 @@ const Navbar = () => {
             <div className="flex items-center gap-2">
               <Home className={cn(
                 "w-6 h-6 text-homebase-600",
-                !isScrolled && "text-gray-900 dark:text-white"
+                !isScrolled && "text-white"
               )} />
               <span className={cn(
                 "text-xl font-medium",
                 isScrolled 
                   ? "text-gray-900 dark:text-white" 
-                  : "text-gray-900 dark:text-white"
+                  : "text-white"
               )}>
                 HomeBase
               </span>
@@ -57,7 +57,7 @@ const Navbar = () => {
               "text-sm font-medium transition-colors",
               isScrolled
                 ? "text-gray-900 hover:text-homebase-600 dark:text-white dark:hover:text-homebase-400"
-                : "text-gray-900 hover:text-homebase-600 dark:text-white dark:hover:text-homebase-400"
+                : "text-white hover:text-homebase-200"
             )}
           >
             Buy
@@ -68,7 +68,7 @@ const Navbar = () => {
               "text-sm font-medium transition-colors",
               isScrolled
                 ? "text-gray-900 hover:text-homebase-600 dark:text-white dark:hover:text-homebase-400"
-                : "text-gray-900 hover:text-homebase-600 dark:text-white dark:hover:text-homebase-400"
+                : "text-white hover:text-homebase-200"
             )}
           >
             Rent
@@ -79,7 +79,7 @@ const Navbar = () => {
               "text-sm font-medium transition-colors",
               isScrolled
                 ? "text-gray-900 hover:text-homebase-600 dark:text-white dark:hover:text-homebase-400"
-                : "text-gray-900 hover:text-homebase-600 dark:text-white dark:hover:text-homebase-400"
+                : "text-white hover:text-homebase-200"
             )}
           >
             Lodging
@@ -90,7 +90,7 @@ const Navbar = () => {
               "text-sm font-medium transition-colors",
               isScrolled
                 ? "text-gray-900 hover:text-homebase-600 dark:text-white dark:hover:text-homebase-400"
-                : "text-gray-900 hover:text-homebase-600 dark:text-white dark:hover:text-homebase-400"
+                : "text-white hover:text-homebase-200"
             )}
           >
             About
@@ -103,7 +103,7 @@ const Navbar = () => {
               "transition-colors", 
               isScrolled
                 ? "text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
-                : "text-gray-800 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
+                : "text-white hover:text-gray-200"
             )}
             aria-label="Search"
           >
@@ -114,7 +114,7 @@ const Navbar = () => {
               "transition-colors", 
               isScrolled
                 ? "text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
-                : "text-gray-800 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
+                : "text-white hover:text-gray-200"
             )}
             aria-label="Notifications"
           >
@@ -129,7 +129,7 @@ const Navbar = () => {
             "md:hidden",
             isScrolled
               ? "text-gray-800 dark:text-gray-200"
-              : "text-gray-800 dark:text-white"
+              : "text-white"
           )}
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
         >
