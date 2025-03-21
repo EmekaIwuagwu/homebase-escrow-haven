@@ -9,6 +9,8 @@ import Bookings from "@/components/dashboard/Bookings";
 import AccountSettings from "@/components/dashboard/AccountSettings";
 import DashboardSidebar from "@/components/dashboard/DashboardSidebar";
 import ManageBooking from "@/components/dashboard/ManageBooking";
+import TransactionHistory from "@/components/dashboard/TransactionHistory";
+import Messages from "@/components/dashboard/Messages";
 
 const DashboardLayout = () => {
   const { isConnected, walletAddress } = useWallet();
@@ -49,11 +51,16 @@ const DashboardLayout = () => {
               <Tabs defaultValue="bookings" className="w-full">
                 <TabsList className="w-full justify-start mb-6 bg-white dark:bg-gray-800 p-1 rounded-lg">
                   <TabsTrigger id="dashboard-tab-bookings" value="bookings">Bookings</TabsTrigger>
+                  <TabsTrigger id="dashboard-tab-transactions" value="transactions">Transactions</TabsTrigger>
                   <TabsTrigger id="dashboard-tab-settings" value="settings">Settings</TabsTrigger>
                 </TabsList>
                 
                 <TabsContent value="bookings" className="mt-0">
                   <Bookings />
+                </TabsContent>
+                
+                <TabsContent value="transactions" className="mt-0">
+                  <TransactionHistory />
                 </TabsContent>
                 
                 <TabsContent value="settings" className="mt-0">
@@ -75,6 +82,7 @@ const Dashboard = () => {
     <Routes>
       <Route path="/" element={<DashboardLayout />} />
       <Route path="/booking/:id" element={<ManageBooking />} />
+      <Route path="/messages" element={<Messages />} />
     </Routes>
   );
 };

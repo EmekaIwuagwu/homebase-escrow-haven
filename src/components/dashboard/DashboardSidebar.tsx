@@ -1,7 +1,7 @@
 
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { Home, CalendarDays, SquareUser, Settings, LogOut } from "lucide-react";
+import { Home, CalendarDays, SquareUser, Settings, LogOut, MessageCircle, Receipt } from "lucide-react";
 import { useWallet } from "@/contexts/WalletContext";
 import { cn } from "@/lib/utils";
 
@@ -64,6 +64,30 @@ const DashboardSidebar = () => {
               <CalendarDays className="w-5 h-5 mr-3" />
               Bookings
             </button>
+          </li>
+          <li>
+            <button 
+              onClick={() => handleTabChange("transactions")} 
+              className={cn(
+                "flex w-full items-center p-2 rounded-md",
+                "text-gray-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
+              )}
+            >
+              <Receipt className="w-5 h-5 mr-3" />
+              Transactions
+            </button>
+          </li>
+          <li>
+            <a 
+              href="/dashboard/messages" 
+              className={cn(
+                "flex items-center p-2 rounded-md",
+                "text-gray-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
+              )}
+            >
+              <MessageCircle className="w-5 h-5 mr-3" />
+              Messages
+            </a>
           </li>
           <li>
             <button 
