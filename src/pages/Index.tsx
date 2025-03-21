@@ -45,7 +45,7 @@ const Index = () => {
                 </div>
                 <h3 className="text-lg font-semibold mb-2">HanCoin Payments</h3>
                 <p className="text-gray-600 dark:text-gray-400">
-                  Seamless transactions using HanCoin (HNBXZ) with lower fees and faster processing.
+                  Seamless transactions using HanCoin (HNXZ) with lower fees and faster processing.
                 </p>
               </div>
               
