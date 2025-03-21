@@ -148,9 +148,9 @@ const Hero = () => {
                 </div>
               )}
               
-              {/* Search Button - Better Proportions */}
+              {/* Search Button - Full Height */}
               <Button 
-                className="w-full md:w-auto md:h-[46px] whitespace-nowrap px-5 md:self-end md:mb-0 bg-homebase-600/95 hover:bg-homebase-700 text-white rounded-lg transition-colors duration-200 border-none shadow-sm hover:shadow-md flex items-center justify-center gap-2"
+                className="w-full md:w-auto md:h-full whitespace-nowrap px-5 md:self-stretch bg-homebase-600 hover:bg-homebase-700 text-white rounded-lg transition-colors duration-200 border-none shadow-md hover:shadow-lg flex items-center justify-center gap-2"
                 onClick={handleSearch}
               >
                 <Search className="w-4 h-4" />
