@@ -148,9 +148,9 @@ const Hero = () => {
                 </div>
               )}
               
-              {/* Search Button */}
+              {/* Search Button - Refined Design */}
               <Button 
-                className="w-full md:w-auto whitespace-nowrap px-6 h-full md:self-end md:mb-0"
+                className="w-full md:w-auto whitespace-nowrap px-6 h-full md:self-end md:mb-0 bg-homebase-600 hover:bg-homebase-700 text-white rounded-lg transition-all duration-300 border-none shadow-md hover:shadow-lg"
                 onClick={handleSearch}
               >
                 <Search className="w-4 h-4 mr-2" />
