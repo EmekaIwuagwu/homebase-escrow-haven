@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Navbar from "@/components/Navbar";
@@ -27,7 +26,6 @@ import {
   RadioGroupItem
 } from "@/components/ui/radio-group";
 
-// EscrowInfoModal component
 const EscrowInfoModal: React.FC<{
   isOpen: boolean;
   onClose: () => void;
@@ -39,7 +37,7 @@ const EscrowInfoModal: React.FC<{
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-lg">
         <DialogHeader>
-          <DialogTitle>Secure Escrow Information</DialogTitle>
+          <DialogTitle>Escrow Information</DialogTitle>
         </DialogHeader>
         <div className="p-6">
           <div className="bg-gray-50 rounded-lg p-4 mb-6">
@@ -48,7 +46,7 @@ const EscrowInfoModal: React.FC<{
               {formatPrice(totalAmount)} HNXZ
             </p>
             <p className="text-center text-sm text-gray-500 mt-1">
-              Via Secure Escrow
+              Via Escrow
             </p>
           </div>
           
@@ -83,7 +81,7 @@ const EscrowInfoModal: React.FC<{
                 <p className="font-medium">Escrow Fees</p>
                 <p className="text-sm text-gray-600">
                   There is a {property.type === "sale" ? "1%" : "5%"} escrow fee that covers transaction verification, 
-                  smart contract deployment, and secure fund management throughout the process.
+                  smart contract deployment, and fund management throughout the process.
                 </p>
               </div>
             </div>
@@ -116,7 +114,6 @@ const EscrowInfoModal: React.FC<{
   );
 };
 
-// WalletConfirmModal component
 const WalletConfirmModal: React.FC<{
   isOpen: boolean;
   onClose: () => void;
@@ -406,7 +403,7 @@ const Checkout = () => {
                     <div className="flex items-center">
                       <ShieldCheck className="w-5 h-5 text-green-500 mr-3" />
                       <div>
-                        <p className="font-medium">Secure Escrow</p>
+                        <p className="font-medium">Escrow</p>
                         <p className="text-sm text-gray-500">Additional protection, higher fees</p>
                       </div>
                     </div>
@@ -449,7 +446,7 @@ const Checkout = () => {
                     <div>
                       <p className="font-medium">Blockchain Record</p>
                       <p className="text-sm text-gray-500">
-                        Your transaction will be recorded on the blockchain for permanent proof of {property.type === "sale" ? "ownership" : property.type === "rent" ? "rental agreement" : "reservation"}.
+                        Your transaction will be recorded on the blockchain for permanent proof of {property.type === "sale" ? "ownership" : property.type === "rent" ? "rental agreement" : "lodging reservation"}.
                       </p>
                     </div>
                   </div>
@@ -494,7 +491,6 @@ const Checkout = () => {
         </div>
       </main>
       
-      {/* Escrow Information Modal */}
       <EscrowInfoModal 
         isOpen={showEscrowDialog}
         onClose={handleCancelPayment}
@@ -503,7 +499,6 @@ const Checkout = () => {
         totalAmount={property ? calculateTotal() : 0}
       />
       
-      {/* Wallet Confirmation Modal */}
       <WalletConfirmModal 
         isOpen={showWalletDialog}
         onClose={handleCancelPayment}

@@ -23,9 +23,8 @@ const OrderSuccess = () => {
     const fetchProperty = () => {
       setLoading(true);
       
-      import("@/utils/propertyData").then(({ getAllProperties }) => {
-        const allProperties = getAllProperties();
-        const foundProperty = allProperties.find(p => p.id === id);
+      import("@/utils/propertyData").then(({ getPropertyById }) => {
+        const foundProperty = getPropertyById(id || "");
         
         if (foundProperty) {
           setProperty(foundProperty);
@@ -65,6 +64,20 @@ const OrderSuccess = () => {
     sale: "purchase",
     rent: "rental agreement",
     lodge: "booking",
+  };
+
+  const handleNavigateHome = () => {
+    navigate("/");
+  };
+  
+  const handleNavigateToUser = () => {
+    if (property.type === "lodge") {
+      navigate("/dashboard/bookings");
+    } else if (property.type === "sale") {
+      navigate("/dashboard/properties");
+    } else if (property.type === "rent") {
+      navigate("/dashboard/rentals");
+    }
   };
 
   return (
@@ -159,24 +172,24 @@ const OrderSuccess = () => {
           </div>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button onClick={() => navigate("/")} variant="outline">
+            <Button onClick={handleNavigateHome} variant="outline">
               <Home className="w-4 h-4 mr-2" />
               Back to Home
             </Button>
             {property.type === "lodge" && (
-              <Button>
+              <Button onClick={handleNavigateToUser}>
                 <Calendar className="w-4 h-4 mr-2" />
                 View Your Bookings
               </Button>
             )}
             {property.type === "sale" && (
-              <Button>
+              <Button onClick={handleNavigateToUser}>
                 <CheckCircle className="w-4 h-4 mr-2" />
                 View Your Properties
               </Button>
             )}
             {property.type === "rent" && (
-              <Button>
+              <Button onClick={handleNavigateToUser}>
                 <Clock className="w-4 h-4 mr-2" />
                 View Your Rentals
               </Button>

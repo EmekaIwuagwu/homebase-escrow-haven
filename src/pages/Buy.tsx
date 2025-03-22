@@ -8,6 +8,14 @@ import { Button } from "@/components/ui/button";
 import PropertyCard from "@/components/PropertyCard";
 import { getAllProperties, getPropertiesByLocation, getPropertiesByType } from "@/utils/propertyData";
 import { toast } from "sonner";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 
 const Buy = () => {
   const location = useLocation();
@@ -24,6 +32,8 @@ const Buy = () => {
   
   const [properties, setProperties] = useState(getPropertiesByType("sale"));
   const [filteredProperties, setFilteredProperties] = useState(properties);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 9;
 
   useEffect(() => {
     // If a location was specified in the URL, filter properties
@@ -82,6 +92,7 @@ const Buy = () => {
     }
     
     setFilteredProperties(results);
+    setCurrentPage(1); // Reset to first page when filtering
     
     // Show toast with results
     if (results.length === 0) {
@@ -90,6 +101,11 @@ const Buy = () => {
       toast.success(`Found ${results.length} properties matching your criteria`);
     }
   };
+
+  // Calculate pagination
+  const totalPages = Math.ceil(filteredProperties.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const currentItems = filteredProperties.slice(startIndex, startIndex + itemsPerPage);
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -178,13 +194,67 @@ const Buy = () => {
             </div>
             
             {filteredProperties.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {filteredProperties.map((property) => (
-                  <div key={property.id} className="animate-slideUp" style={{ animationDelay: `${parseInt(property.id) * 50}ms` }}>
-                    <PropertyCard {...property} />
-                  </div>
-                ))}
-              </div>
+              <>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {currentItems.map((property) => (
+                    <div key={property.id} className="animate-slideUp" style={{ animationDelay: `${parseInt(property.id) * 50}ms` }}>
+                      <PropertyCard {...property} />
+                    </div>
+                  ))}
+                </div>
+                
+                {totalPages > 1 && (
+                  <Pagination className="mt-10">
+                    <PaginationContent>
+                      {currentPage > 1 && (
+                        <PaginationItem>
+                          <PaginationPrevious onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))} />
+                        </PaginationItem>
+                      )}
+                      
+                      {Array.from({ length: totalPages }, (_, i) => i + 1)
+                        .filter(page => page === 1 || page === totalPages || 
+                                (page >= currentPage - 1 && page <= currentPage + 1))
+                        .map((page, index, array) => {
+                          // Add ellipsis where needed
+                          if (index > 0 && array[index - 1] !== page - 1) {
+                            return (
+                              <React.Fragment key={`ellipsis-${page}`}>
+                                <PaginationItem>
+                                  <span className="flex h-9 w-9 items-center justify-center">...</span>
+                                </PaginationItem>
+                                <PaginationItem key={page}>
+                                  <PaginationLink
+                                    isActive={currentPage === page}
+                                    onClick={() => setCurrentPage(page)}
+                                  >
+                                    {page}
+                                  </PaginationLink>
+                                </PaginationItem>
+                              </React.Fragment>
+                            );
+                          }
+                          return (
+                            <PaginationItem key={page}>
+                              <PaginationLink
+                                isActive={currentPage === page}
+                                onClick={() => setCurrentPage(page)}
+                              >
+                                {page}
+                              </PaginationLink>
+                            </PaginationItem>
+                          );
+                        })}
+                      
+                      {currentPage < totalPages && (
+                        <PaginationItem>
+                          <PaginationNext onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))} />
+                        </PaginationItem>
+                      )}
+                    </PaginationContent>
+                  </Pagination>
+                )}
+              </>
             ) : (
               <div className="text-center py-12">
                 <div className="text-gray-400 mb-4">
@@ -202,6 +272,7 @@ const Buy = () => {
                       location: "",
                     });
                     setFilteredProperties(properties);
+                    setCurrentPage(1);
                   }}
                 >
                   Clear All Filters

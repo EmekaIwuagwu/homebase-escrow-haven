@@ -1,64 +1,56 @@
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import PropertyCard from "./PropertyCard";
 import { ChevronRight, Filter } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { getAllProperties } from "@/utils/propertyData";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 
 const FeaturedProperties = () => {
   const navigate = useNavigate();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [filterType, setFilterType] = useState<string | null>(null);
+  const [properties, setProperties] = useState(getAllProperties().filter(p => p.featured));
+  const itemsPerPage = 8;
   
-  const properties = [
-    {
-      id: "1",
-      title: "Modern Apartment with Ocean View",
-      location: "123 Coastal Drive, Malibu, CA",
-      price: 2500000,
-      type: "sale" as const,
-      image: "https://images.unsplash.com/photo-1592595896551-12b371d546d5?auto=format&q=80&w=2070",
-      beds: 3,
-      baths: 2,
-      sqft: 2100,
-      featured: true,
-    },
-    {
-      id: "2",
-      title: "Downtown Luxury Condo",
-      location: "456 Urban Ave, New York, NY",
-      price: 8500,
-      type: "rent" as const,
-      image: "https://images.unsplash.com/photo-1460317442991-0ec209397118?auto=format&q=80&w=2070",
-      beds: 2,
-      baths: 2,
-      sqft: 1500,
-      featured: true,
-    },
-    {
-      id: "3",
-      title: "Beachfront Villa with Private Pool",
-      location: "789 Shoreline Blvd, Miami, FL",
-      price: 950,
-      type: "lodge" as const,
-      image: "https://images.unsplash.com/photo-1518780664697-55e3ad937233?auto=format&q=80&w=1965",
-      beds: 5,
-      baths: 4,
-      sqft: 3800,
-    },
-    {
-      id: "4",
-      title: "Mountain Retreat Cabin",
-      location: "101 Alpine Way, Aspen, CO",
-      price: 1250000,
-      type: "sale" as const,
-      image: "https://images.unsplash.com/photo-1542718610-a1d656d1884c?auto=format&q=80&w=1974",
-      beds: 3,
-      baths: 2,
-      sqft: 1800,
-    },
-  ];
-
+  // Get all properties and filter featured ones initially
+  useEffect(() => {
+    const allProperties = getAllProperties();
+    setProperties(allProperties.filter(p => p.featured));
+  }, []);
+  
+  // Apply type filter if selected
+  useEffect(() => {
+    const allProperties = getAllProperties();
+    const featuredProperties = allProperties.filter(p => p.featured);
+    
+    if (filterType) {
+      setProperties(featuredProperties.filter(p => p.type === filterType));
+    } else {
+      setProperties(featuredProperties);
+    }
+  }, [filterType]);
+  
+  // Calculate pagination
+  const totalPages = Math.ceil(properties.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const currentItems = properties.slice(startIndex, startIndex + itemsPerPage);
+  
   const handleViewAll = () => {
     navigate("/buy");
+  };
+  
+  const handleFilter = (type: string | null) => {
+    setFilterType(type);
+    setCurrentPage(1); // Reset to first page when filtering
   };
 
   return (
@@ -69,13 +61,37 @@ const FeaturedProperties = () => {
             <h2 className="text-3xl font-bold mb-4">Featured Properties</h2>
             <p className="text-gray-600 dark:text-gray-400 max-w-xl">
               Discover our handpicked selection of premium properties available for sale, 
-              rent, or short-term lodging across top locations.
+              rent, or short-term lodging across top locations worldwide.
             </p>
           </div>
-          <div className="flex mt-6 md:mt-0">
-            <Button variant="outline" className="mr-4">
-              <Filter className="mr-2 h-4 w-4" />
-              Filters
+          <div className="flex flex-wrap gap-2 mt-6 md:mt-0">
+            <Button 
+              variant={filterType === null ? "default" : "outline"} 
+              className="mr-2"
+              onClick={() => handleFilter(null)}
+            >
+              All
+            </Button>
+            <Button 
+              variant={filterType === "sale" ? "default" : "outline"} 
+              className="mr-2"
+              onClick={() => handleFilter("sale")}
+            >
+              For Sale
+            </Button>
+            <Button 
+              variant={filterType === "rent" ? "default" : "outline"} 
+              className="mr-2"
+              onClick={() => handleFilter("rent")}
+            >
+              For Rent
+            </Button>
+            <Button 
+              variant={filterType === "lodge" ? "default" : "outline"} 
+              className="mr-4"
+              onClick={() => handleFilter("lodge")}
+            >
+              Lodging
             </Button>
             <Button className="gap-1" onClick={handleViewAll}>
               View All
@@ -85,12 +101,41 @@ const FeaturedProperties = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {properties.map((property) => (
-            <div key={property.id} className="animate-slideUp" style={{ animationDelay: `${parseInt(property.id) * 100}ms` }}>
+          {currentItems.map((property) => (
+            <div key={property.id} className="animate-slideUp" style={{ animationDelay: `${parseInt(property.id) * 50}ms` }}>
               <PropertyCard {...property} />
             </div>
           ))}
         </div>
+        
+        {totalPages > 1 && (
+          <Pagination className="mt-10">
+            <PaginationContent>
+              {currentPage > 1 && (
+                <PaginationItem>
+                  <PaginationPrevious onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))} />
+                </PaginationItem>
+              )}
+              
+              {[...Array(totalPages)].map((_, i) => (
+                <PaginationItem key={i}>
+                  <PaginationLink
+                    isActive={currentPage === i + 1}
+                    onClick={() => setCurrentPage(i + 1)}
+                  >
+                    {i + 1}
+                  </PaginationLink>
+                </PaginationItem>
+              ))}
+              
+              {currentPage < totalPages && (
+                <PaginationItem>
+                  <PaginationNext onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))} />
+                </PaginationItem>
+              )}
+            </PaginationContent>
+          </Pagination>
+        )}
       </div>
     </section>
   );
