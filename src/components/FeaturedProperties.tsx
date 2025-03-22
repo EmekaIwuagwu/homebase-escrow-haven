@@ -18,6 +18,7 @@ const FeaturedProperties = () => {
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
   const [filterType, setFilterType] = useState<string | null>(null);
+  const [propertyTypeFilter, setPropertyTypeFilter] = useState<string | null>(null);
   const [properties, setProperties] = useState(getAllProperties().filter(p => p.featured));
   const itemsPerPage = 8;
   
@@ -27,17 +28,22 @@ const FeaturedProperties = () => {
     setProperties(allProperties.filter(p => p.featured));
   }, []);
   
-  // Apply type filter if selected
+  // Apply type and property type filters if selected
   useEffect(() => {
     const allProperties = getAllProperties();
-    const featuredProperties = allProperties.filter(p => p.featured);
+    let filteredProperties = allProperties.filter(p => p.featured);
     
     if (filterType) {
-      setProperties(featuredProperties.filter(p => p.type === filterType));
-    } else {
-      setProperties(featuredProperties);
+      filteredProperties = filteredProperties.filter(p => p.type === filterType);
     }
-  }, [filterType]);
+    
+    if (propertyTypeFilter) {
+      filteredProperties = filteredProperties.filter(p => p.propertyType === propertyTypeFilter);
+    }
+    
+    setProperties(filteredProperties);
+    setCurrentPage(1); // Reset to first page when filtering
+  }, [filterType, propertyTypeFilter]);
   
   // Calculate pagination
   const totalPages = Math.ceil(properties.length / itemsPerPage);
@@ -50,7 +56,19 @@ const FeaturedProperties = () => {
   
   const handleFilter = (type: string | null) => {
     setFilterType(type);
-    setCurrentPage(1); // Reset to first page when filtering
+    setPropertyTypeFilter(null); // Reset property type filter when changing main filter
+  };
+  
+  const handlePropertyTypeFilter = (type: string | null) => {
+    setPropertyTypeFilter(type);
+  };
+  
+  // Get unique property types for filtering
+  const getUniquePropertyTypes = () => {
+    const allProperties = getAllProperties().filter(p => p.featured);
+    const filteredByType = filterType ? allProperties.filter(p => p.type === filterType) : allProperties;
+    const propertyTypes = filteredByType.map(p => p.propertyType).filter(Boolean);
+    return [...new Set(propertyTypes)];
   };
 
   return (
@@ -98,6 +116,27 @@ const FeaturedProperties = () => {
               <ChevronRight className="h-4 w-4" />
             </Button>
           </div>
+        </div>
+        
+        {/* Property Type Filters */}
+        <div className="mb-8 flex flex-wrap gap-2">
+          <Button
+            variant={propertyTypeFilter === null ? "default" : "outline"}
+            size="sm"
+            onClick={() => handlePropertyTypeFilter(null)}
+          >
+            All Types
+          </Button>
+          {getUniquePropertyTypes().map((type) => (
+            <Button
+              key={type}
+              variant={propertyTypeFilter === type ? "default" : "outline"}
+              size="sm"
+              onClick={() => handlePropertyTypeFilter(type)}
+            >
+              {type}
+            </Button>
+          ))}
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">

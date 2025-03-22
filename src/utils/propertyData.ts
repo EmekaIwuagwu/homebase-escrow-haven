@@ -10,6 +10,7 @@ export interface Property {
   baths: number;
   sqft: number;
   featured?: boolean;
+  propertyType?: string; // Added property type field
 }
 
 // Combined properties from all pages
@@ -27,6 +28,7 @@ export const getAllProperties = (): Property[] => {
       baths: 2,
       sqft: 2100,
       featured: true,
+      propertyType: "Apartment",
     },
     {
       id: "2",
@@ -39,6 +41,7 @@ export const getAllProperties = (): Property[] => {
       baths: 4,
       sqft: 4500,
       featured: true,
+      propertyType: "Estate",
     },
     {
       id: "3",
@@ -50,6 +53,7 @@ export const getAllProperties = (): Property[] => {
       beds: 3,
       baths: 3,
       sqft: 2800,
+      propertyType: "Penthouse",
     },
     {
       id: "4",
@@ -61,6 +65,7 @@ export const getAllProperties = (): Property[] => {
       beds: 4,
       baths: 3,
       sqft: 3200,
+      propertyType: "House",
     },
     {
       id: "5",
@@ -72,6 +77,7 @@ export const getAllProperties = (): Property[] => {
       beds: 6,
       baths: 5,
       sqft: 5100,
+      propertyType: "Villa",
     },
     {
       id: "6",
@@ -83,6 +89,7 @@ export const getAllProperties = (): Property[] => {
       beds: 4,
       baths: 3,
       sqft: 3600,
+      propertyType: "Brownstone",
     },
     
     // Rent properties
@@ -97,6 +104,7 @@ export const getAllProperties = (): Property[] => {
       baths: 2,
       sqft: 1200,
       featured: true,
+      propertyType: "Apartment",
     },
     {
       id: "8",
@@ -109,6 +117,7 @@ export const getAllProperties = (): Property[] => {
       baths: 2.5,
       sqft: 1800,
       featured: true,
+      propertyType: "Townhouse",
     },
     {
       id: "9",
@@ -120,6 +129,7 @@ export const getAllProperties = (): Property[] => {
       beds: 1,
       baths: 1,
       sqft: 750,
+      propertyType: "Studio",
     },
     {
       id: "10",
@@ -131,6 +141,7 @@ export const getAllProperties = (): Property[] => {
       beds: 2,
       baths: 2,
       sqft: 1100,
+      propertyType: "Condo",
     },
     {
       id: "11",
@@ -142,6 +153,7 @@ export const getAllProperties = (): Property[] => {
       beds: 1,
       baths: 1,
       sqft: 850,
+      propertyType: "Apartment",
     },
     {
       id: "12",
@@ -153,6 +165,7 @@ export const getAllProperties = (): Property[] => {
       beds: 3,
       baths: 3,
       sqft: 2000,
+      propertyType: "Penthouse",
     },
     
     // Lodge properties
@@ -167,6 +180,7 @@ export const getAllProperties = (): Property[] => {
       baths: 4,
       sqft: 3800,
       featured: true,
+      propertyType: "Villa",
     },
     {
       id: "14",
@@ -179,6 +193,7 @@ export const getAllProperties = (): Property[] => {
       baths: 2,
       sqft: 1800,
       featured: true,
+      propertyType: "Cabin",
     },
     {
       id: "15",
@@ -190,6 +205,7 @@ export const getAllProperties = (): Property[] => {
       beds: 2,
       baths: 2,
       sqft: 1200,
+      propertyType: "Loft",
     },
     {
       id: "16",
@@ -201,6 +217,7 @@ export const getAllProperties = (): Property[] => {
       beds: 3,
       baths: 1,
       sqft: 1500,
+      propertyType: "Cottage",
     },
     {
       id: "17",
@@ -212,6 +229,7 @@ export const getAllProperties = (): Property[] => {
       beds: 4,
       baths: 3,
       sqft: 2200,
+      propertyType: "Oasis",
     },
     {
       id: "18",
@@ -223,6 +241,7 @@ export const getAllProperties = (): Property[] => {
       beds: 2,
       baths: 2,
       sqft: 1800,
+      propertyType: "Penthouse",
     },
     
     // Additional international properties
@@ -237,6 +256,7 @@ export const getAllProperties = (): Property[] => {
       baths: 7,
       sqft: 8500,
       featured: true,
+      propertyType: "Mansion",
     },
     {
       id: "28",
@@ -249,6 +269,7 @@ export const getAllProperties = (): Property[] => {
       baths: 2,
       sqft: 1600,
       featured: true,
+      propertyType: "High-Rise",
     },
     {
       id: "29",
@@ -261,6 +282,7 @@ export const getAllProperties = (): Property[] => {
       baths: 3,
       sqft: 2400,
       featured: true,
+      propertyType: "Condo",
     },
     {
       id: "30",
@@ -273,6 +295,7 @@ export const getAllProperties = (): Property[] => {
       baths: 5,
       sqft: 4200,
       featured: true,
+      propertyType: "Villa",
     },
     {
       id: "31",
@@ -285,6 +308,7 @@ export const getAllProperties = (): Property[] => {
       baths: 6,
       sqft: 7500,
       featured: true,
+      propertyType: "Mansion",
     },
     {
       id: "32",
@@ -297,6 +321,7 @@ export const getAllProperties = (): Property[] => {
       baths: 3,
       sqft: 3200,
       featured: true,
+      propertyType: "Chalet",
     },
     {
       id: "33",
@@ -304,11 +329,12 @@ export const getAllProperties = (): Property[] => {
       location: "42 Daugava Street, Riga, Latvia",
       price: 750000,
       type: "sale",
-      image: "https://images.unsplash.com/photo-1595512050424-2a1a6cd4452e?auto=format&q=80&w=2070",
+      image: "https://images.unsplash.com/photo-1595512050424-2a1a6cd44d32?auto=format&q=80&w=2070",
       beds: 2,
       baths: 2,
       sqft: 1400,
       featured: true,
+      propertyType: "Apartment",
     },
     {
       id: "34",
@@ -321,6 +347,7 @@ export const getAllProperties = (): Property[] => {
       baths: 8,
       sqft: 15000,
       featured: true,
+      propertyType: "Castle",
     },
     {
       id: "35",
@@ -333,6 +360,7 @@ export const getAllProperties = (): Property[] => {
       baths: 4,
       sqft: 4200,
       featured: true,
+      propertyType: "Mansion",
     },
     {
       id: "36",
@@ -345,6 +373,7 @@ export const getAllProperties = (): Property[] => {
       baths: 1,
       sqft: 950,
       featured: true,
+      propertyType: "Flat",
     },
     {
       id: "37",
@@ -357,6 +386,7 @@ export const getAllProperties = (): Property[] => {
       baths: 2,
       sqft: 1600,
       featured: true,
+      propertyType: "Apartment",
     },
     {
       id: "38",
@@ -369,6 +399,7 @@ export const getAllProperties = (): Property[] => {
       baths: 4,
       sqft: 3800,
       featured: true,
+      propertyType: "Duplex",
     },
     {
       id: "39",
@@ -381,6 +412,7 @@ export const getAllProperties = (): Property[] => {
       baths: 2,
       sqft: 1200,
       featured: true,
+      propertyType: "Loft",
     },
     {
       id: "40",
@@ -392,6 +424,7 @@ export const getAllProperties = (): Property[] => {
       beds: 1,
       baths: 1,
       sqft: 800,
+      propertyType: "Studio",
     },
     {
       id: "41",
@@ -403,6 +436,7 @@ export const getAllProperties = (): Property[] => {
       beds: 2,
       baths: 1,
       sqft: 950,
+      propertyType: "Apartment",
     },
     {
       id: "42",
@@ -414,6 +448,7 @@ export const getAllProperties = (): Property[] => {
       beds: 3,
       baths: 2,
       sqft: 1750,
+      propertyType: "Penthouse",
     },
     {
       id: "43",
@@ -426,6 +461,7 @@ export const getAllProperties = (): Property[] => {
       baths: 3,
       sqft: 2500,
       featured: true,
+      propertyType: "Resort",
     },
     {
       id: "44",
@@ -438,6 +474,7 @@ export const getAllProperties = (): Property[] => {
       baths: 1,
       sqft: 950,
       featured: true,
+      propertyType: "Hanok",
     },
     {
       id: "45",
@@ -450,6 +487,7 @@ export const getAllProperties = (): Property[] => {
       baths: 5,
       sqft: 4200,
       featured: true,
+      propertyType: "Villa",
     },
     {
       id: "46",
@@ -461,6 +499,7 @@ export const getAllProperties = (): Property[] => {
       beds: 1,
       baths: 1,
       sqft: 750,
+      propertyType: "Suite",
     },
     {
       id: "47",
@@ -472,6 +511,7 @@ export const getAllProperties = (): Property[] => {
       beds: 2,
       baths: 1,
       sqft: 950,
+      propertyType: "Apartment",
     },
     {
       id: "48",
@@ -483,6 +523,7 @@ export const getAllProperties = (): Property[] => {
       beds: 4,
       baths: 2,
       sqft: 1800,
+      propertyType: "Chalet",
     },
     {
       id: "49",
@@ -494,6 +535,7 @@ export const getAllProperties = (): Property[] => {
       beds: 2,
       baths: 1,
       sqft: 1100,
+      propertyType: "Townhouse",
     },
     {
       id: "50",
@@ -505,6 +547,243 @@ export const getAllProperties = (): Property[] => {
       beds: 3,
       baths: 2,
       sqft: 1600,
+      propertyType: "Retreat",
+    },
+    
+    // NEW PROPERTIES - Add more diverse house/condo images
+    {
+      id: "51",
+      title: "Modern Urban Loft with Skyline Views",
+      location: "88 Downtown District, Chicago, IL",
+      price: 2180000,
+      type: "sale",
+      image: "https://images.unsplash.com/photo-1554995207-c18c203602cb?auto=format&q=80&w=2070",
+      beds: 2,
+      baths: 2,
+      sqft: 1850,
+      featured: true,
+      propertyType: "Loft",
+    },
+    {
+      id: "52",
+      title: "Luxury Beachfront Condo",
+      location: "101 Oceanside Drive, San Diego, CA",
+      price: 1850000,
+      type: "sale",
+      image: "https://images.unsplash.com/photo-1484154218962-a197022b5858?auto=format&q=80&w=2070",
+      beds: 3,
+      baths: 2,
+      sqft: 2100,
+      featured: true,
+      propertyType: "Condo",
+    },
+    {
+      id: "53",
+      title: "Mediterranean Style Villa with Pool",
+      location: "42 Sunset Ave, Palm Springs, CA",
+      price: 3700000,
+      type: "sale",
+      image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&q=80&w=2070",
+      beds: 5,
+      baths: 5.5,
+      sqft: 4800,
+      featured: true,
+      propertyType: "Villa",
+    },
+    {
+      id: "54",
+      title: "Minimalist Glass House in Forest",
+      location: "789 Woodland Drive, Portland, OR",
+      price: 2950000,
+      type: "sale",
+      image: "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&q=80&w=2070",
+      beds: 3,
+      baths: 2.5,
+      sqft: 2900,
+      featured: true,
+      propertyType: "Modern House",
+    },
+    {
+      id: "55",
+      title: "Victorian Townhouse with Garden",
+      location: "45 Heritage Street, San Francisco, CA",
+      price: 3100000,
+      type: "sale",
+      image: "https://images.unsplash.com/photo-1570129477492-45c003edd2be?auto=format&q=80&w=2070",
+      beds: 4,
+      baths: 3,
+      sqft: 3200,
+      featured: true,
+      propertyType: "Townhouse",
+    },
+    {
+      id: "56",
+      title: "Modern A-Frame Cabin in Woods",
+      location: "28 Forest Trail, Lake Tahoe, CA",
+      price: 1250000,
+      type: "sale",
+      image: "https://images.unsplash.com/photo-1601918774946-25832a4be0d6?auto=format&q=80&w=2069",
+      beds: 3,
+      baths: 2,
+      sqft: 1950,
+      featured: true,
+      propertyType: "Cabin",
+    },
+    {
+      id: "57",
+      title: "Luxury High-Rise Downtown Condo",
+      location: "501 Main Street, Boston, MA",
+      price: 4200,
+      type: "rent",
+      image: "https://images.unsplash.com/photo-1594484208280-efa00f96fc53?auto=format&q=80&w=2070",
+      beds: 2,
+      baths: 2,
+      sqft: 1300,
+      featured: true,
+      propertyType: "Condo",
+    },
+    {
+      id: "58",
+      title: "Modern Suburban Ranch House",
+      location: "87 Greenfield Drive, Austin, TX",
+      price: 3100,
+      type: "rent",
+      image: "https://images.unsplash.com/photo-1576941089067-2de3c901e126?auto=format&q=80&w=2016",
+      beds: 4,
+      baths: 2,
+      sqft: 2400,
+      featured: true,
+      propertyType: "Ranch House",
+    },
+    {
+      id: "59",
+      title: "Stylish Converted Warehouse Loft",
+      location: "19 Industry District, Seattle, WA",
+      price: 3950,
+      type: "rent",
+      image: "https://images.unsplash.com/photo-1567767292278-a4f21aa2d36e?auto=format&q=80&w=2070",
+      beds: 1,
+      baths: 1.5,
+      sqft: 1650,
+      featured: true,
+      propertyType: "Loft",
+    },
+    {
+      id: "60",
+      title: "Eco-Friendly Tiny House",
+      location: "12 Green Valley Road, Portland, OR",
+      price: 1850,
+      type: "rent",
+      image: "https://images.unsplash.com/photo-1578683010236-d716f9a3f461?auto=format&q=80&w=2070",
+      beds: 1,
+      baths: 1,
+      sqft: 650,
+      featured: true,
+      propertyType: "Tiny House",
+    },
+    {
+      id: "61",
+      title: "Luxury Ocean View Lodge",
+      location: "300 Cliffside Drive, Big Sur, CA",
+      price: 650,
+      type: "lodge",
+      image: "https://images.unsplash.com/photo-1587061949409-02df41d5e562?auto=format&q=80&w=2070",
+      beds: 4,
+      baths: 3,
+      sqft: 3200,
+      featured: true,
+      propertyType: "Lodge",
+    },
+    {
+      id: "62",
+      title: "Romantic Treehouse Getaway",
+      location: "15 Hidden Forest Path, Asheville, NC",
+      price: 320,
+      type: "lodge",
+      image: "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&q=80&w=2070",
+      beds: 1,
+      baths: 1,
+      sqft: 750,
+      featured: true,
+      propertyType: "Treehouse",
+    },
+    {
+      id: "63",
+      title: "Seaside Cottages with Private Beach",
+      location: "92 Shoreline Drive, Martha's Vineyard, MA",
+      price: 420,
+      type: "lodge",
+      image: "https://images.unsplash.com/photo-1587095951950-47aa8f6d4459?auto=format&q=80&w=2070",
+      beds: 3,
+      baths: 2,
+      sqft: 1800,
+      featured: true,
+      propertyType: "Cottage",
+    },
+    {
+      id: "64",
+      title: "Designer Penthouse in Arts District",
+      location: "77 Creative Avenue, New York, NY",
+      price: 5800000,
+      type: "sale",
+      image: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&q=80&w=2070",
+      beds: 3,
+      baths: 3.5,
+      sqft: 3500,
+      featured: true,
+      propertyType: "Penthouse",
+    },
+    {
+      id: "65",
+      title: "Waterfront Mansion with Private Dock",
+      location: "123 Harbor View, Naples, FL",
+      price: 7500000,
+      type: "sale",
+      image: "https://images.unsplash.com/photo-1613977257592-4871e5fcd7c4?auto=format&q=80&w=2070",
+      beds: 7,
+      baths: 8,
+      sqft: 9800,
+      featured: true,
+      propertyType: "Mansion",
+    },
+    {
+      id: "66",
+      title: "Historic Colonial Revival Home",
+      location: "43 Heritage Lane, Charleston, SC",
+      price: 2950000, 
+      type: "sale",
+      image: "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&q=80&w=2070",
+      beds: 5,
+      baths: 4,
+      sqft: 4200,
+      featured: true,
+      propertyType: "Colonial",
+    },
+    {
+      id: "67",
+      title: "Adobe Style Desert Home",
+      location: "71 Canyon View, Santa Fe, NM",
+      price: 1850000,
+      type: "sale",
+      image: "https://images.unsplash.com/photo-1448630360428-65456885c650?auto=format&q=80&w=2067",
+      beds: 3,
+      baths: 2,
+      sqft: 2700,
+      featured: true,
+      propertyType: "Adobe",
+    },
+    {
+      id: "68",
+      title: "Mid-Century Modern Gem",
+      location: "44 Modernist Way, Palm Springs, CA",
+      price: 2160000,
+      type: "sale",
+      image: "https://images.unsplash.com/photo-1605276374104-dee2a0ed3cd6?auto=format&q=80&w=2070",
+      beds: 3,
+      baths: 2,
+      sqft: 2400,
+      featured: true,
+      propertyType: "Mid-Century",
     }
   ];
 };
