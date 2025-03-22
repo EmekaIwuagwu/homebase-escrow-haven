@@ -81,6 +81,15 @@ const OrderSuccess = () => {
     }
   };
 
+  // Mock owner data - in a real app, this would come from a database
+  const ownerData = {
+    name: property.landlord ? property.landlord.name : "Property Owner",
+    wallet: "0x123...789",
+    whatsapp: property.landlord ? property.landlord.whatsapp : "+1-555-123-4567",
+    phone: property.landlord ? property.landlord.phone : "+1-555-987-6543",
+    email: property.landlord ? property.landlord.email : "owner@homebase.com"
+  };
+
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
@@ -224,14 +233,42 @@ const OrderSuccess = () => {
             
             <div className="bg-gray-50 p-6 rounded-lg">
               <h3 className="font-bold mb-4">Owner Information</h3>
-              <div className="flex items-start">
-                <div className="bg-gray-200 w-12 h-12 rounded-full flex items-center justify-center">
-                  <User className="w-6 h-6 text-gray-500" />
-                </div>
-                <div className="ml-4">
-                  <p className="font-medium">Property Owner</p>
-                  <p className="text-sm text-gray-600 mb-1">Verified HomeBase User</p>
-                  <p className="text-sm text-gray-500">Wallet: 0x123...789</p>
+              <div className="space-y-4">
+                <div className="flex items-start">
+                  <div className="bg-gray-200 w-12 h-12 rounded-full flex items-center justify-center">
+                    <User className="w-6 h-6 text-gray-500" />
+                  </div>
+                  <div className="ml-4">
+                    <p className="font-medium">{ownerData.name}</p>
+                    <p className="text-sm text-gray-600 mb-1">Verified HomeBase User</p>
+                    <p className="text-sm text-gray-500 mb-2">Wallet: {ownerData.wallet}</p>
+                    
+                    {ownerData.whatsapp && (
+                      <div className="flex items-center text-sm mb-1">
+                        <MessageSquare className="w-4 h-4 text-green-500 mr-2" />
+                        <a 
+                          href={`https://wa.me/${ownerData.whatsapp.replace(/[^0-9]/g, '')}`}
+                          className="text-green-600 hover:underline"
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          {ownerData.whatsapp}
+                        </a>
+                      </div>
+                    )}
+                    
+                    {ownerData.phone && (
+                      <div className="flex items-center text-sm">
+                        <Phone className="w-4 h-4 text-blue-500 mr-2" />
+                        <a 
+                          href={`tel:${ownerData.phone}`}
+                          className="text-blue-600 hover:underline"
+                        >
+                          {ownerData.phone}
+                        </a>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
