@@ -420,7 +420,7 @@ const Checkout = () => {
                   <div className="flex items-start mb-3">
                     <ShieldCheck className="w-5 h-5 text-green-500 mt-0.5 mr-3" />
                     <div>
-                      <p className="font-medium">Secure {paymentMethod === "escrow" ? "Escrow" : "Transaction"}</p>
+                      <p className="font-medium">Escrow</p>
                       <p className="text-sm text-gray-500">
                         {paymentMethod === "escrow" 
                           ? `Your funds will be held in a secure smart contract escrow until ${property.type === "sale" 

@@ -4,7 +4,7 @@ import { useParams, useNavigate, useLocation } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
-import { CheckCircle, User, Calendar, Clock, Home, ExternalLink } from "lucide-react";
+import { CheckCircle, User, Calendar, Clock, Home, ExternalLink, Phone, MessageSquare, Mail } from "lucide-react";
 import { formatPrice } from "@/utils/formatters";
 
 const OrderSuccess = () => {
@@ -17,6 +17,7 @@ const OrderSuccess = () => {
   // Get reference number from URL query params
   const queryParams = new URLSearchParams(location.search);
   const referenceNumber = queryParams.get('ref') || 'ORD-12345678';
+  const paymentMethod = queryParams.get('method') || 'escrow';
   
   useEffect(() => {
     // Fetch property details
@@ -138,13 +139,13 @@ const OrderSuccess = () => {
                   <p className="text-sm text-gray-500 mb-1">Amount Paid</p>
                   <p className="font-bold text-lg">
                     {property.type === "sale" 
-                      ? formatPrice(property.price * 1.01)
-                      : formatPrice(property.price * 1.05)} HNXZ
+                      ? formatPrice(property.price * (paymentMethod === "escrow" ? 1.01 : 1.005))
+                      : formatPrice(property.price * (paymentMethod === "escrow" ? 1.05 : 1.025))} HNXZ
                   </p>
                 </div>
                 <div>
                   <p className="text-sm text-gray-500 mb-1">Payment Method</p>
-                  <p className="font-medium">Han Wallet</p>
+                  <p className="font-medium">{paymentMethod === "escrow" ? "Escrow" : "Han Wallet"}</p>
                 </div>
                 <div>
                   <p className="text-sm text-gray-500 mb-1">Blockchain Confirmation</p>
@@ -154,6 +155,71 @@ const OrderSuccess = () => {
                   </a>
                 </div>
               </div>
+            </div>
+            
+            {/* Landlord contact information section */}
+            <div className="bg-gray-50 p-6 rounded-lg mb-6">
+              <h3 className="font-bold mb-4">Landlord Contact Information</h3>
+              {property.landlord ? (
+                <div className="space-y-4">
+                  <div className="flex items-start">
+                    <User className="w-5 h-5 text-gray-500 mt-0.5 mr-3" />
+                    <div>
+                      <p className="font-medium">Name</p>
+                      <p className="text-gray-700">{property.landlord.name}</p>
+                    </div>
+                  </div>
+                  
+                  {property.landlord.whatsapp && (
+                    <div className="flex items-start">
+                      <MessageSquare className="w-5 h-5 text-green-500 mt-0.5 mr-3" />
+                      <div>
+                        <p className="font-medium">WhatsApp</p>
+                        <a 
+                          href={`https://wa.me/${property.landlord.whatsapp.replace(/[^0-9]/g, '')}`}
+                          className="text-green-600 hover:underline"
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          {property.landlord.whatsapp}
+                        </a>
+                      </div>
+                    </div>
+                  )}
+                  
+                  {property.landlord.phone && (
+                    <div className="flex items-start">
+                      <Phone className="w-5 h-5 text-blue-500 mt-0.5 mr-3" />
+                      <div>
+                        <p className="font-medium">Phone</p>
+                        <a 
+                          href={`tel:${property.landlord.phone}`}
+                          className="text-blue-600 hover:underline"
+                        >
+                          {property.landlord.phone}
+                        </a>
+                      </div>
+                    </div>
+                  )}
+                  
+                  {property.landlord.email && (
+                    <div className="flex items-start">
+                      <Mail className="w-5 h-5 text-purple-500 mt-0.5 mr-3" />
+                      <div>
+                        <p className="font-medium">Email</p>
+                        <a 
+                          href={`mailto:${property.landlord.email}`}
+                          className="text-purple-600 hover:underline"
+                        >
+                          {property.landlord.email}
+                        </a>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <p className="text-gray-500">Landlord information is not available.</p>
+              )}
             </div>
             
             <div className="bg-gray-50 p-6 rounded-lg">

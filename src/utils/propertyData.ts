@@ -10,7 +10,13 @@ export interface Property {
   baths: number;
   sqft: number;
   featured?: boolean;
-  propertyType?: string; // Added property type field
+  propertyType?: string;
+  landlord?: {
+    name: string;
+    whatsapp?: string;
+    phone?: string;
+    email?: string;
+  };
 }
 
 // Combined properties from all pages
@@ -29,6 +35,12 @@ export const getAllProperties = (): Property[] => {
       sqft: 2100,
       featured: true,
       propertyType: "Apartment",
+      landlord: {
+        name: "Jessica Williams",
+        whatsapp: "+1-555-123-4567",
+        phone: "+1-555-987-6543",
+        email: "jessica.w@realtor.com"
+      }
     },
     {
       id: "2",
@@ -42,6 +54,12 @@ export const getAllProperties = (): Property[] => {
       sqft: 4500,
       featured: true,
       propertyType: "Estate",
+      landlord: {
+        name: "Michael Thompson",
+        whatsapp: "+1-555-234-5678",
+        phone: "+1-555-876-5432",
+        email: "m.thompson@luxuryestates.com"
+      }
     },
     {
       id: "3",
@@ -550,7 +568,7 @@ export const getAllProperties = (): Property[] => {
       propertyType: "Retreat",
     },
     
-    // NEW PROPERTIES - Add more diverse house/condo images
+    // NEW PROPERTIES - Add more diverse house/condo images with landlord information
     {
       id: "51",
       title: "Modern Urban Loft with Skyline Views",
@@ -563,6 +581,12 @@ export const getAllProperties = (): Property[] => {
       sqft: 1850,
       featured: true,
       propertyType: "Loft",
+      landlord: {
+        name: "Daniel Wilson",
+        whatsapp: "+1-555-111-2222",
+        phone: "+1-555-333-4444",
+        email: "d.wilson@citylofts.com"
+      }
     },
     {
       id: "52",
@@ -576,6 +600,12 @@ export const getAllProperties = (): Property[] => {
       sqft: 2100,
       featured: true,
       propertyType: "Condo",
+      landlord: {
+        name: "Sarah Martinez",
+        whatsapp: "+1-555-999-8888",
+        phone: "+1-555-777-6666",
+        email: "s.martinez@beachproperties.com"
+      }
     },
     {
       id: "53",
@@ -784,6 +814,234 @@ export const getAllProperties = (): Property[] => {
       sqft: 2400,
       featured: true,
       propertyType: "Mid-Century",
+    },
+    {
+      id: "69",
+      title: "Tropical Modernist Villa",
+      location: "17 Palm Avenue, Bali, Indonesia",
+      price: 1450000,
+      type: "sale",
+      image: "https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?auto=format&q=80&w=2070",
+      beds: 4,
+      baths: 5,
+      sqft: 3800,
+      featured: true,
+      propertyType: "Villa",
+      landlord: {
+        name: "Putu Wijaya",
+        whatsapp: "+62-812-3456-7890",
+        phone: "+62-812-9876-5432",
+        email: "putu@baliestates.com"
+      }
+    },
+    {
+      id: "70",
+      title: "Industrial Warehouse Conversion",
+      location: "42 Factory Lane, Berlin, Germany",
+      price: 1250000,
+      type: "sale",
+      image: "https://images.unsplash.com/photo-1613977257365-aaae5a9817ff?auto=format&q=80&w=2070",
+      beds: 2,
+      baths: 2,
+      sqft: 2200,
+      featured: true,
+      propertyType: "Loft",
+      landlord: {
+        name: "Klaus Schmidt",
+        whatsapp: "+49-151-1234-5678",
+        phone: "+49-151-8765-4321",
+        email: "klaus@berlinlofts.de"
+      }
+    },
+    {
+      id: "71",
+      title: "Scandinavian Seaside Cottage",
+      location: "8 Fjord View, Stockholm, Sweden",
+      price: 975000,
+      type: "sale",
+      image: "https://images.unsplash.com/photo-1604014237800-1c9102c219da?auto=format&q=80&w=2070",
+      beds: 3,
+      baths: 1,
+      sqft: 1400,
+      featured: true,
+      propertyType: "Cottage",
+      landlord: {
+        name: "Eva Lindgren",
+        whatsapp: "+46-70-123-4567",
+        phone: "+46-70-987-6543",
+        email: "eva@swedishhomes.se"
+      }
+    },
+    {
+      id: "72",
+      title: "Art Deco Apartment in Copacabana",
+      location: "175 Atlantica Avenue, Rio de Janeiro, Brazil",
+      price: 850000,
+      type: "sale",
+      image: "https://images.unsplash.com/photo-1598928506311-c55ded91a20c?auto=format&q=80&w=2070",
+      beds: 2,
+      baths: 2,
+      sqft: 1200,
+      featured: true,
+      propertyType: "Apartment",
+      landlord: {
+        name: "Carlos Oliveira",
+        whatsapp: "+55-21-98765-4321",
+        phone: "+55-21-99876-5432",
+        email: "carlos@rioproperties.com.br"
+      }
+    },
+    {
+      id: "73",
+      title: "Moroccan Riad with Pool",
+      location: "28 Medina Street, Marrakech, Morocco",
+      price: 1200000,
+      type: "sale",
+      image: "https://images.unsplash.com/photo-1510798831971-661eb04b3739?auto=format&q=80&w=2070",
+      beds: 5,
+      baths: 5,
+      sqft: 4200,
+      featured: true,
+      propertyType: "Riad",
+      landlord: {
+        name: "Hassan Benali",
+        whatsapp: "+212-661-234567",
+        phone: "+212-661-765432",
+        email: "hassan@moroccanestates.ma"
+      }
+    },
+    {
+      id: "74",
+      title: "Luxury Penthouse in Dubai Marina",
+      location: "Sky Tower, Dubai Marina, UAE",
+      price: 3800000,
+      type: "sale",
+      image: "https://images.unsplash.com/photo-1626250788943-6c9ffd63e9c0?auto=format&q=80&w=2070",
+      beds: 4,
+      baths: 4.5,
+      sqft: 4800,
+      featured: true,
+      propertyType: "Penthouse",
+      landlord: {
+        name: "Khalid Al-Mansour",
+        whatsapp: "+971-50-1234567",
+        phone: "+971-50-7654321",
+        email: "khalid@dubaipremium.ae"
+      }
+    },
+    {
+      id: "75",
+      title: "Contemporary Apartment in Mumbai",
+      location: "42 Marine Drive, Mumbai, India",
+      price: 1700000,
+      type: "sale",
+      image: "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&q=80&w=2070",
+      beds: 3,
+      baths: 3,
+      sqft: 2200,
+      featured: true,
+      propertyType: "Apartment",
+      landlord: {
+        name: "Priya Sharma",
+        whatsapp: "+91-98765-43210",
+        phone: "+91-98765-12345",
+        email: "priya@mumbairealty.in"
+      }
+    },
+    {
+      id: "76",
+      title: "Riverside Apartment with Balcony",
+      location: "45 Thames View, London, UK",
+      price: 2800,
+      type: "rent",
+      image: "https://images.unsplash.com/photo-1574739782594-db4ead022697?auto=format&q=80&w=2070",
+      beds: 2,
+      baths: 2,
+      sqft: 950,
+      featured: true,
+      propertyType: "Apartment",
+      landlord: {
+        name: "James Wilson",
+        whatsapp: "+44-7700-123456",
+        phone: "+44-7700-654321",
+        email: "jwilson@londonlets.co.uk"
+      }
+    },
+    {
+      id: "77",
+      title: "Traditional Hanok in Seoul",
+      location: "15 Bukchon Village, Seoul, South Korea",
+      price: 1950,
+      type: "rent",
+      image: "https://images.unsplash.com/photo-1635221447557-09ebe32b638f?auto=format&q=80&w=2070",
+      beds: 2,
+      baths: 1,
+      sqft: 800,
+      featured: true,
+      propertyType: "Hanok",
+      landlord: {
+        name: "Min-Jun Kim",
+        whatsapp: "+82-10-1234-5678",
+        phone: "+82-10-9876-5432",
+        email: "minjun@seoulstays.kr"
+      }
+    },
+    {
+      id: "78",
+      title: "Overwater Bungalow",
+      location: "Bora Bora Pearl Resort, French Polynesia",
+      price: 680,
+      type: "lodge",
+      image: "https://images.unsplash.com/photo-1439066615861-d1af74d74000?auto=format&q=80&w=2073",
+      beds: 1,
+      baths: 1,
+      sqft: 650,
+      featured: true,
+      propertyType: "Bungalow",
+      landlord: {
+        name: "Marie Laurent",
+        whatsapp: "+689-87-123456",
+        phone: "+689-87-654321",
+        email: "marie@pearlresort.pf"
+      }
+    },
+    {
+      id: "79",
+      title: "Safari Tent Lodge",
+      location: "Maasai Mara Game Reserve, Kenya",
+      price: 420,
+      type: "lodge",
+      image: "https://images.unsplash.com/photo-1553603227-2358aabe821e?auto=format&q=80&w=2070",
+      beds: 2,
+      baths: 1,
+      sqft: 450,
+      featured: true,
+      propertyType: "Safari Lodge",
+      landlord: {
+        name: "Joseph Kimani",
+        whatsapp: "+254-722-123456",
+        phone: "+254-722-654321",
+        email: "joseph@maralodges.ke"
+      }
+    },
+    {
+      id: "80",
+      title: "Mountain Ski Chalet",
+      location: "32 Alpine Route, Chamonix, France",
+      price: 550,
+      type: "lodge",
+      image: "https://images.unsplash.com/photo-1520984032042-162d526883e0?auto=format&q=80&w=2070",
+      beds: 4,
+      baths: 3,
+      sqft: 2100,
+      featured: true,
+      propertyType: "Chalet",
+      landlord: {
+        name: "Pierre Dubois",
+        whatsapp: "+33-6-12345678",
+        phone: "+33-6-87654321",
+        email: "pierre@chamonixchalets.fr"
+      }
     }
   ];
 };
