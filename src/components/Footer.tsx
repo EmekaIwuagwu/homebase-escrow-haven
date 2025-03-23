@@ -1,6 +1,6 @@
 
 import React from "react";
-import { Home, Mail, Phone, Instagram, Twitter, Facebook, Linkedin, Github } from "lucide-react";
+import { Home, Mail, Instagram, Twitter, Facebook, Linkedin, Github } from "lucide-react";
 
 const Footer = () => {
   return (
@@ -14,7 +14,7 @@ const Footer = () => {
             </div>
             <p className="text-gray-600 dark:text-gray-400 mb-6 max-w-md">
               A Web3-powered Real Estate & Property Lodging platform that allows users to buy, 
-              sell, rent, and lodge in properties using HanCoin (HNBXZ).
+              sell, rent, and lodge in properties using HanCoin (HNXZ).
             </p>
             <div className="flex space-x-4">
               <a href="#" className="text-gray-400 hover:text-gray-500 dark:hover:text-gray-300">
@@ -105,12 +105,6 @@ const Footer = () => {
                 <Mail className="h-5 w-5 text-gray-400 mr-3 mt-0.5" />
                 <span className="text-base text-gray-600 dark:text-gray-400">
                   support@homebase.io
-                </span>
-              </li>
-              <li className="flex items-start">
-                <Phone className="h-5 w-5 text-gray-400 mr-3 mt-0.5" />
-                <span className="text-base text-gray-600 dark:text-gray-400">
-                  +1 (555) 123-4567
                 </span>
               </li>
             </ul>

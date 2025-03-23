@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
-import { Search, Bell, Home } from "lucide-react";
+import { Home } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import WalletConnect from "./WalletConnect";
 import { Link, useLocation } from "react-router-dom";
@@ -86,23 +86,7 @@ const Navbar = () => {
           )}
         </nav>
 
-        <div className="flex items-center space-x-4">
-          {!isMobile && (
-            <>
-              <button
-                className={cn("hover:text-gray-900", getTextColor())}
-                aria-label="Search"
-              >
-                <Search className="w-5 h-5" />
-              </button>
-              <button
-                className={cn("hover:text-gray-900", getTextColor())}
-                aria-label="Notifications"
-              >
-                <Bell className="w-5 h-5" />
-              </button>
-            </>
-          )}
+        <div className="flex items-center">
           <WalletConnect />
         </div>
       </div>

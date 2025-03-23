@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import Navbar from "@/components/Navbar";
@@ -72,13 +71,7 @@ const OrderSuccess = () => {
   };
   
   const handleNavigateToUser = () => {
-    if (property.type === "lodge") {
-      navigate("/dashboard/bookings");
-    } else if (property.type === "sale") {
-      navigate("/dashboard/properties");
-    } else if (property.type === "rent") {
-      navigate("/dashboard/rentals");
-    }
+    navigate("/dashboard");
   };
 
   // Mock owner data - in a real app, this would come from a database

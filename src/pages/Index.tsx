@@ -5,7 +5,7 @@ import Hero from "@/components/Hero";
 import FeaturedProperties from "@/components/FeaturedProperties";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
-import { BadgeCheck, Building, Wallet, ShieldCheck, Users } from "lucide-react";
+import { BadgeCheck, Building, Wallet, ShieldCheck } from "lucide-react";
 import { Link } from "react-router-dom";
 import WalletConnect from "@/components/WalletConnect";
 
