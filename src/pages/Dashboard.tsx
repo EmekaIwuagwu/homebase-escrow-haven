@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState } from "react";
-import { useNavigate, Routes, Route, useParams } from "react-router-dom";
+import { useNavigate, Routes, Route, useParams, Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useWallet } from "@/contexts/WalletContext";
@@ -9,6 +9,7 @@ import ManageBooking from "@/components/dashboard/ManageBooking";
 import TransactionHistory from "@/components/dashboard/TransactionHistory";
 import Messages from "@/components/dashboard/Messages";
 import { TransactionDetails, Transaction } from "@/components/dashboard/TransactionDetails";
+import Profile from "@/pages/dashboard/Profile";
 import {
   Sidebar,
   SidebarContent,
@@ -184,38 +185,38 @@ const DashboardSidebar = () => {
           <SidebarGroupContent>
             <SidebarMenu>
               <SidebarMenuItem>
-                <SidebarMenuButton asChild isActive>
-                  <a href="/dashboard">
+                <SidebarMenuButton asChild>
+                  <Link to="/dashboard">
                     <Home className="w-4 h-4" />
                     <span>Dashboard</span>
-                  </a>
+                  </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <a href="/dashboard#bookings">
+                  <Link to="/dashboard/bookings">
                     <CalendarDays className="w-4 h-4" />
                     <span>Bookings</span>
-                  </a>
+                  </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <a href="/dashboard/transactions">
+                  <Link to="/dashboard/transactions">
                     <Receipt className="w-4 h-4" />
                     <span>Transactions</span>
-                  </a>
+                  </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <a href="/dashboard/messages">
+                  <Link to="/dashboard/messages">
                     <MessageCircle className="w-4 h-4" />
                     <span>Messages</span>
-                  </a>
+                  </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>
@@ -230,10 +231,10 @@ const DashboardSidebar = () => {
             <SidebarMenu>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <a href="/dashboard/profile">
+                  <Link to="/dashboard/profile">
                     <User className="w-4 h-4" />
                     <span>Profile</span>
-                  </a>
+                  </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               
@@ -255,13 +256,52 @@ const DashboardSidebar = () => {
           </div>
           <div>
             <p className="text-sm font-medium">Wallet Connected</p>
-            <p className="text-xs text-gray-500">{walletAddress}</p>
+            <p className="text-xs text-gray-500">{walletAddress?.substring(0, 8)}...{walletAddress?.substring(walletAddress.length - 8)}</p>
           </div>
         </div>
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>
   );
+};
+
+// Dashboard content based on route
+const DashboardContent = () => {
+  const { pathname } = window.location;
+  
+  // Render different content based on the current path
+  if (pathname.includes('/dashboard/bookings')) {
+    return <Bookings />;
+  } else if (pathname.includes('/dashboard/transactions')) {
+    return <TransactionHistory />;
+  } else if (pathname.includes('/dashboard/messages')) {
+    return <Messages />;
+  } else if (pathname.includes('/dashboard/profile')) {
+    return <Profile />;
+  } else {
+    // Default dashboard overview
+    return (
+      <Tabs defaultValue="overview" className="space-y-6">
+        <TabsList>
+          <TabsTrigger value="overview">Overview</TabsTrigger>
+          <TabsTrigger value="bookings">Bookings</TabsTrigger>
+          <TabsTrigger value="transactions">Transactions</TabsTrigger>
+        </TabsList>
+        
+        <TabsContent value="overview" className="space-y-4">
+          <DashboardOverview />
+        </TabsContent>
+        
+        <TabsContent value="bookings" className="space-y-4">
+          <Bookings />
+        </TabsContent>
+        
+        <TabsContent value="transactions" className="space-y-4">
+          <TransactionHistory />
+        </TabsContent>
+      </Tabs>
+    );
+  }
 };
 
 // Main layout component for dashboard
@@ -289,25 +329,7 @@ const DashboardLayout = () => {
             <DashboardSidebar />
             
             <main className="flex-1 overflow-auto p-6">
-              <Tabs defaultValue="overview" className="space-y-6">
-                <TabsList>
-                  <TabsTrigger value="overview">Overview</TabsTrigger>
-                  <TabsTrigger id="dashboard-tab-bookings" value="bookings">Bookings</TabsTrigger>
-                  <TabsTrigger id="dashboard-tab-transactions" value="transactions">Transactions</TabsTrigger>
-                </TabsList>
-                
-                <TabsContent value="overview" className="space-y-4">
-                  <DashboardOverview />
-                </TabsContent>
-                
-                <TabsContent value="bookings" className="space-y-4">
-                  <Bookings />
-                </TabsContent>
-                
-                <TabsContent value="transactions" className="space-y-4">
-                  <TransactionHistory />
-                </TabsContent>
-              </Tabs>
+              <DashboardContent />
             </main>
           </div>
         </SidebarProvider>
@@ -355,14 +377,14 @@ const TransactionDetailsWrapper = () => {
     navigate('/dashboard/transactions');
   };
 
-  return (
+  return transaction ? (
     <TransactionDetails 
       transaction={transaction}
       open={open}
       onOpenChange={handleOpenChange}
       onGoBack={handleGoBack}
     />
-  );
+  ) : null;
 };
 
 // Dashboard component to handle the nested routes
@@ -370,9 +392,11 @@ const Dashboard = () => {
   return (
     <Routes>
       <Route path="/" element={<DashboardLayout />} />
+      <Route path="/bookings" element={<DashboardLayout />} />
       <Route path="/booking/:id" element={<ManageBooking />} />
-      <Route path="/messages" element={<Messages />} />
-      <Route path="/transactions" element={<TransactionHistory />} />
+      <Route path="/messages" element={<DashboardLayout />} />
+      <Route path="/transactions" element={<DashboardLayout />} />
+      <Route path="/profile" element={<DashboardLayout />} />
       <Route path="/transaction/:id" element={<TransactionDetailsWrapper />} />
     </Routes>
   );

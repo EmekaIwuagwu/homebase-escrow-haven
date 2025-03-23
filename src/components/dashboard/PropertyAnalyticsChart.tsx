@@ -76,8 +76,8 @@ export function PropertyAnalyticsChart() {
             padding={{ top: 16 }}
           />
           <Tooltip
-            content={(props) => {
-              if (props.active && props.payload && props.payload.length) {
+            content={({ active, payload, label }) => {
+              if (active && payload?.length) {
                 return (
                   <div className="rounded-lg border bg-background p-2 shadow-sm">
                     <div className="grid grid-cols-2 gap-2">
@@ -86,7 +86,7 @@ export function PropertyAnalyticsChart() {
                           Month
                         </span>
                         <span className="font-bold text-muted-foreground">
-                          {props.label}
+                          {label}
                         </span>
                       </div>
                       <div className="flex flex-col">
@@ -94,7 +94,7 @@ export function PropertyAnalyticsChart() {
                           Views
                         </span>
                         <span className="font-bold">
-                          {props.payload[0].value}
+                          {payload[0].value}
                         </span>
                       </div>
                     </div>
