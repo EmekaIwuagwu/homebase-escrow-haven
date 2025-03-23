@@ -124,7 +124,7 @@ const TransactionDetails = () => {
               Back to Transactions
             </button>
             
-            <Badge variant={transaction.status === "Completed" ? "success" : transaction.status === "Pending" ? "outline" : "destructive"}>
+            <Badge variant={transaction.status === "Completed" ? "default" : transaction.status === "Pending" ? "outline" : "destructive"}>
               {transaction.status}
             </Badge>
           </div>
