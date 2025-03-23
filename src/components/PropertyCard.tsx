@@ -1,9 +1,8 @@
-
 import React, { useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
-import { Heart, MapPin, Bed, Bath, Square, Home, Image } from "lucide-react";
+import { Heart, MapPin, Bed, Bath, Square, Image } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useNavigate } from "react-router-dom";
 import { formatPrice } from "@/utils/formatters";
@@ -64,6 +63,19 @@ const PropertyCard = ({
   // Get fallback image based on property type
   const getFallbackImage = () => {
     return fallbackImages[type] || fallbackImages.sale;
+  };
+
+  // Format price in a minimalistic way
+  const getMinimalisticPrice = () => {
+    // For properties over 1 million
+    if (price >= 1000000) {
+      return `${(price / 1000000).toFixed(1)}M`;
+    }
+    // For properties over 1000
+    else if (price >= 1000) {
+      return `${(price / 1000).toFixed(0)}K`;
+    }
+    return formatPrice(price);
   };
 
   return (
@@ -138,17 +150,21 @@ const PropertyCard = ({
             </Badge>
           )}
         </div>
+        
+        {/* Minimalistic price badge */}
+        <div className="absolute bottom-3 right-3">
+          <Badge className="bg-white text-gray-800 font-semibold px-2 py-0.5 shadow-sm">
+            {getMinimalisticPrice()} {type !== "sale" ? "/mo" : ""}
+          </Badge>
+        </div>
       </div>
 
       <CardContent 
         className="pt-4 pb-2 cursor-pointer"
         onClick={handleViewDetails}
       >
-        <div className="flex items-start justify-between gap-2 mb-1">
+        <div className="flex items-start gap-2 mb-1">
           <h3 className="font-medium text-lg line-clamp-1">{title}</h3>
-          <div className="font-semibold text-lg whitespace-nowrap">
-            {type !== "sale" ? `${formatPrice(price)} HNXZ/mo` : `${formatPrice(price)} HNXZ`}
-          </div>
         </div>
         <div className="flex items-center text-gray-500 text-sm mb-3">
           <MapPin className="w-3.5 h-3.5 mr-1" />
