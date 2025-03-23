@@ -691,4 +691,12 @@ export const getAllProperties = (): Property[] => {
       location: "19 Industry District, Seattle, WA",
       price: 3950,
       type: "rent",
-      image: "https://images.unsplash.com/photo-1567767292278-a4f21aa2d36e?auto
+      image: "https://images.unsplash.com/photo-1567767292278-a4f21aa2d36e?auto=format&q=80&w=2070",
+      beds: 3,
+      baths: 2,
+      sqft: 1900,
+      featured: true,
+      propertyType: "Loft",
+    },
+  ];
+};
