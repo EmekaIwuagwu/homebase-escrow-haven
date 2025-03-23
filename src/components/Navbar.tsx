@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { Home, Search, Bell } from "lucide-react";
@@ -28,7 +27,6 @@ const Navbar = () => {
   const isMobile = useIsMobile();
   const { isConnected } = useWallet();
   
-  // Check if we're on the index page
   const isIndexPage = location.pathname === "/";
 
   useEffect(() => {
@@ -41,15 +39,13 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Determine text color based on page and scroll position
   const getTextColor = () => {
     if (isIndexPage && !isScrolled) {
-      return "text-white"; // White text on index page when not scrolled
+      return "text-white";
     }
-    return "text-black"; // Black text on other pages or when scrolled
+    return "text-black";
   };
 
-  // Mock notifications data
   const notifications = [
     {
       id: 1,
@@ -74,24 +70,20 @@ const Navbar = () => {
     },
   ];
 
-  // Mark notifications as read
   const markAsRead = () => {
     setHasUnreadNotifications(false);
   };
 
-  // Navigate to dashboard messages
   const goToDashboardMessages = () => {
     navigate("/dashboard/messages");
   };
 
-  // Mock search function
   const handleSearch = (value: string) => {
     if (!value) {
       setSearchResults([]);
       return;
     }
 
-    // Mock search results based on input
     const results = [
       { id: 1, title: "Beachfront Villa", type: "property", path: "/property/1" },
       { id: 2, title: "Downtown Apartment", type: "property", path: "/property/2" },
@@ -128,8 +120,13 @@ const Navbar = () => {
           </Link>
         </div>
 
-        {/* Navigation - Always visible */}
         <nav className="flex items-center space-x-4 md:space-x-8">
+          <Link
+            to="/properties"
+            className={cn("text-sm font-medium transition-colors hover:text-homebase-600", getTextColor())}
+          >
+            Properties
+          </Link>
           <Link
             to="/buy"
             className={cn("text-sm font-medium transition-colors hover:text-homebase-600", getTextColor())}
@@ -221,7 +218,6 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Search Command Dialog */}
       <CommandDialog open={isSearchOpen} onOpenChange={setIsSearchOpen}>
         <CommandInput 
           placeholder="Search for properties, locations..." 

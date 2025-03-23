@@ -12,6 +12,7 @@ import Lodging from "./pages/Lodging";
 import Dashboard from "./pages/Dashboard";
 import LandlordDashboard from "./pages/LandlordDashboard";
 import SellerDashboard from "./pages/SellerDashboard";
+import Properties from "./pages/Properties";
 import PropertyDetails from "./pages/PropertyDetails";
 import Checkout from "./pages/Checkout";
 import OrderSuccess from "./pages/OrderSuccess";
@@ -35,13 +36,13 @@ const App = () => (
             <Route path="/rent" element={<Rent />} />
             <Route path="/lodging" element={<Lodging />} />
             <Route path="/about" element={<About />} />
+            <Route path="/properties" element={<Properties />} />
             <Route path="/dashboard/*" element={<Dashboard />} />
             <Route path="/landlord/*" element={<LandlordDashboard />} />
             <Route path="/seller/*" element={<SellerDashboard />} />
             <Route path="/property/:id" element={<PropertyDetails />} />
             <Route path="/checkout/:id" element={<Checkout />} />
             <Route path="/order-success/:id" element={<OrderSuccess />} />
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
