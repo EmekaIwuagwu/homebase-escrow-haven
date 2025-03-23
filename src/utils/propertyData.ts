@@ -1,3 +1,4 @@
+
 // Properties data for our app
 export interface Property {
   id: string;
@@ -699,4 +700,24 @@ export const getAllProperties = (): Property[] => {
       propertyType: "Loft",
     },
   ];
+};
+
+// Get properties by type (sale, rent, lodge)
+export const getPropertiesByType = (type: "sale" | "rent" | "lodge"): Property[] => {
+  const allProperties = getAllProperties();
+  return allProperties.filter(property => property.type === type);
+};
+
+// Get properties by location (searching in location field)
+export const getPropertiesByLocation = (location: string): Property[] => {
+  const allProperties = getAllProperties();
+  return allProperties.filter(property => 
+    property.location.toLowerCase().includes(location.toLowerCase())
+  );
+};
+
+// Get a single property by ID
+export const getPropertyById = (id: string): Property | undefined => {
+  const allProperties = getAllProperties();
+  return allProperties.find(property => property.id === id);
 };
