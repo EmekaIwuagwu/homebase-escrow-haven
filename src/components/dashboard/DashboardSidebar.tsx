@@ -91,18 +91,6 @@ const DashboardSidebar = () => {
           </li>
           <li>
             <button 
-              onClick={() => handleTabChange("settings")} 
-              className={cn(
-                "flex w-full items-center p-2 rounded-md",
-                "text-gray-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
-              )}
-            >
-              <Settings className="w-5 h-5 mr-3" />
-              Settings
-            </button>
-          </li>
-          <li>
-            <button 
               onClick={handleDisconnect} 
               className="flex w-full items-center text-red-500 p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700"
             >

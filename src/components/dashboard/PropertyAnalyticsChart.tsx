@@ -51,68 +51,83 @@ const config = {
 export function PropertyAnalyticsChart() {
   return (
     <ChartContainer config={config} className="aspect-[4/3] w-full">
-      <AreaChart
-        data={data}
-        margin={{
-          top: 16,
-          right: 16,
-          bottom: 0,
-          left: 0,
-        }}
-      >
-        <CartesianGrid strokeDasharray="3 3" vertical={false} />
-        <XAxis
-          dataKey="name"
-          tickLine={false}
-          axisLine={false}
-          padding={{ left: 16, right: 16 }}
-          fontSize={12}
-        />
-        <YAxis
-          axisLine={false}
-          tickLine={false}
-          fontSize={12}
-          padding={{ top: 16 }}
-        />
-        <Tooltip
-          content={({ active, payload, label }) => {
-            if (active && payload && payload.length) {
-              return (
-                <ChartTooltipContent
-                  active={active}
-                  payload={payload}
-                  label={label}
-                  indicator="line"
-                  formatter={(value) => [`${value}`, "Views"]}
-                />
-              );
-            }
-            return null;
+      <ResponsiveContainer width="100%" height="100%">
+        <AreaChart
+          data={data}
+          margin={{
+            top: 16,
+            right: 16,
+            bottom: 0,
+            left: 0,
           }}
-        />
-        <Area
-          type="monotone"
-          dataKey="views"
-          fill="url(#colorViews)"
-          fillOpacity={0.1}
-          stroke="hsl(var(--primary))"
-          strokeWidth={2}
-        />
-        <defs>
-          <linearGradient id="colorViews" x1="0" y1="0" x2="0" y2="1">
-            <stop
-              offset="5%"
-              stopColor="hsl(var(--primary))"
-              stopOpacity={0.6}
-            />
-            <stop
-              offset="95%"
-              stopColor="hsl(var(--primary))"
-              stopOpacity={0}
-            />
-          </linearGradient>
-        </defs>
-      </AreaChart>
+        >
+          <CartesianGrid strokeDasharray="3 3" vertical={false} />
+          <XAxis
+            dataKey="name"
+            tickLine={false}
+            axisLine={false}
+            padding={{ left: 16, right: 16 }}
+            fontSize={12}
+          />
+          <YAxis
+            axisLine={false}
+            tickLine={false}
+            fontSize={12}
+            padding={{ top: 16 }}
+          />
+          <Tooltip
+            content={(props) => {
+              if (props.active && props.payload && props.payload.length) {
+                return (
+                  <div className="rounded-lg border bg-background p-2 shadow-sm">
+                    <div className="grid grid-cols-2 gap-2">
+                      <div className="flex flex-col">
+                        <span className="text-[0.70rem] uppercase text-muted-foreground">
+                          Month
+                        </span>
+                        <span className="font-bold text-muted-foreground">
+                          {props.label}
+                        </span>
+                      </div>
+                      <div className="flex flex-col">
+                        <span className="text-[0.70rem] uppercase text-muted-foreground">
+                          Views
+                        </span>
+                        <span className="font-bold">
+                          {props.payload[0].value}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                );
+              }
+              return null;
+            }}
+          />
+          <Area
+            type="monotone"
+            dataKey="views"
+            fill="url(#colorViews)"
+            fillOpacity={0.1}
+            stroke="hsl(var(--primary))"
+            strokeWidth={2}
+          />
+          <defs>
+            <linearGradient id="colorViews" x1="0" y1="0" x2="0" y2="1">
+              <stop
+                offset="5%"
+                stopColor="hsl(var(--primary))"
+                stopOpacity={0.6}
+              />
+              <stop
+                offset="95%"
+                stopColor="hsl(var(--primary))"
+                stopOpacity={0}
+              />
+            </linearGradient>
+          </defs>
+        </AreaChart>
+      </ResponsiveContainer>
     </ChartContainer>
   );
 }

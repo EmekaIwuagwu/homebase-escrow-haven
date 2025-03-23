@@ -21,13 +21,12 @@ export const formatDate = (date: Date): string => {
 };
 
 /**
- * Format a currency value with currency symbol
+ * Format a currency value with HNXZ currency
  */
 export const formatCurrency = (amount: number): string => {
-  return new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
+  return `${new Intl.NumberFormat("en-US", {
+    style: "decimal",
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
-  }).format(amount);
+  }).format(amount)} HNXZ`;
 };

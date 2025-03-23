@@ -64,37 +64,6 @@ const About = () => {
                 <p className="text-gray-600">Manage your properties, bookings, and transactions in one convenient place.</p>
               </div>
             </div>
-            
-            {/* Team */}
-            <div className="max-w-3xl mx-auto">
-              <h2 className="text-3xl font-bold mb-6 text-center">Our Team</h2>
-              <p className="text-lg text-gray-600 text-center mb-10">
-                HomeBase was founded by a team of real estate professionals and blockchain experts who saw the potential to transform the industry.
-              </p>
-              
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div className="bg-white p-6 rounded-xl shadow-md text-center">
-                  <div className="w-20 h-20 bg-gray-200 rounded-full mx-auto mb-4"></div>
-                  <h3 className="text-xl font-bold mb-1">Jane Doe</h3>
-                  <p className="text-gray-500 mb-3">Co-Founder & CEO</p>
-                  <p className="text-gray-600 text-sm">Former real estate investor with 15 years of experience in the market.</p>
-                </div>
-                
-                <div className="bg-white p-6 rounded-xl shadow-md text-center">
-                  <div className="w-20 h-20 bg-gray-200 rounded-full mx-auto mb-4"></div>
-                  <h3 className="text-xl font-bold mb-1">John Smith</h3>
-                  <p className="text-gray-500 mb-3">Co-Founder & CTO</p>
-                  <p className="text-gray-600 text-sm">Blockchain developer and architect with experience at major tech companies.</p>
-                </div>
-                
-                <div className="bg-white p-6 rounded-xl shadow-md text-center">
-                  <div className="w-20 h-20 bg-gray-200 rounded-full mx-auto mb-4"></div>
-                  <h3 className="text-xl font-bold mb-1">Emma Johnson</h3>
-                  <p className="text-gray-500 mb-3">Head of Operations</p>
-                  <p className="text-gray-600 text-sm">Former operations director at a leading property management firm.</p>
-                </div>
-              </div>
-            </div>
           </div>
         </section>
       </main>

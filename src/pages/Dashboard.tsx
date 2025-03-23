@@ -1,10 +1,10 @@
+
 import React, { useEffect, useState } from "react";
 import { useNavigate, Routes, Route, useParams } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useWallet } from "@/contexts/WalletContext";
 import Bookings from "@/components/dashboard/Bookings";
-import AccountSettings from "@/components/dashboard/AccountSettings";
 import ManageBooking from "@/components/dashboard/ManageBooking";
 import TransactionHistory from "@/components/dashboard/TransactionHistory";
 import Messages from "@/components/dashboard/Messages";
@@ -28,7 +28,6 @@ import {
   Home,
   CalendarDays,
   User,
-  Settings,
   LogOut,
   MessageCircle,
   Receipt,
@@ -38,6 +37,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { PropertyAnalyticsChart } from "@/components/dashboard/PropertyAnalyticsChart";
 
 // Dashboard overview component
 const DashboardOverview = () => {
@@ -107,9 +107,8 @@ const DashboardOverview = () => {
             <CardDescription>Your activity over the past 6 months</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="h-[300px] w-full bg-gray-100 dark:bg-gray-800 rounded-md flex items-center justify-center">
-              <p className="text-gray-500">Activity Chart</p>
-              {/* In a real implementation, this would be a chart component */}
+            <div className="h-[300px] w-full">
+              <PropertyAnalyticsChart />
             </div>
           </CardContent>
         </Card>
@@ -231,18 +230,9 @@ const DashboardSidebar = () => {
             <SidebarMenu>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <a href="/dashboard#settings">
+                  <a href="/dashboard/profile">
                     <User className="w-4 h-4" />
                     <span>Profile</span>
-                  </a>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <a href="/dashboard#settings">
-                    <Settings className="w-4 h-4" />
-                    <span>Settings</span>
                   </a>
                 </SidebarMenuButton>
               </SidebarMenuItem>
@@ -304,7 +294,6 @@ const DashboardLayout = () => {
                   <TabsTrigger value="overview">Overview</TabsTrigger>
                   <TabsTrigger id="dashboard-tab-bookings" value="bookings">Bookings</TabsTrigger>
                   <TabsTrigger id="dashboard-tab-transactions" value="transactions">Transactions</TabsTrigger>
-                  <TabsTrigger id="dashboard-tab-settings" value="settings">Settings</TabsTrigger>
                 </TabsList>
                 
                 <TabsContent value="overview" className="space-y-4">
@@ -317,10 +306,6 @@ const DashboardLayout = () => {
                 
                 <TabsContent value="transactions" className="space-y-4">
                   <TransactionHistory />
-                </TabsContent>
-                
-                <TabsContent value="settings" className="space-y-4">
-                  <AccountSettings />
                 </TabsContent>
               </Tabs>
             </main>

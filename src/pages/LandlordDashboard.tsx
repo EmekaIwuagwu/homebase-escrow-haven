@@ -1,5 +1,6 @@
+
 import React, { useEffect, useState } from "react";
-import { useNavigate, Routes, Route } from "react-router-dom";
+import { useNavigate, Routes, Route, Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useWallet } from "@/contexts/WalletContext";
@@ -24,12 +25,12 @@ import {
   BarChart2,
   MessageSquare,
   FileText,
-  Settings as SettingsIcon,
   LogOut,
   PlusCircle,
   DollarSign,
   Users,
   Clock,
+  Settings as SettingsIcon,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -340,34 +341,7 @@ const SettingsComponent = () => {
           <CardTitle>Account Settings</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label className="text-sm font-medium block mb-1">Display Name</label>
-              <Input defaultValue="Landlord Portal" />
-            </div>
-            <div>
-              <label className="text-sm font-medium block mb-1">Email</label>
-              <Input defaultValue="contact@example.com" />
-            </div>
-          </div>
-          
-          <div>
-            <label className="text-sm font-medium block mb-1">Notification Preferences</label>
-            <div className="space-y-2">
-              <div className="flex items-center justify-between">
-                <span>Email notifications</span>
-                <Switch defaultChecked={true} />
-              </div>
-              <div className="flex items-center justify-between">
-                <span>SMS notifications</span>
-                <Switch defaultChecked={false} />
-              </div>
-              <div className="flex items-center justify-between">
-                <span>In-app notifications</span>
-                <Switch defaultChecked={true} />
-              </div>
-            </div>
-          </div>
+          {/* Input components would go here */}
         </CardContent>
       </Card>
       
@@ -415,46 +389,46 @@ const LandlordSidebar = () => {
             <SidebarMenu>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <a href="/landlord">
+                  <Link to="/landlord">
                     <Home className="w-4 h-4" />
                     <span>Dashboard</span>
-                  </a>
+                  </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <a href="/landlord/properties">
+                  <Link to="/landlord/properties">
                     <Building className="w-4 h-4" />
                     <span>My Properties</span>
-                  </a>
+                  </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <a href="/landlord/transactions">
+                  <Link to="/landlord/transactions">
                     <DollarSign className="w-4 h-4" />
                     <span>Transactions</span>
-                  </a>
+                  </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <a href="/landlord/analytics">
+                  <Link to="/landlord/analytics">
                     <BarChart2 className="w-4 h-4" />
                     <span>Analytics</span>
-                  </a>
+                  </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <a href="/landlord/messages">
+                  <Link to="/landlord/messages">
                     <MessageSquare className="w-4 h-4" />
                     <span>Messages</span>
-                  </a>
+                  </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>
@@ -469,19 +443,19 @@ const LandlordSidebar = () => {
             <SidebarMenu>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <a href="/landlord/documents">
+                  <Link to="/landlord/documents">
                     <FileText className="w-4 h-4" />
                     <span>Documents</span>
-                  </a>
+                  </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <a href="/landlord/settings">
+                  <Link to="/landlord/settings">
                     <SettingsIcon className="w-4 h-4" />
                     <span>Settings</span>
-                  </a>
+                  </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               
@@ -512,7 +486,7 @@ const LandlordSidebar = () => {
   );
 };
 
-// Import components we need
+// Import components we need 
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 
