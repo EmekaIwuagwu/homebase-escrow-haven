@@ -313,10 +313,10 @@ const Checkout = () => {
             <h1 className="text-3xl font-bold mb-4">Checkout</h1>
             <p className="text-gray-600 max-w-xl mx-auto">
               {property.type === "sale" 
-                ? "Complete your property purchase using HanCoin (HNXZ)"
+                ? "Complete your property purchase securely using HomeBase's payment options"
                 : property.type === "rent"
-                  ? "Secure your rental property using HanCoin (HNXZ)"
-                  : "Book your stay using HanCoin (HNXZ)"}
+                  ? "Secure your rental property with our flexible payment solutions"
+                  : "Book your stay with convenient payment options"}
             </p>
           </div>
           

@@ -10,6 +10,8 @@ import Buy from "./pages/Buy";
 import Rent from "./pages/Rent";
 import Lodging from "./pages/Lodging";
 import Dashboard from "./pages/Dashboard";
+import LandlordDashboard from "./pages/LandlordDashboard";
+import SellerDashboard from "./pages/SellerDashboard";
 import PropertyDetails from "./pages/PropertyDetails";
 import Checkout from "./pages/Checkout";
 import OrderSuccess from "./pages/OrderSuccess";
@@ -34,6 +36,8 @@ const App = () => (
             <Route path="/lodging" element={<Lodging />} />
             <Route path="/about" element={<About />} />
             <Route path="/dashboard/*" element={<Dashboard />} />
+            <Route path="/landlord/*" element={<LandlordDashboard />} />
+            <Route path="/seller/*" element={<SellerDashboard />} />
             <Route path="/property/:id" element={<PropertyDetails />} />
             <Route path="/checkout/:id" element={<Checkout />} />
             <Route path="/order-success/:id" element={<OrderSuccess />} />
