@@ -2,13 +2,17 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { toast } from "sonner";
 
+type UserRole = "user" | "landlord" | "seller" | null;
+
 type WalletContextType = {
   isConnected: boolean;
   isConnecting: boolean;
   walletAddress: string | null;
   selectedWalletType: string | null;
-  connectWallet: (walletType: string) => Promise<void>;
+  userRole: UserRole;
+  connectWallet: (walletType: string, role?: UserRole) => Promise<void>;
   disconnectWallet: () => void;
+  setUserRole: (role: UserRole) => void;
 };
 
 const defaultContext: WalletContextType = {
@@ -16,8 +20,10 @@ const defaultContext: WalletContextType = {
   isConnecting: false,
   walletAddress: null,
   selectedWalletType: null,
+  userRole: null,
   connectWallet: async () => {},
   disconnectWallet: () => {},
+  setUserRole: () => {},
 };
 
 const WalletContext = createContext<WalletContextType>(defaultContext);
@@ -31,6 +37,7 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({
   const [isConnecting, setIsConnecting] = useState(false);
   const [walletAddress, setWalletAddress] = useState<string | null>(null);
   const [selectedWalletType, setSelectedWalletType] = useState<string | null>(null);
+  const [userRole, setUserRole] = useState<UserRole>(null);
 
   // Load wallet state from localStorage on initial render
   useEffect(() => {
@@ -41,6 +48,7 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({
         setIsConnected(parsedState.isConnected);
         setWalletAddress(parsedState.walletAddress);
         setSelectedWalletType(parsedState.selectedWalletType);
+        setUserRole(parsedState.userRole || null);
       } catch (error) {
         console.error("Failed to parse saved wallet state:", error);
         localStorage.removeItem("walletState");
@@ -55,13 +63,14 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({
         isConnected,
         walletAddress,
         selectedWalletType,
+        userRole,
       }));
     } else {
       localStorage.removeItem("walletState");
     }
-  }, [isConnected, walletAddress, selectedWalletType]);
+  }, [isConnected, walletAddress, selectedWalletType, userRole]);
 
-  const connectWallet = async (walletType: string) => {
+  const connectWallet = async (walletType: string, role: UserRole = "user") => {
     setIsConnecting(true);
     
     try {
@@ -76,6 +85,7 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({
       setIsConnected(true);
       setWalletAddress(mockAddress);
       setSelectedWalletType(walletType);
+      setUserRole(role);
       
       toast.success(`${walletType} connected successfully`);
     } catch (error) {
@@ -90,6 +100,7 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({
     setIsConnected(false);
     setWalletAddress(null);
     setSelectedWalletType(null);
+    setUserRole(null);
     localStorage.removeItem("walletState");
     toast.info("Wallet disconnected");
   };
@@ -101,8 +112,10 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({
         isConnecting,
         walletAddress,
         selectedWalletType,
+        userRole,
         connectWallet,
         disconnectWallet,
+        setUserRole,
       }}
     >
       {children}

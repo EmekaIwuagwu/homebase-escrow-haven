@@ -289,15 +289,21 @@ const LandlordSidebar = () => {
 
 // Main layout component for landlord dashboard
 const LandlordDashboardLayout = () => {
-  const { isConnected, walletAddress } = useWallet();
+  const { isConnected, walletAddress, userRole, setUserRole } = useWallet();
   const navigate = useNavigate();
   
   useEffect(() => {
-    // Redirect to home if wallet is not connected
+    // If not connected or not a landlord, redirect to login
     if (!isConnected) {
-      navigate('/');
+      navigate('/landlord-login');
+      return;
     }
-  }, [isConnected, navigate]);
+    
+    // Set role to landlord if not already set
+    if (userRole !== "landlord") {
+      setUserRole("landlord");
+    }
+  }, [isConnected, userRole, navigate, setUserRole]);
 
   // If not connected, don't render the dashboard
   if (!isConnected) return null;

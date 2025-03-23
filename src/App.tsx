@@ -11,7 +11,9 @@ import Rent from "./pages/Rent";
 import Lodging from "./pages/Lodging";
 import Dashboard from "./pages/Dashboard";
 import LandlordDashboard from "./pages/LandlordDashboard";
+import LandlordLogin from "./pages/LandlordLogin";
 import SellerDashboard from "./pages/SellerDashboard";
+import SellerLogin from "./pages/SellerLogin";
 import Properties from "./pages/Properties";
 import PropertyDetails from "./pages/PropertyDetails";
 import Checkout from "./pages/Checkout";
@@ -38,7 +40,9 @@ const App = () => (
             <Route path="/about" element={<About />} />
             <Route path="/properties" element={<Properties />} />
             <Route path="/dashboard/*" element={<Dashboard />} />
+            <Route path="/landlord-login" element={<LandlordLogin />} />
             <Route path="/landlord/*" element={<LandlordDashboard />} />
+            <Route path="/seller-login" element={<SellerLogin />} />
             <Route path="/seller/*" element={<SellerDashboard />} />
             <Route path="/property/:id" element={<PropertyDetails />} />
             <Route path="/checkout/:id" element={<Checkout />} />

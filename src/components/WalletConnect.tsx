@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { Wallet, ChevronDown, Check, LogOut, CreditCard } from "lucide-react";
+import { Wallet, ChevronDown, Check, LogOut, CreditCard, Building, Home } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -23,7 +23,7 @@ import { useWallet } from "@/contexts/WalletContext";
 
 const WalletConnect = () => {
   const [showWalletSelect, setShowWalletSelect] = useState(false);
-  const { isConnected, isConnecting, walletAddress, selectedWalletType, connectWallet, disconnectWallet } = useWallet();
+  const { isConnected, isConnecting, walletAddress, selectedWalletType, userRole, connectWallet, disconnectWallet } = useWallet();
   const navigate = useNavigate();
 
   const handleOpenWalletSelect = () => {
@@ -43,7 +43,13 @@ const WalletConnect = () => {
   };
 
   const navigateToDashboard = () => {
-    navigate("/dashboard");
+    if (userRole === "landlord") {
+      navigate("/landlord");
+    } else if (userRole === "seller") {
+      navigate("/seller");
+    } else {
+      navigate("/dashboard");
+    }
   };
 
   if (isConnected) {
@@ -64,7 +70,19 @@ const WalletConnect = () => {
             <span>Connected with {selectedWalletType}</span>
           </DropdownMenuItem>
           <DropdownMenuItem onClick={navigateToDashboard}>
-            Dashboard
+            {userRole === "landlord" ? (
+              <>
+                <Building className="mr-2 h-4 w-4" />
+                Landlord Dashboard
+              </>
+            ) : userRole === "seller" ? (
+              <>
+                <Home className="mr-2 h-4 w-4" />
+                Seller Dashboard
+              </>
+            ) : (
+              <>Dashboard</>
+            )}
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => navigate("/buy")}>
             Buy Properties
@@ -75,6 +93,19 @@ const WalletConnect = () => {
           <DropdownMenuItem onClick={() => navigate("/lodging")}>
             Find Lodging
           </DropdownMenuItem>
+          {!userRole && (
+            <>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem onClick={() => navigate("/landlord-login")}>
+                <Building className="mr-2 h-4 w-4" />
+                Landlord Login
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => navigate("/seller-login")}>
+                <Home className="mr-2 h-4 w-4" />
+                Seller Login
+              </DropdownMenuItem>
+            </>
+          )}
           <DropdownMenuSeparator />
           <DropdownMenuItem className="text-red-500" onClick={handleDisconnect}>
             <LogOut className="mr-2 h-4 w-4" />
@@ -132,6 +163,21 @@ const WalletConnect = () => {
               <CreditCard className="h-5 w-5" />
               MetaWallet
             </Button>
+          </div>
+          
+          <div className="mt-4">
+            <DropdownMenuSeparator />
+            <div className="pt-4 flex flex-col gap-2">
+              <p className="text-sm text-center mb-2">Are you a landlord or property seller?</p>
+              <Button variant="outline" onClick={() => navigate("/landlord-login")}>
+                <Building className="mr-2 h-4 w-4" />
+                Landlord Login
+              </Button>
+              <Button variant="outline" onClick={() => navigate("/seller-login")}>
+                <Home className="mr-2 h-4 w-4" />
+                Seller Login
+              </Button>
+            </div>
           </div>
         </DialogContent>
       </Dialog>
