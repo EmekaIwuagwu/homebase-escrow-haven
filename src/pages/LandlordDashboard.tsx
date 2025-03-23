@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import { useNavigate, Routes, Route } from "react-router-dom";
 import Navbar from "@/components/Navbar";
@@ -25,7 +24,7 @@ import {
   BarChart2,
   MessageSquare,
   FileText,
-  Settings,
+  Settings as SettingsIcon,
   LogOut,
   PlusCircle,
   DollarSign,
@@ -325,7 +324,7 @@ const Documents = () => {
 };
 
 // Create Settings component
-const Settings = () => {
+const SettingsComponent = () => {
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center mb-6">
@@ -480,7 +479,7 @@ const LandlordSidebar = () => {
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
                   <a href="/landlord/settings">
-                    <Settings className="w-4 h-4" />
+                    <SettingsIcon className="w-4 h-4" />
                     <span>Settings</span>
                   </a>
                 </SidebarMenuButton>
@@ -568,7 +567,7 @@ const LandlordDashboardLayout = () => {
     } else if (path.includes('/documents')) {
       return <Documents />;
     } else if (path.includes('/settings')) {
-      return <Settings />;
+      return <SettingsComponent />;
     } else if (path.includes('/properties')) {
       return (
         <Tabs defaultValue="properties" className="space-y-6">

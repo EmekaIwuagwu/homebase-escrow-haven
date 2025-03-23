@@ -9,7 +9,7 @@ import AccountSettings from "@/components/dashboard/AccountSettings";
 import ManageBooking from "@/components/dashboard/ManageBooking";
 import TransactionHistory from "@/components/dashboard/TransactionHistory";
 import Messages from "@/components/dashboard/Messages";
-import TransactionDetails from "@/components/dashboard/TransactionDetails";
+import { TransactionDetails } from "@/components/dashboard/TransactionDetails";
 import {
   Sidebar,
   SidebarContent,

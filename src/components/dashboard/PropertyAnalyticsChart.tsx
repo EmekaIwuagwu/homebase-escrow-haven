@@ -75,13 +75,15 @@ export function PropertyAnalyticsChart() {
           padding={{ top: 16 }}
         />
         <Tooltip
-          content={(props) => (
-            <ChartTooltipContent
-              {...props}
-              indicator="line"
-              formatter={(value) => [`${value}`, "Views"]}
-            />
-          )}
+          content={(props) => {
+            return (
+              <ChartTooltipContent
+                {...props}
+                indicator="line"
+                formatter={(value) => [`${value}`, "Views"]}
+              />
+            );
+          }}
         />
         <Area
           type="monotone"

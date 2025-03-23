@@ -19,3 +19,15 @@ export const formatDate = (date: Date): string => {
     day: 'numeric' 
   }).format(date);
 };
+
+/**
+ * Format a currency value with currency symbol
+ */
+export const formatCurrency = (amount: number): string => {
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  }).format(amount);
+};
