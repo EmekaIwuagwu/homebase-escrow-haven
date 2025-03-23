@@ -1,5 +1,5 @@
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Search, Calendar as CalendarIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -9,6 +9,16 @@ import { format } from "date-fns";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { DateRange } from "react-day-picker";
+import { 
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
 
 const Hero = () => {
   const navigate = useNavigate();
@@ -18,6 +28,18 @@ const Hero = () => {
     from: undefined,
     to: undefined,
   });
+  const [rentalDuration, setRentalDuration] = useState("1");
+  const [showRentalDetails, setShowRentalDetails] = useState(false);
+  const [monthlyPrice, setMonthlyPrice] = useState(950); // Default monthly price
+
+  // Update rental details visibility when search type changes
+  useEffect(() => {
+    setShowRentalDetails(searchType === "rent");
+  }, [searchType]);
+
+  const calculateAnnualCost = () => {
+    return monthlyPrice * 12 * parseInt(rentalDuration);
+  };
 
   const handleSearch = () => {
     if (!searchLocation.trim()) {
@@ -52,6 +74,11 @@ const Hero = () => {
     // Add date range for lodging
     if (searchType === "lodge" && dateRange?.from && dateRange?.to) {
       queryParams += `&from=${dateRange.from.toISOString()}&to=${dateRange.to.toISOString()}`;
+    }
+    
+    // Add rental duration for rent
+    if (searchType === "rent") {
+      queryParams += `&duration=${rentalDuration}`;
     }
     
     navigate(`${path}?${queryParams}`);
@@ -145,6 +172,37 @@ const Hero = () => {
                       />
                     </PopoverContent>
                   </Popover>
+                </div>
+              )}
+              
+              {/* Rental Duration for Rent */}
+              {searchType === "rent" && (
+                <div className="w-full bg-white/20 rounded-lg px-4 py-3">
+                  <label className="block text-white/60 text-xs mb-1">Rental Duration</label>
+                  <div className="mt-1">
+                    <RadioGroup 
+                      defaultValue="1" 
+                      className="flex gap-4" 
+                      value={rentalDuration}
+                      onValueChange={setRentalDuration}
+                    >
+                      <div className="flex items-center gap-1">
+                        <RadioGroupItem value="1" id="r1" className="text-white" />
+                        <Label htmlFor="r1" className="text-white text-xs">1 Year</Label>
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <RadioGroupItem value="2" id="r2" className="text-white" />
+                        <Label htmlFor="r2" className="text-white text-xs">2 Years</Label>
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <RadioGroupItem value="3" id="r3" className="text-white" />
+                        <Label htmlFor="r3" className="text-white text-xs">3 Years</Label>
+                      </div>
+                    </RadioGroup>
+                  </div>
+                  <div className="mt-2 text-white/80 text-xs">
+                    Annual cost: ${calculateAnnualCost().toLocaleString()}
+                  </div>
                 </div>
               )}
               

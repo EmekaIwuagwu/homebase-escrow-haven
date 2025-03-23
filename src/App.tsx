@@ -14,6 +14,7 @@ import PropertyDetails from "./pages/PropertyDetails";
 import Checkout from "./pages/Checkout";
 import OrderSuccess from "./pages/OrderSuccess";
 import NotFound from "./pages/NotFound";
+import About from "./pages/About";
 import { WalletProvider } from "./contexts/WalletContext";
 
 const queryClient = new QueryClient();
@@ -31,6 +32,7 @@ const App = () => (
             <Route path="/buy" element={<Buy />} />
             <Route path="/rent" element={<Rent />} />
             <Route path="/lodging" element={<Lodging />} />
+            <Route path="/about" element={<About />} />
             <Route path="/dashboard/*" element={<Dashboard />} />
             <Route path="/property/:id" element={<PropertyDetails />} />
             <Route path="/checkout/:id" element={<Checkout />} />

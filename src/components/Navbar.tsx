@@ -4,9 +4,10 @@ import { cn } from "@/lib/utils";
 import { Home, Search, Bell } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import WalletConnect from "./WalletConnect";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { useWallet } from "@/contexts/WalletContext";
 import {
   Command,
   CommandDialog,
@@ -23,7 +24,9 @@ const Navbar = () => {
   const [searchResults, setSearchResults] = useState([]);
   const [hasUnreadNotifications, setHasUnreadNotifications] = useState(true);
   const location = useLocation();
+  const navigate = useNavigate();
   const isMobile = useIsMobile();
+  const { isConnected } = useWallet();
   
   // Check if we're on the index page
   const isIndexPage = location.pathname === "/";
@@ -74,6 +77,11 @@ const Navbar = () => {
   // Mark notifications as read
   const markAsRead = () => {
     setHasUnreadNotifications(false);
+  };
+
+  // Navigate to dashboard messages
+  const goToDashboardMessages = () => {
+    navigate("/dashboard/messages");
   };
 
   // Mock search function
@@ -141,12 +149,12 @@ const Navbar = () => {
             Lodging
           </Link>
           {!isMobile && (
-            <a
-              href="#"
+            <Link
+              to="/about"
               className={cn("text-sm font-medium transition-colors hover:text-homebase-600", getTextColor())}
             >
               About
-            </a>
+            </Link>
           )}
         </nav>
 
@@ -161,50 +169,52 @@ const Navbar = () => {
                 <Search className="w-5 h-5" />
               </button>
               
-              <Popover>
-                <PopoverTrigger asChild>
-                  <button
-                    className={cn("hover:text-homebase-600 transition-colors relative", getTextColor())}
-                    aria-label="Notifications"
-                    onClick={markAsRead}
-                  >
-                    <Bell className="w-5 h-5" />
-                    {hasUnreadNotifications && (
-                      <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-red-500 rounded-full"></span>
-                    )}
-                  </button>
-                </PopoverTrigger>
-                <PopoverContent className="w-80 p-0" align="end">
-                  <div className="p-4 border-b">
-                    <h3 className="font-medium text-lg">Notifications</h3>
-                  </div>
-                  <div className="max-h-[300px] overflow-y-auto">
-                    {notifications.length > 0 ? (
-                      <div className="divide-y">
-                        {notifications.map((notification) => (
-                          <div key={notification.id} className={cn(
-                            "p-4 transition-colors hover:bg-muted/50",
-                            !notification.isRead && "bg-muted/20"
-                          )}>
-                            <h4 className="font-medium">{notification.title}</h4>
-                            <p className="text-sm text-muted-foreground mt-1">{notification.message}</p>
-                            <span className="text-xs text-muted-foreground mt-2 block">{notification.time}</span>
-                          </div>
-                        ))}
-                      </div>
-                    ) : (
-                      <div className="p-4 text-center text-muted-foreground">
-                        No notifications
-                      </div>
-                    )}
-                  </div>
-                  <div className="p-2 border-t text-center">
-                    <Button variant="link" className="text-xs w-full">
-                      View all notifications
-                    </Button>
-                  </div>
-                </PopoverContent>
-              </Popover>
+              {isConnected && (
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <button
+                      className={cn("hover:text-homebase-600 transition-colors relative", getTextColor())}
+                      aria-label="Notifications"
+                      onClick={markAsRead}
+                    >
+                      <Bell className="w-5 h-5" />
+                      {hasUnreadNotifications && (
+                        <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-red-500 rounded-full"></span>
+                      )}
+                    </button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-80 p-0" align="end">
+                    <div className="p-4 border-b">
+                      <h3 className="font-medium text-lg">Notifications</h3>
+                    </div>
+                    <div className="max-h-[300px] overflow-y-auto">
+                      {notifications.length > 0 ? (
+                        <div className="divide-y">
+                          {notifications.map((notification) => (
+                            <div key={notification.id} className={cn(
+                              "p-4 transition-colors hover:bg-muted/50",
+                              !notification.isRead && "bg-muted/20"
+                            )}>
+                              <h4 className="font-medium">{notification.title}</h4>
+                              <p className="text-sm text-muted-foreground mt-1">{notification.message}</p>
+                              <span className="text-xs text-muted-foreground mt-2 block">{notification.time}</span>
+                            </div>
+                          ))}
+                        </div>
+                      ) : (
+                        <div className="p-4 text-center text-muted-foreground">
+                          No notifications
+                        </div>
+                      )}
+                    </div>
+                    <div className="p-2 border-t text-center">
+                      <Button variant="link" className="text-xs w-full" onClick={goToDashboardMessages}>
+                        View all notifications
+                      </Button>
+                    </div>
+                  </PopoverContent>
+                </Popover>
+              )}
             </>
           )}
           <WalletConnect />
@@ -228,7 +238,7 @@ const Navbar = () => {
                     <CommandItem
                       key={result.id}
                       onSelect={() => {
-                        window.location.href = result.path;
+                        navigate(result.path);
                         setIsSearchOpen(false);
                       }}
                     >
@@ -244,7 +254,7 @@ const Navbar = () => {
                     <CommandItem
                       key={result.id}
                       onSelect={() => {
-                        window.location.href = result.path;
+                        navigate(result.path);
                         setIsSearchOpen(false);
                       }}
                     >
@@ -259,7 +269,7 @@ const Navbar = () => {
                     <CommandItem
                       key={result.id}
                       onSelect={() => {
-                        window.location.href = result.path;
+                        navigate(result.path);
                         setIsSearchOpen(false);
                       }}
                     >
