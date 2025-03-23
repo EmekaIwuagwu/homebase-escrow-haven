@@ -37,6 +37,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import MyProperties from "@/components/dashboard/MyProperties";
 import TransactionHistory from "@/components/dashboard/TransactionHistory";
 import { useDashboard } from "@/hooks/use-dashboard";
+import { PropertyAnalyticsChart } from "@/components/dashboard/PropertyAnalyticsChart";
 
 // Dashboard overview component
 const DashboardOverview = () => {
