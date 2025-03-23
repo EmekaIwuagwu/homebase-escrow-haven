@@ -1,6 +1,5 @@
-
-import React, { useEffect } from "react";
-import { useNavigate, Routes, Route } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useNavigate, Routes, Route, useParams } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useWallet } from "@/contexts/WalletContext";
@@ -9,7 +8,7 @@ import AccountSettings from "@/components/dashboard/AccountSettings";
 import ManageBooking from "@/components/dashboard/ManageBooking";
 import TransactionHistory from "@/components/dashboard/TransactionHistory";
 import Messages from "@/components/dashboard/Messages";
-import { TransactionDetails } from "@/components/dashboard/TransactionDetails";
+import { TransactionDetails, Transaction } from "@/components/dashboard/TransactionDetails";
 import {
   Sidebar,
   SidebarContent,
@@ -334,6 +333,53 @@ const DashboardLayout = () => {
   );
 };
 
+// Transaction details wrapper component
+const TransactionDetailsWrapper = () => {
+  const { id } = useParams();
+  const [transaction, setTransaction] = useState<Transaction | null>(null);
+  const [open, setOpen] = useState(true);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // Mock data - in a real app, you would fetch this from your API
+    const mockTransaction: Transaction = {
+      id: id || "TX123456",
+      date: "2023-06-15",
+      amount: 1250,
+      status: "Completed",
+      type: "Booking",
+      propertyId: "P78901",
+      propertyName: "Lakefront Cabin",
+      paymentMethod: "HNXZ Wallet",
+      transactionHash: "0x123...abc",
+      buyerName: "John Doe",
+      sellerName: "Jane Smith"
+    };
+    
+    setTransaction(mockTransaction);
+  }, [id]);
+
+  const handleOpenChange = (newOpen: boolean) => {
+    setOpen(newOpen);
+    if (!newOpen) {
+      navigate('/dashboard/transactions');
+    }
+  };
+
+  const handleGoBack = () => {
+    navigate('/dashboard/transactions');
+  };
+
+  return (
+    <TransactionDetails 
+      transaction={transaction}
+      open={open}
+      onOpenChange={handleOpenChange}
+      onGoBack={handleGoBack}
+    />
+  );
+};
+
 // Dashboard component to handle the nested routes
 const Dashboard = () => {
   return (
@@ -342,7 +388,7 @@ const Dashboard = () => {
       <Route path="/booking/:id" element={<ManageBooking />} />
       <Route path="/messages" element={<Messages />} />
       <Route path="/transactions" element={<TransactionHistory />} />
-      <Route path="/transaction/:id" element={<TransactionDetails />} />
+      <Route path="/transaction/:id" element={<TransactionDetailsWrapper />} />
     </Routes>
   );
 };
