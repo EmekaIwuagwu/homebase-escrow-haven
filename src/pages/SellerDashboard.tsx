@@ -1,4 +1,3 @@
-
 import React, { useEffect } from "react";
 import { useNavigate, Routes, Route } from "react-router-dom";
 import Navbar from "@/components/Navbar";
@@ -116,11 +115,8 @@ const DashboardOverview = () => {
             <CardTitle>Monthly Views</CardTitle>
             <CardDescription>Property views over the past 6 months</CardDescription>
           </CardHeader>
-          <CardContent>
-            <div className="h-[300px] w-full bg-gray-100 dark:bg-gray-800 rounded-md flex items-center justify-center">
-              <p className="text-gray-500">Property View Analytics Chart</p>
-              {/* In a real implementation, this would be a chart component */}
-            </div>
+          <CardContent className="h-[350px]">
+            <PropertyAnalyticsChart />
           </CardContent>
         </Card>
         

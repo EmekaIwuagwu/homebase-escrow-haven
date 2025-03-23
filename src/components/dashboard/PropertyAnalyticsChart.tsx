@@ -11,6 +11,7 @@ import {
 } from "recharts";
 import { ChartContainer, ChartTooltipContent } from "@/components/ui/chart";
 
+// More realistic mock data with consistent scale
 const data = [
   {
     name: "Jan",
@@ -50,15 +51,15 @@ const config = {
 
 export function PropertyAnalyticsChart() {
   return (
-    <ChartContainer config={config} className="aspect-[4/3] w-full">
-      <ResponsiveContainer width="100%" height="100%">
+    <ChartContainer config={config} className="w-full h-full">
+      <ResponsiveContainer width="100%" height={300}>
         <AreaChart
           data={data}
           margin={{
             top: 16,
             right: 16,
-            bottom: 0,
-            left: 0,
+            bottom: 20,
+            left: 16,
           }}
         >
           <CartesianGrid strokeDasharray="3 3" vertical={false} />
@@ -74,6 +75,7 @@ export function PropertyAnalyticsChart() {
             tickLine={false}
             fontSize={12}
             padding={{ top: 16 }}
+            width={40}
           />
           <Tooltip
             content={({ active, payload, label }) => {

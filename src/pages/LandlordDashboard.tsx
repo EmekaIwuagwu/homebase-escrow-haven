@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import { useNavigate, Routes, Route, Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
@@ -113,7 +112,7 @@ const DashboardOverview = () => {
             <CardTitle>Monthly Views</CardTitle>
             <CardDescription>Property views over the past 6 months</CardDescription>
           </CardHeader>
-          <CardContent>
+          <CardContent className="h-[350px]">
             <PropertyAnalyticsChart />
           </CardContent>
         </Card>
@@ -184,10 +183,8 @@ const Analytics = () => {
           <CardTitle>Property Views Over Time</CardTitle>
           <CardDescription>Performance analytics for all properties</CardDescription>
         </CardHeader>
-        <CardContent>
-          <div className="h-[400px]">
-            <PropertyAnalyticsChart />
-          </div>
+        <CardContent className="h-[450px]">
+          <PropertyAnalyticsChart />
         </CardContent>
       </Card>
       
