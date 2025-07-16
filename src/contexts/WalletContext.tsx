@@ -2,7 +2,7 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { toast } from "sonner";
 
-type UserRole = "user" | "landlord" | "seller" | null;
+type UserRole = "user" | "landlord" | "seller" | "admin" | null;
 
 type WalletContextType = {
   isConnected: boolean;
@@ -78,9 +78,17 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({
       // In a real implementation, this would interact with the wallet provider's API
       await new Promise(resolve => setTimeout(resolve, 1000));
       
-      const mockAddress = walletType === "Han Wallet" 
-        ? "0x1234...5678" 
-        : "0x9ABC...DEF0";
+      let mockAddress;
+      switch (walletType) {
+        case "Han Wallet":
+          mockAddress = "0x1234...5678";
+          break;
+        case "Admin Wallet":
+          mockAddress = "0xADMIN...1234";
+          break;
+        default:
+          mockAddress = "0x9ABC...DEF0";
+      }
       
       setIsConnected(true);
       setWalletAddress(mockAddress);

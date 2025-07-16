@@ -14,6 +14,8 @@ import LandlordDashboard from "./pages/LandlordDashboard";
 import LandlordLogin from "./pages/LandlordLogin";
 import SellerDashboard from "./pages/SellerDashboard";
 import SellerLogin from "./pages/SellerLogin";
+import AdminDashboard from "./pages/AdminDashboard";
+import AdminLogin from "./pages/AdminLogin";
 import Properties from "./pages/Properties";
 import PropertyDetails from "./pages/PropertyDetails";
 import Checkout from "./pages/Checkout";
@@ -44,6 +46,8 @@ const App = () => (
             <Route path="/landlord/*" element={<LandlordDashboard />} />
             <Route path="/seller-login" element={<SellerLogin />} />
             <Route path="/seller/*" element={<SellerDashboard />} />
+            <Route path="/admin-login" element={<AdminLogin />} />
+            <Route path="/admin/*" element={<AdminDashboard />} />
             <Route path="/property/:id" element={<PropertyDetails />} />
             <Route path="/checkout/:id" element={<Checkout />} />
             <Route path="/order-success/:id" element={<OrderSuccess />} />

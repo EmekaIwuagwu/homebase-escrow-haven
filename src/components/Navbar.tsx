@@ -25,7 +25,7 @@ const Navbar = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const isMobile = useIsMobile();
-  const { isConnected } = useWallet();
+  const { isConnected, userRole } = useWallet();
   
   const isIndexPage = location.pathname === "/";
 
@@ -151,6 +151,14 @@ const Navbar = () => {
               className={cn("text-sm font-medium transition-colors hover:text-homebase-600", getTextColor())}
             >
               About
+            </Link>
+          )}
+          {userRole === "admin" && (
+            <Link
+              to="/admin"
+              className={cn("text-sm font-medium transition-colors hover:text-red-600 text-red-500", getTextColor())}
+            >
+              Admin
             </Link>
           )}
         </nav>
